@@ -13,6 +13,12 @@
 		33B6E1CC22FF60C8004ABC73 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33B6E1CA22FF60C8004ABC73 /* Main.storyboard */; };
 		33B6E1D822FF60C8004ABC73 /* CameraTrackerEditorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B6E1D722FF60C8004ABC73 /* CameraTrackerEditorTests.swift */; };
 		33B6E1E322FF60C8004ABC73 /* CameraTrackerEditorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B6E1E222FF60C8004ABC73 /* CameraTrackerEditorUITests.swift */; };
+		33B6E1F323002E7A004ABC73 /* TrackingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B6E1F223002E7A004ABC73 /* TrackingData.swift */; };
+		33B6E1F723003CFB004ABC73 /* MathUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B6E1F623003CFB004ABC73 /* MathUtilities.swift */; };
+		33B6E1FA23005099004ABC73 /* MathUtilitiesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B6E1F923005099004ABC73 /* MathUtilitiesTests.swift */; };
+		33B6E1FD23005DE5004ABC73 /* TrackingDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B6E1FC23005DE5004ABC73 /* TrackingDataTests.swift */; };
+		33B6E1FF23006559004ABC73 /* InterpolationValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B6E1FE23006559004ABC73 /* InterpolationValues.swift */; };
+		33B6E20123007DB1004ABC73 /* TrackingDataValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B6E20023007DB1004ABC73 /* TrackingDataValues.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +52,12 @@
 		33B6E1DE22FF60C8004ABC73 /* CameraTrackerEditorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CameraTrackerEditorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		33B6E1E222FF60C8004ABC73 /* CameraTrackerEditorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraTrackerEditorUITests.swift; sourceTree = "<group>"; };
 		33B6E1E422FF60C8004ABC73 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		33B6E1F223002E7A004ABC73 /* TrackingData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingData.swift; sourceTree = "<group>"; };
+		33B6E1F623003CFB004ABC73 /* MathUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathUtilities.swift; sourceTree = "<group>"; };
+		33B6E1F923005099004ABC73 /* MathUtilitiesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathUtilitiesTests.swift; sourceTree = "<group>"; };
+		33B6E1FC23005DE5004ABC73 /* TrackingDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingDataTests.swift; sourceTree = "<group>"; };
+		33B6E1FE23006559004ABC73 /* InterpolationValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterpolationValues.swift; sourceTree = "<group>"; };
+		33B6E20023007DB1004ABC73 /* TrackingDataValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingDataValues.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +108,8 @@
 		33B6E1C322FF60C5004ABC73 /* CameraTrackerEditor */ = {
 			isa = PBXGroup;
 			children = (
+				33B6E1F523003CE4004ABC73 /* utilities */,
+				33B6E1F123002A75004ABC73 /* model */,
 				33B6E1C422FF60C5004ABC73 /* AppDelegate.swift */,
 				33B6E1C622FF60C5004ABC73 /* ViewController.swift */,
 				33B6E1C822FF60C8004ABC73 /* Assets.xcassets */,
@@ -109,6 +123,8 @@
 		33B6E1D622FF60C8004ABC73 /* CameraTrackerEditorTests */ = {
 			isa = PBXGroup;
 			children = (
+				33B6E1FB23005DD2004ABC73 /* model */,
+				33B6E1F82300507E004ABC73 /* utilities */,
 				33B6E1D722FF60C8004ABC73 /* CameraTrackerEditorTests.swift */,
 				33B6E1D922FF60C8004ABC73 /* Info.plist */,
 			);
@@ -122,6 +138,40 @@
 				33B6E1E422FF60C8004ABC73 /* Info.plist */,
 			);
 			path = CameraTrackerEditorUITests;
+			sourceTree = "<group>";
+		};
+		33B6E1F123002A75004ABC73 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				33B6E1F223002E7A004ABC73 /* TrackingData.swift */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		33B6E1F523003CE4004ABC73 /* utilities */ = {
+			isa = PBXGroup;
+			children = (
+				33B6E1F623003CFB004ABC73 /* MathUtilities.swift */,
+			);
+			path = utilities;
+			sourceTree = "<group>";
+		};
+		33B6E1F82300507E004ABC73 /* utilities */ = {
+			isa = PBXGroup;
+			children = (
+				33B6E1F923005099004ABC73 /* MathUtilitiesTests.swift */,
+				33B6E1FE23006559004ABC73 /* InterpolationValues.swift */,
+			);
+			path = utilities;
+			sourceTree = "<group>";
+		};
+		33B6E1FB23005DD2004ABC73 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				33B6E1FC23005DE5004ABC73 /* TrackingDataTests.swift */,
+				33B6E20023007DB1004ABC73 /* TrackingDataValues.swift */,
+			);
+			path = model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -254,6 +304,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33B6E1F723003CFB004ABC73 /* MathUtilities.swift in Sources */,
+				33B6E1F323002E7A004ABC73 /* TrackingData.swift in Sources */,
 				33B6E1C722FF60C5004ABC73 /* ViewController.swift in Sources */,
 				33B6E1C522FF60C5004ABC73 /* AppDelegate.swift in Sources */,
 			);
@@ -263,6 +315,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33B6E1FF23006559004ABC73 /* InterpolationValues.swift in Sources */,
+				33B6E1FA23005099004ABC73 /* MathUtilitiesTests.swift in Sources */,
+				33B6E1FD23005DE5004ABC73 /* TrackingDataTests.swift in Sources */,
+				33B6E20123007DB1004ABC73 /* TrackingDataValues.swift in Sources */,
 				33B6E1D822FF60C8004ABC73 /* CameraTrackerEditorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
