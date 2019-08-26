@@ -8,6 +8,17 @@
 
 import Darwin
 
+enum TrackingDataError : Error, CustomStringConvertible {
+    case CloneArgumentError
+    
+    var description: String {
+        switch self {
+        case .CloneArgumentError:
+            return "Can't clone tracking data with zero or negative interval."
+        }
+    }
+}
+
 struct TrackingEntry {
     let timeStamp: Double
     let position: Vec3
@@ -28,6 +39,11 @@ class TrackingData {
     
     var duration: Double { get { return m_duration } }
     var isEmpty: Bool { get { return m_entries.isEmpty } }
+    var numberOfEntries: Int { get { return m_entries.count } }
+    var minPositionValues: Vec3 { get { return m_positionRanges.min } }
+    var maxPositionValues: Vec3 { get { return m_positionRanges.max } }
+    var minRotationValues: Vec3 { get { return m_rotationRanges.min } }
+    var maxRotationValues: Vec3 { get { return m_rotationRanges.max } }
     
     init() {
         m_entries = []
@@ -65,22 +81,66 @@ class TrackingData {
         m_duration += deltaTime
     }
     
+    func getDataAtIndex(_ index: Int) -> TrackingEntry? {
+        if index < 0 || index >= numberOfEntries {
+            return nil
+        }
+        let entry = m_entries[index]
+        return TrackingEntry(
+            timeStamp: entry.timeStamp,
+            position: entry.position,
+            rotation: entry.rotation
+        )
+    }
+    
     func getDataAtTime(_ time: Double, interpolationMethod: InterpolationMethod = InterpolationMethod.NearestNeighbor) -> TrackingEntry? {
         if isEmpty {
             return nil
         }
-        switch interpolationMethod {
-        case .NearestNeighbor:
-            return getDataNearestNeighborAtTime(time)
-        case .Linear:
-            return getDataLinearAtTime(time)
-        case .Cubic:
-            return getDataCubicAtTime(time)
+        let index = findIndexAtTimeRec(time, start: 0, end: numberOfEntries)
+        return getDataAtTimeAndIndex(time, index, interpolationMethod: interpolationMethod)
+    }
+    
+    func cloneDataWithConstantInterval(_ interval: Double, interpolationMethod: InterpolationMethod = .Cubic) throws -> TrackingData {
+        // interval must be positive
+        guard interval > 0.0 else {
+            throw TrackingDataError.CloneArgumentError
         }
+        
+        // create clone data container and add entries based on interval
+        let result = TrackingData()
+        var time = 0.0
+        var index = 0
+        while time < duration {
+            // update index to the correct entry we should work off of at the given time
+            while index < numberOfEntries && time >= m_entries[index].timeStamp {
+                index += 1
+            }
+            
+            // build entry and add it to the new data
+            if let entry = getDataAtTimeAndIndex(time, index, interpolationMethod: interpolationMethod) {
+                result.pushEntry(deltaTime: interval, position: entry.position, rotation: entry.rotation)
+            }
+            
+            // advance time to next interval
+            time += interval
+        }
+        return result
     }
     
     
-    private func findEntryAtTimeRec(_ time: Double, start: Int, end: Int) -> Int {
+    private func getDataAtTimeAndIndex(_ time: Double, _ index: Int, interpolationMethod: InterpolationMethod) -> TrackingEntry? {
+        switch interpolationMethod {
+        case .NearestNeighbor:
+            return getDataNearestNeighborAtIndex(index, time: time)
+        case .Linear:
+            return getDataLinearAtIndex(index, time: time)
+        case .Cubic:
+            return getDataCubicAtIndex(index, time: time)
+        }
+    }
+    
+    private func findIndexAtTimeRec(_ time: Double, start: Int, end: Int) -> Int {
         // base case - we've narrowed down the range
         if end - start == 1 {
             return start
@@ -95,39 +155,35 @@ class TrackingData {
             return middle
         }
         else if time < entry.timeStamp {
-            return findEntryAtTimeRec(time, start: start, end: middle)
+            return findIndexAtTimeRec(time, start: start, end: middle)
         }
         else {
-            return findEntryAtTimeRec(time, start: middle, end: end)
+            return findIndexAtTimeRec(time, start: middle, end: end)
         }
         
     }
     
-    private func getIndexPairAtTime(_ time: Double) -> (Int, Int) {
+    private func getIndexPairFromIndex(_ index: Int) -> (Int, Int) {
         // special case for a single entry
-        if m_entries.count == 1 {
+        if numberOfEntries == 1 {
             return (0, 0)
         }
-        
-        // find potential starting index for pair
-        let firstIndex = findEntryAtTimeRec(time, start: 0, end: m_entries.count)
-        
         // if first index is at the end, then shift backwards
-        if firstIndex == m_entries.count - 1 {
-            return (firstIndex - 1, firstIndex)
+        if index == numberOfEntries - 1 {
+            return (index - 1, index)
         }
         else {
-            return (firstIndex, firstIndex + 1)
+            return (index, index + 1)
         }
     }
     
-    private func getIndexQuadAtTime(_ time: Double) -> (Int, Int, Int, Int) {
+    private func getIndexQuadFromIndex(_ index: Int) -> (Int, Int, Int, Int) {
         // get middle pair
-        let pair = getIndexPairAtTime(time)
+        let pair = getIndexPairFromIndex(index)
         
         // get ending indexes
         let p0 = pair.0 == 0 ? 0 : pair.0 - 1
-        let p3 = pair.1 == m_entries.count - 1 ? pair.1 : pair.1 + 1
+        let p3 = pair.1 == numberOfEntries - 1 ? pair.1 : pair.1 + 1
         
         // return quad
         return (p0, pair.0, pair.1, p3)
@@ -143,8 +199,8 @@ class TrackingData {
         }
     }
     
-    private func getDataNearestNeighborAtTime(_ time: Double) -> TrackingEntry {
-        let pair = getIndexPairAtTime(time)
+    private func getDataNearestNeighborAtIndex(_ index: Int, time: Double) -> TrackingEntry {
+        let pair = getIndexPairFromIndex(index)
         let entries = (m_entries[pair.0], m_entries[pair.1])
         let t = normalizeTimeAtRange(time: time, start: entries.0.timeStamp, end: entries.1.timeStamp)
         return TrackingEntry(
@@ -154,8 +210,8 @@ class TrackingData {
         )
     }
     
-    private func getDataLinearAtTime(_ time: Double) -> TrackingEntry {
-        let pair = getIndexPairAtTime(time)
+    private func getDataLinearAtIndex(_ index: Int, time: Double) -> TrackingEntry {
+        let pair = getIndexPairFromIndex(index)
         let entries = (m_entries[pair.0], m_entries[pair.1])
         let t = normalizeTimeAtRange(time: time, start: entries.0.timeStamp, end: entries.1.timeStamp)
         return TrackingEntry(
@@ -165,8 +221,8 @@ class TrackingData {
         )
     }
     
-    private func getDataCubicAtTime(_ time: Double) -> TrackingEntry {
-        let quad = getIndexQuadAtTime(time)
+    private func getDataCubicAtIndex(_ index: Int, time: Double) -> TrackingEntry {
+        let quad = getIndexQuadFromIndex(index)
         let entries = (m_entries[quad.0], m_entries[quad.1], m_entries[quad.2], m_entries[quad.3])
         let t = normalizeTimeAtRange(time: time, start: entries.1.timeStamp, end: entries.2.timeStamp)
         return TrackingEntry(
