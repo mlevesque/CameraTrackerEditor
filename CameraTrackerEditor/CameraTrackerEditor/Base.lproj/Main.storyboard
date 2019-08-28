@@ -706,42 +706,95 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="MainViewController" customModule="CameraTrackerEditor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="571" height="336"/>
+                        <rect key="frame" x="0.0" y="0.0" width="570" height="346"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <scrollView fixedFrame="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yAE-qw-KRX">
-                                <rect key="frame" x="0.0" y="0.0" width="571" height="336"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="wFp-c2-GSh">
-                                    <rect key="frame" x="0.0" y="0.0" width="571" height="336"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <subviews>
-                                        <textView ambiguous="YES" importsGraphics="NO" richText="NO" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="IW8-Jo-uSD">
-                                            <rect key="frame" x="0.0" y="0.0" width="571" height="336"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="571" height="336"/>
-                                            <size key="maxSize" width="571" height="10000000"/>
-                                            <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                        </textView>
-                                    </subviews>
-                                </clipView>
-                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="g1U-83-kkT">
-                                    <rect key="frame" x="-100" y="-100" width="240" height="16"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </scroller>
-                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="RLi-0e-1Zc">
-                                    <rect key="frame" x="555" y="0.0" width="16" height="336"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </scroller>
-                            </scrollView>
+                            <splitView arrangesAllSubviews="NO" dividerStyle="paneSplitter" translatesAutoresizingMaskIntoConstraints="NO" id="yt7-61-iOw">
+                                <rect key="frame" x="57" y="53" width="452" height="254"/>
+                                <subviews>
+                                    <containerView fixedFrame="YES" id="rJ4-zE-WnB">
+                                        <rect key="frame" x="0.0" y="0.0" width="452" height="254"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <connections>
+                                            <segue destination="b4D-6a-GpL" kind="embed" id="KfI-uG-ZHs"/>
+                                        </connections>
+                                    </containerView>
+                                </subviews>
+                                <holdingPriorities>
+                                    <real value="250"/>
+                                </holdingPriorities>
+                            </splitView>
                         </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="yt7-61-iOw" secondAttribute="trailing" constant="61" id="28c-iG-pp7"/>
+                            <constraint firstAttribute="bottom" secondItem="yt7-61-iOw" secondAttribute="bottom" constant="53" id="63E-Se-dxR"/>
+                            <constraint firstItem="yt7-61-iOw" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="39" id="NXu-it-SfE"/>
+                            <constraint firstItem="yt7-61-iOw" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="57" id="h8Y-OF-dGY"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="128" y="775"/>
+            <point key="canvasLocation" x="127" y="780"/>
+        </scene>
+        <!--Timeline View-->
+        <scene sceneID="adn-jt-q3W">
+            <objects>
+                <viewController id="b4D-6a-GpL" customClass="TimelineView" customModule="CameraTrackerEditor" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="SBh-tC-OSy">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="7x9-oT-bCi" userLabel="Horizontal Meter" customClass="TimelineMeterView" customModule="CameraTrackerEditor" customModuleProvider="target">
+                                <rect key="frame" x="20" y="280" width="430" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="tdl-80-zBr"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isVertical" value="NO"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="tickSize">
+                                        <real key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="tickWidth">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="tickInterval">
+                                        <real key="value" value="30"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </customView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="z6m-zd-7Zz" userLabel="Vertical Meter" customClass="TimelineMeterView" customModule="CameraTrackerEditor" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="20" height="280"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="20" id="Wfh-C4-mDR"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isVertical" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="tickSize">
+                                        <real key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="tickInterval">
+                                        <real key="value" value="30"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="tickWidth">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </customView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="7x9-oT-bCi" firstAttribute="leading" secondItem="SBh-tC-OSy" secondAttribute="leading" constant="20" id="AIU-jX-wrV"/>
+                            <constraint firstItem="z6m-zd-7Zz" firstAttribute="top" secondItem="SBh-tC-OSy" secondAttribute="top" constant="20" id="KeL-Rs-uL6"/>
+                            <constraint firstItem="z6m-zd-7Zz" firstAttribute="leading" secondItem="SBh-tC-OSy" secondAttribute="leading" id="c4f-hl-QXr"/>
+                            <constraint firstItem="7x9-oT-bCi" firstAttribute="top" secondItem="SBh-tC-OSy" secondAttribute="top" id="eaO-z0-Wt9"/>
+                            <constraint firstAttribute="trailing" secondItem="7x9-oT-bCi" secondAttribute="trailing" id="oKN-87-Sjj"/>
+                            <constraint firstAttribute="bottom" secondItem="z6m-zd-7Zz" secondAttribute="bottom" id="qFA-kT-9eU"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <customObject id="GbO-cP-Lbl" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="848" y="780"/>
         </scene>
     </scenes>
 </document>
