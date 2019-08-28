@@ -737,10 +737,10 @@
             </objects>
             <point key="canvasLocation" x="127" y="780"/>
         </scene>
-        <!--Timeline View-->
+        <!--Timeline View Controller-->
         <scene sceneID="adn-jt-q3W">
             <objects>
-                <viewController id="b4D-6a-GpL" customClass="TimelineView" customModule="CameraTrackerEditor" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="b4D-6a-GpL" customClass="TimelineViewController" customModule="CameraTrackerEditor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="SBh-tC-OSy">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -781,16 +781,27 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </customView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="4WY-h2-mmi" userLabel="Timeline Graph" customClass="TimelineGraphView" customModule="CameraTrackerEditor" customModuleProvider="target">
+                                <rect key="frame" x="20" y="0.0" width="430" height="280"/>
+                            </customView>
                         </subviews>
                         <constraints>
+                            <constraint firstAttribute="bottom" secondItem="4WY-h2-mmi" secondAttribute="bottom" id="0IG-55-WMd"/>
+                            <constraint firstAttribute="trailing" secondItem="4WY-h2-mmi" secondAttribute="trailing" id="2Pq-Bd-Dln"/>
                             <constraint firstItem="7x9-oT-bCi" firstAttribute="leading" secondItem="SBh-tC-OSy" secondAttribute="leading" constant="20" id="AIU-jX-wrV"/>
                             <constraint firstItem="z6m-zd-7Zz" firstAttribute="top" secondItem="SBh-tC-OSy" secondAttribute="top" constant="20" id="KeL-Rs-uL6"/>
+                            <constraint firstItem="4WY-h2-mmi" firstAttribute="top" secondItem="7x9-oT-bCi" secondAttribute="bottom" id="bo3-Dy-DKa"/>
                             <constraint firstItem="z6m-zd-7Zz" firstAttribute="leading" secondItem="SBh-tC-OSy" secondAttribute="leading" id="c4f-hl-QXr"/>
                             <constraint firstItem="7x9-oT-bCi" firstAttribute="top" secondItem="SBh-tC-OSy" secondAttribute="top" id="eaO-z0-Wt9"/>
                             <constraint firstAttribute="trailing" secondItem="7x9-oT-bCi" secondAttribute="trailing" id="oKN-87-Sjj"/>
                             <constraint firstAttribute="bottom" secondItem="z6m-zd-7Zz" secondAttribute="bottom" id="qFA-kT-9eU"/>
+                            <constraint firstItem="4WY-h2-mmi" firstAttribute="leading" secondItem="z6m-zd-7Zz" secondAttribute="trailing" id="w9o-TJ-7Hh"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="horizontalMeter" destination="7x9-oT-bCi" id="Mvw-0I-jpl"/>
+                        <outlet property="verticalMeter" destination="z6m-zd-7Zz" id="2lU-Ul-qSR"/>
+                    </connections>
                 </viewController>
                 <customObject id="GbO-cP-Lbl" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>

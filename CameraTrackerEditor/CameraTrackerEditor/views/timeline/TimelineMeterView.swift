@@ -93,14 +93,13 @@ class TimelineMeterView : NSView {
     }
     
     private func drawAllTicks(inContext context: CGContext) {
-        let endVal = startUnitPosition + unitRange
+        let endVal = ceil(startUnitPosition + unitRange)
         let interval = tickInterval / scale
         // setup drawing
-        let widthScale: CGFloat = tickWidth / scale
-        context.setLineWidth(widthScale)
+        context.setLineWidth(tickWidth / scale)
         context.setStrokeColor(tickColor.cgColor)
         // iterate through all ticks to be drawn
-        var pos = startUnitPosition
+        var pos = floor(startUnitPosition)
         while pos < endVal {
             drawTick(inContext: context, value: pos, adjustedTickSize: tickSize)
             pos = pos + interval
