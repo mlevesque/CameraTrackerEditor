@@ -66,7 +66,7 @@ class TrackingDataTests: XCTestCase {
     
     func testEmptyDataInterpolation() {
         let emptyData = TrackingData()
-        XCTAssertNil(emptyData.getDataAtTime(0.0))
+        XCTAssertNil(emptyData.getData(atTime: 0.0))
     }
     
     func testNearestNeighborInterpolation1() {
@@ -78,7 +78,7 @@ class TrackingDataTests: XCTestCase {
         data.pushEntry(deltaTime: totalTime, position: position, rotation: rotation)
         for test in NearestNeighborTestFloat1.tests {
             let timeStamp = Double(test.t) * totalTime
-            guard let result = data.getDataAtTime(timeStamp, interpolationMethod: InterpolationMethod.NearestNeighbor) else {
+            guard let result = data.getData(atTime: timeStamp, withInterpolation: .NearestNeighbor) else {
                 XCTFail("Interpolation returned nil")
                 return
             }
@@ -109,7 +109,7 @@ class TrackingDataTests: XCTestCase {
         )
         for test in NearestNeighborTestFloat1.tests {
             let timeStamp = Double(test.t) * totalTime
-            guard let result = data.getDataAtTime(timeStamp, interpolationMethod: InterpolationMethod.NearestNeighbor) else {
+            guard let result = data.getData(atTime: timeStamp, withInterpolation: .NearestNeighbor) else {
                 XCTFail("Interpolation returned nil")
                 return
             }
@@ -134,7 +134,7 @@ class TrackingDataTests: XCTestCase {
         data.pushEntry(deltaTime: totalTime, position: position, rotation: rotation)
         for test in LinearTestFloat1.tests {
             let timeStamp = Double(test.t) * totalTime
-            guard let result = data.getDataAtTime(timeStamp, interpolationMethod: InterpolationMethod.Linear) else {
+            guard let result = data.getData(atTime: timeStamp, withInterpolation: .Linear) else {
                 XCTFail("Interpolation returned nil")
                 return
             }
@@ -165,7 +165,7 @@ class TrackingDataTests: XCTestCase {
         )
         for i in 0..<LinearTestFloat1.tests.count {
             let timeStamp = Double(LinearTestFloat1.tests[i].t) * totalTime
-            guard let result = data.getDataAtTime(timeStamp, interpolationMethod: InterpolationMethod.Linear) else {
+            guard let result = data.getData(atTime: timeStamp, withInterpolation: .Linear) else {
                 XCTFail("Interpolation returned nil")
                 return
             }
@@ -189,7 +189,7 @@ class TrackingDataTests: XCTestCase {
             rotation: SingleEntry.entry.rotation
         )
         for test in SingleEntry.tests {
-            guard let result = data.getDataAtTime(test, interpolationMethod: InterpolationMethod.Cubic) else {
+            guard let result = data.getData(atTime: test, withInterpolation: .Cubic) else {
                 XCTFail("Interpolation returned nil")
                 return
             }
@@ -215,7 +215,7 @@ class TrackingDataTests: XCTestCase {
             )
         }
         for test in CubicDoubleEntry.tests {
-            guard let result = data.getDataAtTime(test.t, interpolationMethod: InterpolationMethod.Cubic) else {
+            guard let result = data.getData(atTime: test.t, withInterpolation: .Cubic) else {
                 XCTFail("Interpolation returned nil")
                 return
             }
@@ -236,7 +236,7 @@ class TrackingDataTests: XCTestCase {
             )
         }
         for test in CubicTripleEntry.tests {
-            guard let result = data.getDataAtTime(test.t, interpolationMethod: InterpolationMethod.Cubic) else {
+            guard let result = data.getData(atTime: test.t, withInterpolation: .Cubic) else {
                 XCTFail("Interpolation returned nil")
                 return
             }
@@ -257,7 +257,7 @@ class TrackingDataTests: XCTestCase {
             )
         }
         for test in CubicQuadEntry.tests {
-            guard let result = data.getDataAtTime(test.t, interpolationMethod: InterpolationMethod.Cubic) else {
+            guard let result = data.getData(atTime: test.t, withInterpolation: .Cubic) else {
                 XCTFail("Interpolation returned nil")
                 return
             }
