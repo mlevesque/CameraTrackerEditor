@@ -68,7 +68,7 @@ class TimelineGraphView : NSView {
     }
     
     
-    func setTrackingData(data: TrackingData) {
+    func setTrackingData(data: TrackingData?) {
         m_trackingData = data
         setNeedsDisplay(frame)
     }

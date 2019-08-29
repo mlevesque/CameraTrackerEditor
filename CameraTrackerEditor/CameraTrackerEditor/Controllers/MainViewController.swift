@@ -9,14 +9,23 @@
 import Cocoa
 
 class MainViewController: NSViewController {
+    private var viewTimeline: TimelineViewController?
     
     private var m_openFileIO: DataFileIO?
     private var m_trackingData: TrackingData?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+    }
+    
+    override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
+        switch segue.destinationController {
+        case is TimelineViewController:
+            viewTimeline = segue.destinationController as? TimelineViewController
+            viewTimeline?.setTrackingData(data: m_trackingData)
+        default:
+            break
+        }
     }
 
     override var representedObject: Any? {
@@ -24,7 +33,7 @@ class MainViewController: NSViewController {
         // Update the view, if already loaded.
         }
     }
-
+    
     
     @IBAction func openDocument(_ sender: Any?) {
         let dialog = NSOpenPanel();
@@ -41,6 +50,10 @@ class MainViewController: NSViewController {
             if let url = dialog.url {
                 m_openFileIO = DataFileIO(url: url)
                 let parsedData = try? m_openFileIO?.loadDataModelFromFile()
+                if let data = parsedData {
+                    m_trackingData = buildModelFromSchema(schema: data)
+                    viewTimeline?.setTrackingData(data: m_trackingData!)
+                }
             }
         } else {
             return

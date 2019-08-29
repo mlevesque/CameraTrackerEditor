@@ -799,6 +799,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="graph" destination="4WY-h2-mmi" id="J3y-Sp-yZL"/>
                         <outlet property="horizontalMeter" destination="7x9-oT-bCi" id="Mvw-0I-jpl"/>
                         <outlet property="verticalMeter" destination="z6m-zd-7Zz" id="2lU-Ul-qSR"/>
                     </connections>
