@@ -57,14 +57,9 @@ class TimelineMeterView : NSView {
         guard let context = NSGraphicsContext.current?.cgContext else {
             return
         }
-        context.saveGState()
-        // draw background
+        // draw
         drawBackground(context: context)
-        // draw ticks
-        setupContextTransformation(context)
         drawAllTicks(inContext: context)
-        // restore state
-        context.restoreGState()
     }
     
     private func getViewLength() -> CGFloat {
@@ -93,18 +88,19 @@ class TimelineMeterView : NSView {
     }
     
     private func drawAllTicks(inContext context: CGContext) {
+        context.saveGState()
+        setupContextTransformation(context)
         let endVal = ceil(startUnitPosition + unitRange)
         let interval = tickInterval / scale
-        // setup drawing
-        context.setLineWidth(tickWidth / scale)
-        context.setStrokeColor(tickColor.cgColor)
         // iterate through all ticks to be drawn
         var pos = floor(startUnitPosition)
         while pos < endVal {
             drawTick(inContext: context, value: pos, adjustedTickSize: tickSize)
             pos = pos + interval
         }
-        // present
+        context.restoreGState()
+        context.setLineWidth(tickWidth)
+        context.setStrokeColor(tickColor.cgColor)
         context.drawPath(using: .stroke)
     }
     

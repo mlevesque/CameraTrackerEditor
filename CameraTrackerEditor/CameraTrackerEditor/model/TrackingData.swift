@@ -38,6 +38,8 @@ enum TrackingComponent {
     case RotationZ
 }
 
+typealias ValueEntry = (time: Double, value: Float)
+
 class TrackingData {
     // range type for Vec3
     private typealias Vec3Range = (min: Vec3, max: Vec3)
@@ -101,6 +103,13 @@ class TrackingData {
         return findIndexAtTimeRec(time, start: 0, end: numberOfEntries)
     }
     
+    func getTimeStamp(atIndex index: Int) -> Double? {
+        if isIndexOutOfRange(index: index) {
+            return nil
+        }
+        return m_entries[index].timeStamp
+    }
+    
     func getData(atIndex index: Int) -> TrackingEntry? {
         if isIndexOutOfRange(index: index) {
             return nil
@@ -123,17 +132,24 @@ class TrackingData {
     }
     
     func getData( atIndex index: Int,
-                  forComponent component: TrackingComponent) -> Float? {
+                  forComponent component: TrackingComponent) -> ValueEntry? {
         if isIndexOutOfRange(index: index) {
             return nil
         }
-        return getComponentValues(entries: [m_entries[index]], forComponent: component).first
+        guard let value = getComponentValues(entries: [m_entries[index]], forComponent: component).first else {
+            return nil
+        }
+        let entry = m_entries[index]
+        return (time: entry.timeStamp, value: value)
     }
     
     func getData( atTime time: Double,
                   forComponent component: TrackingComponent,
-                  withInterpolation interpolationMethod: InterpolationMethod = .Cubic) -> Float? {
-        return getDataValue(atTime: time, forComponent: component, withInterpolation: interpolationMethod)
+                  withInterpolation interpolationMethod: InterpolationMethod = .Cubic) -> ValueEntry? {
+        guard let value = getDataValue(atTime: time, forComponent: component, withInterpolation: interpolationMethod) else {
+            return nil
+        }
+        return (time: time, value: value)
     }
     
     func getData( fromIndex index0: Int,
@@ -176,7 +192,7 @@ class TrackingData {
                   toIndex index1: Int,
                   forComponent component: TrackingComponent,
                   withSubdivisions subdivisions: Int = 4,
-                  withInterpolation interpolationMethod: InterpolationMethod = .Cubic) -> Array<Float> {
+                  withInterpolation interpolationMethod: InterpolationMethod = .Cubic) -> Array<ValueEntry> {
         if isEmpty {
             return []
         }
@@ -195,12 +211,12 @@ class TrackingData {
                   toTime time1: Double,
                   forComponent component: TrackingComponent,
                   withSubdivisions subdivisions: Int = 4,
-                  withInterpolation interpolationMethod: InterpolationMethod = .Cubic) -> Array<Float> {
+                  withInterpolation interpolationMethod: InterpolationMethod = .Cubic) -> Array<ValueEntry> {
         let t0 = min(time0, time1)
         let t1 = max(time0, time1)
         let interval = (t1 - t0) / Double(subdivisions)
         
-        var result: Array<Float> = []
+        var result: Array<ValueEntry> = []
         var t = t0
         while t < t1 {
             if let data = getData(atTime: t, forComponent: component, withInterpolation: interpolationMethod) {

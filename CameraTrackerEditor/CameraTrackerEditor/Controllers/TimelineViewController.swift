@@ -33,17 +33,24 @@ class TimelineViewController : NSViewController {
         if graph != nil {
             graph.setTrackingData(data: m_trackingData)
         }
+        scaleToFit()
     }
     
     func redraw() {
-        horizontalMeter.setNeedsDisplay(horizontalMeter.frame)
-        verticalMeter.setNeedsDisplay(verticalMeter.frame)
-        graph.setNeedsDisplay(graph.frame)
+        if horizontalMeter != nil {
+            horizontalMeter.setNeedsDisplay(horizontalMeter.frame)
+        }
+        if verticalMeter != nil {
+            verticalMeter.setNeedsDisplay(verticalMeter.frame)
+        }
+        if graph != nil {
+            graph.setNeedsDisplay(graph.frame)
+        }
     }
     
     func scaleToFit(vertically: Bool = true, horizontally: Bool = true) {
         // adjust vertically
-        if vertically {
+        if vertically && verticalMeter != nil && graph != nil {
             let range = calculateVerticalBounds()
             verticalMeter.startUnitPosition = range.start
             graph.startUnitPositionY = range.start
@@ -52,7 +59,7 @@ class TimelineViewController : NSViewController {
         }
         
         // adjust horizontally
-        if horizontally {
+        if horizontally && horizontalMeter != nil && graph != nil {
             horizontalMeter.startUnitPosition = 0.0
             graph.startUnitPositionX = 0.0
             if let data = m_trackingData {
