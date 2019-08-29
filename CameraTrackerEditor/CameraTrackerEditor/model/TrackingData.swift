@@ -163,30 +163,30 @@ class TrackingData {
         
     }
     
-    private func getIndexPairFromIndex(_ index: Int) -> (Int, Int) {
+    private func getIndexPairFromIndex(_ index: Int) -> [Int] {
         // special case for a single entry
         if numberOfEntries == 1 {
-            return (0, 0)
+            return [0, 0]
         }
         // if first index is at the end, then shift backwards
         if index == numberOfEntries - 1 {
-            return (index - 1, index)
+            return [index - 1, index]
         }
         else {
-            return (index, index + 1)
+            return [index, index + 1]
         }
     }
     
-    private func getIndexQuadFromIndex(_ index: Int) -> (Int, Int, Int, Int) {
+    private func getIndexQuadFromIndex(_ index: Int) -> [Int] {
         // get middle pair
         let pair = getIndexPairFromIndex(index)
         
         // get ending indexes
-        let p0 = pair.0 == 0 ? 0 : pair.0 - 1
-        let p3 = pair.1 == numberOfEntries - 1 ? pair.1 : pair.1 + 1
+        let p0 = pair[0] == 0 ? 0 : pair[0] - 1
+        let p3 = pair[1] == numberOfEntries - 1 ? pair[1] : pair[1] + 1
         
         // return quad
-        return (p0, pair.0, pair.1, p3)
+        return [p0, pair[0], pair[1], p3]
     }
     
     private func normalizeTimeAtRange(time: Double, start: Double, end: Double) -> Float {
@@ -201,7 +201,7 @@ class TrackingData {
     
     private func getDataNearestNeighborAtIndex(_ index: Int, time: Double) -> TrackingEntry {
         let pair = getIndexPairFromIndex(index)
-        let entries = (m_entries[pair.0], m_entries[pair.1])
+        let entries = (m_entries[pair[0]], m_entries[pair[1]])
         let t = normalizeTimeAtRange(time: time, start: entries.0.timeStamp, end: entries.1.timeStamp)
         return TrackingEntry(
             timeStamp: time,
@@ -212,7 +212,7 @@ class TrackingData {
     
     private func getDataLinearAtIndex(_ index: Int, time: Double) -> TrackingEntry {
         let pair = getIndexPairFromIndex(index)
-        let entries = (m_entries[pair.0], m_entries[pair.1])
+        let entries = (m_entries[pair[0]], m_entries[pair[1]])
         let t = normalizeTimeAtRange(time: time, start: entries.0.timeStamp, end: entries.1.timeStamp)
         return TrackingEntry(
             timeStamp: time,
@@ -223,7 +223,7 @@ class TrackingData {
     
     private func getDataCubicAtIndex(_ index: Int, time: Double) -> TrackingEntry {
         let quad = getIndexQuadFromIndex(index)
-        let entries = (m_entries[quad.0], m_entries[quad.1], m_entries[quad.2], m_entries[quad.3])
+        let entries = (m_entries[quad[0]], m_entries[quad[1]], m_entries[quad[2]], m_entries[quad[3]])
         let t = normalizeTimeAtRange(time: time, start: entries.1.timeStamp, end: entries.2.timeStamp)
         return TrackingEntry(
             timeStamp: time,
