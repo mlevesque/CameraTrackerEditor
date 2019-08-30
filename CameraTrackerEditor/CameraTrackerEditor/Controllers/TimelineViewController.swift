@@ -37,39 +37,52 @@ class TimelineViewController : NSViewController {
     }
     
     func redraw() {
-        if horizontalMeter != nil {
-            horizontalMeter.setNeedsDisplay(horizontalMeter.frame)
+        if let hm = horizontalMeter {
+            hm.setNeedsDisplay(hm.frame.offsetBy(dx: -hm.frame.minX, dy: -hm.frame.minY))
         }
-        if verticalMeter != nil {
-            verticalMeter.setNeedsDisplay(verticalMeter.frame)
+        if let vm = verticalMeter {
+            vm.setNeedsDisplay(vm.frame.offsetBy(dx: -vm.frame.minX, dy: -vm.frame.minY))
         }
-        if graph != nil {
-            graph.setNeedsDisplay(graph.frame)
+        if let g = graph {
+            g.setNeedsDisplay(g.frame.offsetBy(dx: -g.frame.minX, dy: -g.frame.minY))
         }
     }
     
     func scaleToFit(vertically: Bool = true, horizontally: Bool = true) {
+        // get current position and scale
+        var startPos = graph?.startUnitPosition ?? CGPoint(x: 0.0, y: 0.0)
+        var unitRange = graph?.unitRange ?? CGSize(width: 1.0, height: 1.0)
+        
         // adjust vertically
-        if vertically && verticalMeter != nil && graph != nil {
+        if vertically {
             let range = calculateVerticalBounds()
-            verticalMeter.startUnitPosition = range.start
-            graph.startUnitPositionY = range.start
-            verticalMeter.unitRange = range.end - range.start
-            graph.unitRangeY = range.end - range.start
+            startPos.y = range.start
+            unitRange.height = range.end - range.start
         }
         
         // adjust horizontally
-        if horizontally && horizontalMeter != nil && graph != nil {
-            horizontalMeter.startUnitPosition = 0.0
-            graph.startUnitPositionX = 0.0
-            if let data = m_trackingData {
-                horizontalMeter.unitRange = CGFloat(data.duration)
-                graph.unitRangeX = CGFloat(data.duration)
+        if horizontally {
+            startPos.x = 0.0
+            if let duration = m_trackingData?.duration {
+                unitRange.width = CGFloat(duration)
             }
             else {
-                horizontalMeter.unitRange = 1.0
-                graph.unitRangeX = 1.0
+                unitRange.width = 1.0
             }
+        }
+        
+        // add adjustments to views
+        if let vm = verticalMeter {
+            vm.startUnitPosition = startPos
+            vm.unitRange = unitRange
+        }
+        if let hm = horizontalMeter {
+            hm.startUnitPosition = startPos
+            hm.unitRange = unitRange
+        }
+        if let g = graph {
+            g.startUnitPosition = startPos
+            g.unitRange = unitRange
         }
         
         // refresh draw
@@ -79,7 +92,7 @@ class TimelineViewController : NSViewController {
     
     private func calculateVerticalBounds() -> (start: CGFloat, end: CGFloat) {
         guard let data = m_trackingData else {
-            return (start: 0.0, end: 1.0)
+            return (start: -0.5, end: 0.5)
         }
         
         // get min max values of all components that will be drawn
@@ -119,8 +132,8 @@ class TimelineViewController : NSViewController {
         
         // if nothing is being shown, then return default values
         if !valuesAreSet {
-            minVal = 0.0
-            maxVal = 1.0
+            minVal = -0.5
+            maxVal = 0.5
         }
         return (start: minVal, end: maxVal)
     }

@@ -25,6 +25,7 @@
 		33C4E92D2316DA6D00FC0EBD /* TimelineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C4E92C2316DA6D00FC0EBD /* TimelineViewController.swift */; };
 		33C4E92F2316DC8700FC0EBD /* TimelineGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C4E92E2316DC8700FC0EBD /* TimelineGraphView.swift */; };
 		33C4E9312316F23100FC0EBD /* ModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C4E9302316F23100FC0EBD /* ModelBuilder.swift */; };
+		33C4E93B23190BEC00FC0EBD /* TimelineViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C4E93A23190BEC00FC0EBD /* TimelineViewBase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +71,7 @@
 		33C4E92C2316DA6D00FC0EBD /* TimelineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineViewController.swift; sourceTree = "<group>"; };
 		33C4E92E2316DC8700FC0EBD /* TimelineGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineGraphView.swift; sourceTree = "<group>"; };
 		33C4E9302316F23100FC0EBD /* ModelBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelBuilder.swift; sourceTree = "<group>"; };
+		33C4E93A23190BEC00FC0EBD /* TimelineViewBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineViewBase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -220,6 +222,7 @@
 			children = (
 				33C4E9282316453000FC0EBD /* TimelineMeterView.swift */,
 				33C4E92E2316DC8700FC0EBD /* TimelineGraphView.swift */,
+				33C4E93A23190BEC00FC0EBD /* TimelineViewBase.swift */,
 			);
 			path = timeline;
 			sourceTree = "<group>";
@@ -360,6 +363,7 @@
 				33B6E1F323002E7A004ABC73 /* TrackingData.swift in Sources */,
 				33B6E207230220C8004ABC73 /* JsonSchemas.swift in Sources */,
 				33B6E20923022632004ABC73 /* DataFileIO.swift in Sources */,
+				33C4E93B23190BEC00FC0EBD /* TimelineViewBase.swift in Sources */,
 				33C4E92D2316DA6D00FC0EBD /* TimelineViewController.swift in Sources */,
 				33B6E1C722FF60C5004ABC73 /* MainViewController.swift in Sources */,
 				33B6E1C522FF60C5004ABC73 /* AppDelegate.swift in Sources */,
