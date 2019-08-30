@@ -13,8 +13,9 @@ class TimelineMeterView : TimelineViewBase {
     @IBInspectable var isVertical: Bool = false
     
     // color for the background
-    @IBInspectable var backgroundColor: NSColor = NSColor.darkGray
-    @IBInspectable var borderColor: NSColor = NSColor.lightGray
+    var backgroundColor: NSColor = NSColor.darkGray
+    var borderColor: NSColor = NSColor.lightGray
+    var dividerColor: NSColor = NSColor.white
     
     
     required init?(coder decoder: NSCoder) {
@@ -29,7 +30,7 @@ class TimelineMeterView : TimelineViewBase {
         }
         // background
         drawBackground(context: context)
-
+        
         // draw minor ticks
         let s = scale
         let minorInterval = calculateMinorInterval()
@@ -77,6 +78,9 @@ class TimelineMeterView : TimelineViewBase {
             withTickWidth: tickZeroWidth,
             withTickColor: tickZeroColor.cgColor
         )
+        
+        // draw divider
+        drawDivider(context: context)
     }
     
     private func drawBackground(context: CGContext) {
@@ -86,5 +90,19 @@ class TimelineMeterView : TimelineViewBase {
         context.setStrokeColor(borderColor.cgColor)
         context.addRect(rect)
         context.drawPath(using: .fillStroke)
+    }
+    
+    private func drawDivider(context: CGContext) {
+        if isVertical {
+            context.move(to: CGPoint(x: frame.width, y: 0.0))
+            context.addLine(to: CGPoint(x: frame.width, y: frame.height))
+        }
+        else {
+            context.move(to: CGPoint(x: 0.0, y: 0.0))
+            context.addLine(to: CGPoint(x: frame.width, y: 0.0))
+        }
+        context.setStrokeColor(dividerColor.cgColor)
+        context.setLineWidth(1.0)
+        context.drawPath(using: .stroke)
     }
 }

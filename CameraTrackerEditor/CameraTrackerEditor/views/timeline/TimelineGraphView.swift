@@ -9,13 +9,13 @@
 import Cocoa
 
 class TimelineGraphView : TimelineViewBase {
-    @IBInspectable var xPosColor: NSColor = NSColor.red
-    @IBInspectable var yPosColor: NSColor = NSColor.green
-    @IBInspectable var zPosColor: NSColor = NSColor.blue
-    @IBInspectable var xRotColor: NSColor = NSColor.systemPink
-    @IBInspectable var yRotColor: NSColor = NSColor.yellow
-    @IBInspectable var zRotColor: NSColor = NSColor.purple
-    @IBInspectable var lineWidth: CGFloat = 2.0
+    var xPosColor: NSColor = NSColor.red
+    var yPosColor: NSColor = NSColor.green
+    var zPosColor: NSColor = NSColor.blue
+    var xRotColor: NSColor = NSColor.systemPink
+    var yRotColor: NSColor = NSColor.yellow
+    var zRotColor: NSColor = NSColor.purple
+    var lineWidth: CGFloat = 2.0
     
     
     private var m_trackingData: TrackingData?

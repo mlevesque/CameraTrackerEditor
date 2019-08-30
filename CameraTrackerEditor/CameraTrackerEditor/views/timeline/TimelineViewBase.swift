@@ -18,13 +18,13 @@ class TimelineViewBase: NSView {
     
     
     // settings for the ticks
-    @IBInspectable var tickInterval: CGFloat = 30.0
-    @IBInspectable var tickMinorWidth: CGFloat = 1.0
-    @IBInspectable var tickMajorWidth: CGFloat = 1.0
-    @IBInspectable var tickZeroWidth: CGFloat = 1.0
-    @IBInspectable var tickMinorColor: NSColor = NSColor.lightGray
-    @IBInspectable var tickMajorColor: NSColor = NSColor.lightGray
-    @IBInspectable var tickZeroColor: NSColor = NSColor.red
+    var tickInterval: CGFloat = 30.0
+    var tickMinorWidth: CGFloat = 1.0
+    var tickMajorWidth: CGFloat = 1.0
+    var tickZeroWidth: CGFloat = 1.0
+    var tickMinorColor: NSColor = NSColor.lightGray
+    var tickMajorColor: NSColor = NSColor.lightGray
+    var tickZeroColor: NSColor = NSColor.red
     
     
     private var m_startUnitPosition: CGPoint
@@ -119,34 +119,11 @@ class TimelineViewBase: NSView {
         )
     }
     
-    internal func calculateStartIntervalPos(interval: CGFloat, start: CGFloat) -> CGFloat {
-        if interval == 0.0 {
-            return 0.0
-        }
-        let multiplier = floor(start / interval)
-        return interval * multiplier
-    }
-    
     internal func applyTransforms( toContext context: CGContext,
-                                   atStartPos startPos: CGPoint,
-                                   atScale scale: CGSize) {
+                                  atStartPos startPos: CGPoint,
+                                  atScale scale: CGSize) {
         context.scaleBy(x: scale.width, y: scale.height)
         context.translateBy(x: -startPos.x, y: -startPos.y)
-    }
-    
-    internal func buildUnitRect( fromPixelPosition pixelPos: CGPoint,
-                                 fromPixelRange pixelRange: CGSize,
-                                 withTransform transform: CGAffineTransform) -> CGRect {
-        let transformedStart = pixelPos.applying(transform)
-        let transformedEnd = CGPoint(
-            x: pixelPos.x + pixelRange.width * 2,
-            y: pixelPos.y + pixelRange.height * 2
-        ).applying(transform)
-        let size = CGSize(
-            width: transformedEnd.x - transformedStart.x,
-            height: transformedEnd.y - transformedStart.y
-        )
-        return CGRect(origin: transformedStart, size: size)
     }
     
     internal func drawTicks( toContext context: CGContext,
@@ -240,5 +217,29 @@ class TimelineViewBase: NSView {
         context.setLineWidth(tickWidth)
         context.setStrokeColor(tickColor)
         context.drawPath(using: .stroke)
+    }
+    
+    
+    private func calculateStartIntervalPos(interval: CGFloat, start: CGFloat) -> CGFloat {
+        if interval == 0.0 {
+            return 0.0
+        }
+        let multiplier = floor(start / interval)
+        return interval * multiplier
+    }
+    
+    private func buildUnitRect( fromPixelPosition pixelPos: CGPoint,
+                                fromPixelRange pixelRange: CGSize,
+                                withTransform transform: CGAffineTransform) -> CGRect {
+        let transformedStart = pixelPos.applying(transform)
+        let transformedEnd = CGPoint(
+            x: pixelPos.x + pixelRange.width * 2,
+            y: pixelPos.y + pixelRange.height * 2
+            ).applying(transform)
+        let size = CGSize(
+            width: transformedEnd.x - transformedStart.x,
+            height: transformedEnd.y - transformedStart.y
+        )
+        return CGRect(origin: transformedStart, size: size)
     }
 }

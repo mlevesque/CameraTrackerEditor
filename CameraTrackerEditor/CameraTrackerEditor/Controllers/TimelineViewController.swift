@@ -9,6 +9,33 @@
 import Cocoa
 
 class TimelineViewController : NSViewController {
+    
+    @IBInspectable var meterBackgroundColor: NSColor = NSColor.darkGray
+    @IBInspectable var meterBorderColor: NSColor = NSColor.lightGray
+    @IBInspectable var meterDividerColor: NSColor = NSColor.white
+    
+    @IBInspectable var tickInterval: CGFloat = 30.0
+    
+    @IBInspectable var tMinorWidth: CGFloat = 1.0
+    @IBInspectable var tMajorWidth: CGFloat = 1.0
+    @IBInspectable var tZeroWidth: CGFloat = 1.0
+    
+    @IBInspectable var tMinorColor: NSColor = NSColor.lightGray
+    @IBInspectable var tMajorColor: NSColor = NSColor.lightGray
+    @IBInspectable var tZeroColor: NSColor = NSColor.red
+    @IBInspectable var tMMinorColor: NSColor = NSColor.lightGray
+    @IBInspectable var tMMajorColor: NSColor = NSColor.lightGray
+    @IBInspectable var tMZeroColor: NSColor = NSColor.red
+    
+    @IBInspectable var xPosColor: NSColor = NSColor.red
+    @IBInspectable var yPosColor: NSColor = NSColor.green
+    @IBInspectable var zPosColor: NSColor = NSColor.blue
+    @IBInspectable var xRotColor: NSColor = NSColor.systemPink
+    @IBInspectable var yRotColor: NSColor = NSColor.yellow
+    @IBInspectable var zRotColor: NSColor = NSColor.purple
+    @IBInspectable var lineWidth: CGFloat = 2.0
+    
+    
     private var m_trackingData: TrackingData?
     
     private var m_showPosX: Bool = true
@@ -18,13 +45,42 @@ class TimelineViewController : NSViewController {
     private var m_showRotY: Bool = true
     private var m_showRotZ: Bool = true
     
-    @IBOutlet weak var horizontalMeter: TimelineMeterView!
-    @IBOutlet weak var verticalMeter: TimelineMeterView!
-    @IBOutlet weak var graph: TimelineGraphView!
+    @IBOutlet var horizontalMeter: TimelineMeterView!
+    @IBOutlet var verticalMeter: TimelineMeterView!
+    @IBOutlet var graph: TimelineGraphView!
     
     
     override func viewDidLoad() {
         graph.setTrackingData(data: m_trackingData)
+        
+        // set attributes to sub views
+        let subviews = [graph, horizontalMeter, verticalMeter]
+        for v in subviews {
+            v?.tickInterval = tickInterval
+            v?.tickMinorWidth = tMinorWidth
+            v?.tickMajorWidth = tMajorWidth
+            v?.tickZeroWidth = tZeroWidth
+        }
+        let meters = [horizontalMeter, verticalMeter]
+        for v in meters {
+            v?.backgroundColor = meterBackgroundColor
+            v?.borderColor = meterBorderColor
+            v?.dividerColor = meterDividerColor
+            v?.tickMinorColor = tMMinorColor
+            v?.tickMajorColor = tMMajorColor
+            v?.tickZeroColor = tMZeroColor
+        }
+        graph.tickMinorColor = tMinorColor
+        graph.tickMajorColor = tMajorColor
+        graph.tickZeroColor = tZeroColor
+        graph.xPosColor = xPosColor
+        graph.yPosColor = yPosColor
+        graph.zPosColor = zPosColor
+        graph.xRotColor = xRotColor
+        graph.yRotColor = yRotColor
+        graph.zRotColor = zRotColor
+        graph.lineWidth = lineWidth
+        
         super.viewDidLoad()
     }
     
