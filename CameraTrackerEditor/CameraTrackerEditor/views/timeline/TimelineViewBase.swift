@@ -15,6 +15,7 @@ class TimelineViewBase: NSView {
         CGPoint,    // Unit End Position
         CGFloat     // Interval
         ) -> Void
+    internal typealias TransformClosure = (CGContext) -> Void
     
     
     // settings for the ticks
@@ -166,6 +167,14 @@ class TimelineViewBase: NSView {
         context.drawPath(using: .stroke)
     }
     
+    internal func calculateStartIntervalPos(interval: CGFloat, start: CGFloat) -> CGFloat {
+        if interval == 0.0 {
+            return 0.0
+        }
+        let multiplier = floor(start / interval)
+        return interval * multiplier
+    }
+    
     internal func plotHorizontalLines( inContext context: CGContext,
                                        fromStartPos startPos: CGPoint,
                                        toEndPos endPos: CGPoint,
@@ -220,15 +229,7 @@ class TimelineViewBase: NSView {
     }
     
     
-    private func calculateStartIntervalPos(interval: CGFloat, start: CGFloat) -> CGFloat {
-        if interval == 0.0 {
-            return 0.0
-        }
-        let multiplier = floor(start / interval)
-        return interval * multiplier
-    }
-    
-    private func buildUnitRect( fromPixelPosition pixelPos: CGPoint,
+    internal func buildUnitRect( fromPixelPosition pixelPos: CGPoint,
                                 fromPixelRange pixelRange: CGSize,
                                 withTransform transform: CGAffineTransform) -> CGRect {
         let transformedStart = pixelPos.applying(transform)

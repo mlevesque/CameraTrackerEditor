@@ -746,7 +746,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="7x9-oT-bCi" userLabel="Horizontal Meter" customClass="TimelineMeterView" customModule="CameraTrackerEditor" customModuleProvider="target">
-                                <rect key="frame" x="20" y="280" width="430" height="20"/>
+                                <rect key="frame" x="30" y="280" width="420" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="tdl-80-zBr"/>
                                 </constraints>
@@ -755,22 +755,22 @@
                                 </userDefinedRuntimeAttributes>
                             </customView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="z6m-zd-7Zz" userLabel="Vertical Meter" customClass="TimelineMeterView" customModule="CameraTrackerEditor" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="20" height="280"/>
+                                <rect key="frame" x="0.0" y="0.0" width="30" height="280"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="20" id="Wfh-C4-mDR"/>
+                                    <constraint firstAttribute="width" constant="30" id="Wfh-C4-mDR"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="isVertical" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                             </customView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="4WY-h2-mmi" userLabel="Timeline Graph" customClass="TimelineGraphView" customModule="CameraTrackerEditor" customModuleProvider="target">
-                                <rect key="frame" x="20" y="0.0" width="430" height="280"/>
+                                <rect key="frame" x="30" y="0.0" width="420" height="280"/>
                             </customView>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="4WY-h2-mmi" secondAttribute="bottom" id="0IG-55-WMd"/>
                             <constraint firstAttribute="trailing" secondItem="4WY-h2-mmi" secondAttribute="trailing" id="2Pq-Bd-Dln"/>
-                            <constraint firstItem="7x9-oT-bCi" firstAttribute="leading" secondItem="SBh-tC-OSy" secondAttribute="leading" constant="20" id="AIU-jX-wrV"/>
+                            <constraint firstItem="7x9-oT-bCi" firstAttribute="leading" secondItem="z6m-zd-7Zz" secondAttribute="trailing" id="AIU-jX-wrV"/>
                             <constraint firstItem="z6m-zd-7Zz" firstAttribute="top" secondItem="SBh-tC-OSy" secondAttribute="top" constant="20" id="KeL-Rs-uL6"/>
                             <constraint firstItem="4WY-h2-mmi" firstAttribute="top" secondItem="7x9-oT-bCi" secondAttribute="bottom" id="bo3-Dy-DKa"/>
                             <constraint firstItem="z6m-zd-7Zz" firstAttribute="leading" secondItem="SBh-tC-OSy" secondAttribute="leading" id="c4f-hl-QXr"/>
@@ -808,35 +808,8 @@
                         <userDefinedRuntimeAttribute type="number" keyPath="lineWidth">
                             <real key="value" value="2"/>
                         </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="color" keyPath="tickMinorColor">
-                            <color key="value" red="0.23870132845278885" green="0.24106470794242041" blue="0.24106470794242041" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="color" keyPath="tickMajorColor">
-                            <color key="value" red="0.2413715907201324" green="0.24376140845003469" blue="0.24376140845003469" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="color" keyPath="tickZeroColor">
-                            <color key="value" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="color" keyPath="tickMeterZeroColor">
-                            <color key="value" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="color" keyPath="tickMeterMinorColor">
-                            <color key="value" red="0.37487388794589682" green="0.3785855105988265" blue="0.3785855105988265" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="color" keyPath="tickMeterMajorColor">
-                            <color key="value" red="0.57078819392604763" green="0.57643956218274117" blue="0.57643956218274117" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="number" keyPath="tickInterval">
                             <real key="value" value="20"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="number" keyPath="tickMinorWidth">
-                            <real key="value" value="1"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="number" keyPath="tickMajorWidth">
-                            <real key="value" value="1"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="number" keyPath="tickZeroWidth">
-                            <real key="value" value="1"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="number" keyPath="tMinorWidth">
                             <real key="value" value="1"/>

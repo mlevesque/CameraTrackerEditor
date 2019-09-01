@@ -20,6 +20,7 @@ class TimelineGraphView : TimelineViewBase {
     
     private var m_trackingData: TrackingData?
     
+    
     var showPositionX: Bool = true
     var showPositionY: Bool = true
     var showPositionZ: Bool = true
