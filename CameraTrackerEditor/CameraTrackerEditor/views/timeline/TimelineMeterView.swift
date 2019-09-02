@@ -23,6 +23,27 @@ class TimelineMeterView : TimelineViewBase {
     }
     
     
+    func getPixelPosition(fromUnitPosition unitPosition: CGFloat) -> CGFloat {
+        let pos = getPixelPosition(
+            fromUnitPosition: CGPoint(
+                x: isVertical ? 0.0 : unitPosition,
+                y: isVertical ? unitPosition : 0.0
+            )
+        )
+        return isVertical ? pos.y : pos.x
+    }
+    
+    func getUnitPosition(fromPixelPosition pixelPosition: CGFloat) -> CGFloat {
+        let pos = getUnitPosition(
+            fromPixelPosition: CGPoint(
+                x: isVertical ? 0.0 : pixelPosition,
+                y: isVertical ? pixelPosition : 0.0
+            )
+        )
+        return isVertical ? pos.y : pos.x
+    }
+    
+    
     private func adjustInterval(interval: CGSize) -> CGSize {
         return CGSize(
             width: isVertical ? 0.0 : interval.width,
@@ -30,12 +51,12 @@ class TimelineMeterView : TimelineViewBase {
         )
     }
     
-    override func calculateMinorInterval() -> CGSize {
+    override internal func calculateMinorInterval() -> CGSize {
         let interval = super.calculateMinorInterval()
         return adjustInterval(interval: interval)
     }
     
-    override func calculateMajorInterval() -> CGSize {
+    override internal func calculateMajorInterval() -> CGSize {
         let interval = super.calculateMajorInterval()
         return adjustInterval(interval: interval)
     }
@@ -49,8 +70,8 @@ class TimelineMeterView : TimelineViewBase {
         drawBackground(context: context)
         
         // setup transform
-        let transform = buildTransform(atStartPos: startUnitPosition, atScale: scale)
-        let unitRect = buildUnitRect(fromPixelRect: dirtyRect, withTransform: transform.inverted())
+        updateTransform()
+        let unitRect = buildUnitRect(fromPixelRect: dirtyRect, withTransform: m_currentTransform.inverted())
         
         // draw minor ticks
         let minorInterval = calculateMinorInterval()
@@ -63,7 +84,7 @@ class TimelineMeterView : TimelineViewBase {
             drawTicks(
                 toContext: context,
                 inUnitRect: minorUnitRect,
-                withTransform: transform,
+                withTransform: m_currentTransform,
                 withInterval: minorInterval,
                 useVerticalTicks: !isVertical,
                 withTickWidth: tickMinorWidth,
@@ -79,7 +100,7 @@ class TimelineMeterView : TimelineViewBase {
         drawTicks(
             toContext: context,
             inUnitRect: majorUnitRect,
-            withTransform: transform,
+            withTransform: m_currentTransform,
             withInterval: majorInterval,
             useVerticalTicks: !isVertical,
             withTickWidth: tickMajorWidth,
@@ -90,7 +111,7 @@ class TimelineMeterView : TimelineViewBase {
         drawZeroTick(
             toContext: context,
             inUnitRect: unitRect,
-            withTransform: transform,
+            withTransform: m_currentTransform,
             showHorizontal: isVertical,
             showVertical: !isVertical,
             withTickWidth: tickZeroWidth,
@@ -112,7 +133,7 @@ class TimelineMeterView : TimelineViewBase {
         drawTextOverVerticalLines(
             inContext: context,
             inUnitRect: textUnitRect,
-            withTransform: transform,
+            withTransform: m_currentTransform,
             withInterval: textInterval
         )
     }
@@ -200,7 +221,6 @@ class TimelineMeterView : TimelineViewBase {
         }
     }
     
-    
     private func drawValueText(value: CGFloat, position: CGPoint) {
         // get the font. If not found, then don't draw text
         guard let font = NSFont(name: "Helvetica Light", size: 10.0) else {
@@ -242,5 +262,44 @@ class TimelineMeterView : TimelineViewBase {
             attributes: attrs,
             context: nil
         )
+    }
+    
+    override func mouseUp(with event: NSEvent) {
+        if !isVertical {
+            let positions = getPositioning(fromMouseEvent: event)
+            delegate?.didClickOnMeter(
+                sender: self,
+                pixelLocation: positions.pixelPosition,
+                unitLocation: positions.unitPosition
+            )
+        }
+    }
+    
+    override func mouseDragged(with event: NSEvent) {
+        if !isVertical {
+            let positions = getPositioning(fromMouseEvent: event)
+            delegate?.didDragOnMeter(
+                sender: self,
+                pixelLocation: positions.pixelPosition,
+                unitLocation: positions.unitPosition
+            )
+        }
+    }
+    
+    private func getPositioning(fromMouseEvent event: NSEvent) -> (pixelPosition: CGFloat, unitPosition: CGFloat) {
+        // get pixel and unit position
+        let pixelPositionPoint = convert(event.locationInWindow, from: nil)
+        var pixelPosition = pixelPositionPoint.x
+        var unitPosition = pixelPositionPoint.applying(m_currentTransform.inverted()).x
+        
+        // cap the values
+        let endPixel = endPixelPosition.x
+        let endUnit = endUnitPosition.x
+        pixelPosition = pixelPosition < 0 ? 0 : pixelPosition
+        pixelPosition = pixelPosition > endPixel ? endPixel : pixelPosition
+        unitPosition = unitPosition < 0 ? 0 : unitPosition
+        unitPosition = unitPosition > endUnit ? endUnit : unitPosition
+        
+        return (pixelPosition: pixelPosition, unitPosition: unitPosition)
     }
 }

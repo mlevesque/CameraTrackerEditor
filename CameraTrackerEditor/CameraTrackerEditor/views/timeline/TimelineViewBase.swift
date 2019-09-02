@@ -22,15 +22,6 @@ extension CGPoint {
 }
 
 class TimelineViewBase: NSView {
-    internal typealias TickPlotterClosure = (
-        CGContext,  // Context
-        CGPoint,    // Unit Start Position
-        CGPoint,    // Unit End Position
-        CGFloat     // Interval
-        ) -> Void
-    internal typealias TransformClosure = (CGContext) -> Void
-    
-    
     // settings for the ticks
     var tickInterval: CGFloat = 30.0
     var tickMinorWidth: CGFloat = 1.0
@@ -41,8 +32,12 @@ class TimelineViewBase: NSView {
     var tickZeroColor: NSColor = NSColor.red
     
     
+    weak var delegate: TimelineViewDelegate?
+    
+    
     private var m_startUnitPosition: CGPoint
     private var m_unitRange: CGSize
+    internal var m_currentTransform: CGAffineTransform
     
     
     var startUnitPosition: CGPoint {
@@ -75,12 +70,18 @@ class TimelineViewBase: NSView {
     }
     var startPixelPosition: CGPoint {
         get {
-            let s = scale
-            return CGPoint(x: m_startUnitPosition.x * s.width, y: m_startUnitPosition.y * s.height)
+            return m_startUnitPosition.applying(m_currentTransform)
         }
         set(value) {
-            let s = scale
-            m_startUnitPosition = CGPoint(x: value.x / s.width, y: value.y / s.height)
+            m_startUnitPosition = value.applying(m_currentTransform.inverted())
+        }
+    }
+    var endPixelPosition: CGPoint {
+        get {
+            return endUnitPosition.applying(m_currentTransform)
+        }
+        set(value) {
+            endUnitPosition = value.applying(m_currentTransform.inverted())
         }
     }
     var scale: CGSize {
@@ -102,7 +103,21 @@ class TimelineViewBase: NSView {
     required init?(coder decoder: NSCoder) {
         m_startUnitPosition = CGPoint(x: 0.0, y: -5.0)
         m_unitRange = CGSize(width: 10.0, height: 10.0)
+        m_currentTransform = CGAffineTransform.identity
         super.init(coder: decoder)
+    }
+    
+    
+    func updateTransform() {
+        m_currentTransform = buildTransform(atStartPos: startUnitPosition, atScale: scale)
+    }
+    
+    func getPixelPosition(fromUnitPosition unitPosition: CGPoint) -> CGPoint {
+        return unitPosition.applying(m_currentTransform)
+    }
+    
+    func getUnitPosition(fromPixelPosition pixelPosition: CGPoint) -> CGPoint {
+        return pixelPosition.applying(m_currentTransform.inverted())
     }
 
     

@@ -63,8 +63,8 @@ class TimelineGraphView : TimelineViewBase {
         }
         
         // build transform
-        let transform = buildTransform(atStartPos: startUnitPosition, atScale: scale)
-        let invertedTransform = transform.inverted()
+        updateTransform()
+        let invertedTransform = m_currentTransform.inverted()
         m_linearPixelThreshold = calculateUnitThreshold(
             fromPixelThreshold: dataPointLinearThreshold,
             withTransform: invertedTransform
@@ -90,7 +90,7 @@ class TimelineGraphView : TimelineViewBase {
             drawTicks(
                 toContext: context,
                 inUnitRect: minorUnitRectVertical,
-                withTransform: transform,
+                withTransform: m_currentTransform,
                 withInterval: CGSize(width: minorInterval.width, height: 0.0),
                 useVerticalTicks: true,
                 withTickWidth: tickMinorWidth,
@@ -107,7 +107,7 @@ class TimelineGraphView : TimelineViewBase {
             drawTicks(
                 toContext: context,
                 inUnitRect: minorUnitRectHorizontal,
-                withTransform: transform,
+                withTransform: m_currentTransform,
                 withInterval: CGSize(width: 0.0, height: minorInterval.height),
                 useVerticalTicks: false,
                 withTickWidth: tickMinorWidth,
@@ -125,7 +125,7 @@ class TimelineGraphView : TimelineViewBase {
         drawTicks(
             toContext: context,
             inUnitRect: majorUnitRectVertical,
-            withTransform: transform,
+            withTransform: m_currentTransform,
             withInterval: majorIntervalVertical,
             useVerticalTicks: true,
             withTickWidth: tickMajorWidth,
@@ -139,7 +139,7 @@ class TimelineGraphView : TimelineViewBase {
         drawTicks(
             toContext: context,
             inUnitRect: majorUnitRectHorizontal,
-            withTransform: transform,
+            withTransform: m_currentTransform,
             withInterval: majorIntervalHorizontal,
             useVerticalTicks: false,
             withTickWidth: tickMajorWidth,
@@ -150,14 +150,14 @@ class TimelineGraphView : TimelineViewBase {
         drawZeroTick(
             toContext: context,
             inUnitRect: unitRect,
-            withTransform: transform,
+            withTransform: m_currentTransform,
             showHorizontal: true,
             showVertical: true,
             withTickWidth: tickZeroWidth,
             withTickColor: tickZeroColor.cgColor
         )
 
-        drawData(inContext: context, withTransform: transform)
+        drawData(inContext: context, withTransform: m_currentTransform)
     }
 
     private func drawData(inContext context: CGContext, withTransform transform: CGAffineTransform) {

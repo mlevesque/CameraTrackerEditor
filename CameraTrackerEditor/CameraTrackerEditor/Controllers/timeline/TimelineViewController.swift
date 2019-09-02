@@ -48,6 +48,7 @@ class TimelineViewController : NSViewController {
     @IBOutlet var horizontalMeter: TimelineMeterView!
     @IBOutlet var verticalMeter: TimelineMeterView!
     @IBOutlet var graph: TimelineGraphView!
+    @IBOutlet var playhead: PlayheadView!
     
     
     override func viewDidLoad() {
@@ -80,6 +81,14 @@ class TimelineViewController : NSViewController {
         graph.yRotColor = yRotColor
         graph.zRotColor = zRotColor
         graph.lineWidth = lineWidth
+        
+        horizontalMeter.updateTransform()
+        verticalMeter.updateTransform()
+        graph.updateTransform()
+        
+        horizontalMeter.delegate = self
+        
+        positionPlayhead(atPixelLocation: 0)
         
         super.viewDidLoad()
     }

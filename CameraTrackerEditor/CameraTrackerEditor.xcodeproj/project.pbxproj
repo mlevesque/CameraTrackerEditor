@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3358FBC3231D8D97006272CB /* TimelineViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3358FBC2231D8D97006272CB /* TimelineViewDelegate.swift */; };
+		3358FBC5231D940D006272CB /* PlayheadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3358FBC4231D940D006272CB /* PlayheadView.swift */; };
+		3358FBC8231D98FE006272CB /* TimelineViewController+TimelineViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3358FBC7231D98FE006272CB /* TimelineViewController+TimelineViewDelegate.swift */; };
 		33B6E1C522FF60C5004ABC73 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B6E1C422FF60C5004ABC73 /* AppDelegate.swift */; };
 		33B6E1C722FF60C5004ABC73 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B6E1C622FF60C5004ABC73 /* MainViewController.swift */; };
 		33B6E1C922FF60C8004ABC73 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33B6E1C822FF60C8004ABC73 /* Assets.xcassets */; };
@@ -46,6 +49,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3358FBC2231D8D97006272CB /* TimelineViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineViewDelegate.swift; sourceTree = "<group>"; };
+		3358FBC4231D940D006272CB /* PlayheadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayheadView.swift; sourceTree = "<group>"; };
+		3358FBC7231D98FE006272CB /* TimelineViewController+TimelineViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimelineViewController+TimelineViewDelegate.swift"; sourceTree = "<group>"; };
 		33B6E1C122FF60C5004ABC73 /* CameraTrackerEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CameraTrackerEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33B6E1C422FF60C5004ABC73 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		33B6E1C622FF60C5004ABC73 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -99,6 +105,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3358FBC6231D98C6006272CB /* timeline */ = {
+			isa = PBXGroup;
+			children = (
+				33C4E92C2316DA6D00FC0EBD /* TimelineViewController.swift */,
+				3358FBC7231D98FE006272CB /* TimelineViewController+TimelineViewDelegate.swift */,
+			);
+			path = timeline;
+			sourceTree = "<group>";
+		};
 		33B6E1B822FF60C5004ABC73 = {
 			isa = PBXGroup;
 			children = (
@@ -194,8 +209,8 @@
 		33B6E2022301FDC7004ABC73 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				3358FBC6231D98C6006272CB /* timeline */,
 				33B6E1C622FF60C5004ABC73 /* MainViewController.swift */,
-				33C4E92C2316DA6D00FC0EBD /* TimelineViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -223,6 +238,8 @@
 				33C4E9282316453000FC0EBD /* TimelineMeterView.swift */,
 				33C4E92E2316DC8700FC0EBD /* TimelineGraphView.swift */,
 				33C4E93A23190BEC00FC0EBD /* TimelineViewBase.swift */,
+				3358FBC2231D8D97006272CB /* TimelineViewDelegate.swift */,
+				3358FBC4231D940D006272CB /* PlayheadView.swift */,
 			);
 			path = timeline;
 			sourceTree = "<group>";
@@ -357,6 +374,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3358FBC8231D98FE006272CB /* TimelineViewController+TimelineViewDelegate.swift in Sources */,
 				33B6E1F723003CFB004ABC73 /* MathUtilities.swift in Sources */,
 				33C4E9292316453000FC0EBD /* TimelineMeterView.swift in Sources */,
 				33C4E92F2316DC8700FC0EBD /* TimelineGraphView.swift in Sources */,
@@ -364,9 +382,11 @@
 				33B6E207230220C8004ABC73 /* JsonSchemas.swift in Sources */,
 				33B6E20923022632004ABC73 /* DataFileIO.swift in Sources */,
 				33C4E93B23190BEC00FC0EBD /* TimelineViewBase.swift in Sources */,
+				3358FBC5231D940D006272CB /* PlayheadView.swift in Sources */,
 				33C4E92D2316DA6D00FC0EBD /* TimelineViewController.swift in Sources */,
 				33B6E1C722FF60C5004ABC73 /* MainViewController.swift in Sources */,
 				33B6E1C522FF60C5004ABC73 /* AppDelegate.swift in Sources */,
+				3358FBC3231D8D97006272CB /* TimelineViewDelegate.swift in Sources */,
 				33C4E9312316F23100FC0EBD /* ModelBuilder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
