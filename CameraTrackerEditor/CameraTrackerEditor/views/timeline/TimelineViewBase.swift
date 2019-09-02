@@ -110,7 +110,7 @@ class TimelineViewBase: NSView {
         if interval == 0.0 {
             return start
         }
-        let multiplier = floor(start / interval)
+        let multiplier = ceil(start / interval)
         return interval * multiplier
     }
     
