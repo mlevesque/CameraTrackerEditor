@@ -8,6 +8,19 @@
 
 import Cocoa
 
+/**
+ Extending CGPoint to give it an operator overload for adding a CGSize to it.
+ */
+extension CGPoint {
+    static func += ( lhs: inout CGPoint, rhs: CGSize) {
+        lhs = CGPoint(x: lhs.x + rhs.width, y: lhs.y + rhs.height)
+    }
+    
+    static func + (lhs: CGPoint, rhs: CGSize) -> CGPoint {
+        return CGPoint(x: lhs.x + rhs.width, y: lhs.y + rhs.height)
+    }
+}
+
 class TimelineViewBase: NSView {
     internal typealias TickPlotterClosure = (
         CGContext,  // Context
@@ -93,10 +106,32 @@ class TimelineViewBase: NSView {
     }
 
     
-    internal func calculateMajorInterval(scale: CGFloat) -> CGFloat {
+    private func calculateStartIntervalPos(interval: CGFloat, start: CGFloat) -> CGFloat {
+        if interval == 0.0 {
+            return start
+        }
+        let multiplier = floor(start / interval)
+        return interval * multiplier
+    }
+    
+    private func calculateStartIntervalPos(interval: CGSize, start: CGPoint) -> CGPoint {
+        return CGPoint(
+            x: calculateStartIntervalPos(interval: interval.width, start: start.x),
+            y: calculateStartIntervalPos(interval: interval.height, start: start.y)
+        )
+    }
+    
+    private func calculateMajorInterval(scale: CGFloat) -> CGFloat {
         let pixelDistancePerHalfUnit: CGFloat = 1.0 * scale
         return ceil(tickInterval / pixelDistancePerHalfUnit)
     }
+    
+    private func calculateMinorInterval(scale: CGFloat) -> CGFloat {
+        let pixelDistancePerHalfUnit: CGFloat = 0.5 * scale
+        let multiplier = floor(pixelDistancePerHalfUnit / tickInterval)
+        return multiplier == 0.0 ? 0.0 : 0.5 / multiplier
+    }
+    
     
     internal func calculateMajorInterval() -> CGSize {
         let s = scale
@@ -104,12 +139,6 @@ class TimelineViewBase: NSView {
             width: calculateMajorInterval(scale: s.width),
             height: calculateMajorInterval(scale: s.height)
         )
-    }
-    
-    internal func calculateMinorInterval(scale: CGFloat) -> CGFloat {
-        let pixelDistancePerHalfUnit: CGFloat = 0.5 * scale
-        let multiplier = floor(pixelDistancePerHalfUnit / tickInterval)
-        return multiplier == 0.0 ? 0.0 : 0.5 / multiplier
     }
     
     internal func calculateMinorInterval() -> CGSize {
@@ -120,43 +149,66 @@ class TimelineViewBase: NSView {
         )
     }
     
-    internal func applyTransforms( toContext context: CGContext,
-                                  atStartPos startPos: CGPoint,
-                                  atScale scale: CGSize) {
-        context.scaleBy(x: scale.width, y: scale.height)
-        context.translateBy(x: -startPos.x, y: -startPos.y)
+    internal func buildUnitRect(fromPixelRect pixelRect: CGRect, withTransform transform: CGAffineTransform) -> CGRect {
+        // we will be adding a small buffer to the size of the rect to counteract floating point precision error
+        // when drawing the last tick or value text
+        let adjustedRect = CGRect(
+            origin: pixelRect.origin,
+            size: CGSize(
+                width: pixelRect.size.width + 5.0,
+                height: pixelRect.size.height + 5.0
+            )
+        )
+        return adjustedRect.applying(transform)
+    }
+    
+    internal func buildIntervalAdjustedUnitRect( fromUnitRect unitRect: CGRect,
+                                                 withInterval interval: CGSize) -> CGRect {
+        let origin = calculateStartIntervalPos(interval: interval, start: unitRect.origin)
+        return CGRect(
+            origin: origin,
+            size: CGSize(
+                width: unitRect.width + unitRect.minX - origin.x,
+                height: unitRect.height + unitRect.minY - origin.y
+            )
+        )
+    }
+    
+    internal func buildTransform( atStartPos startPos: CGPoint,
+                                  atScale scale: CGSize) -> CGAffineTransform {
+        return CGAffineTransform.identity
+            .scaledBy(x: scale.width, y: scale.height)
+            .translatedBy(x: -startPos.x, y: -startPos.y)
     }
     
     internal func drawTicks( toContext context: CGContext,
-                             inPixelRect pixelRect: CGRect,
-                             atUnitStartPos unitStartPos: CGPoint,
-                             atScale scale: CGSize,
-                             withInterval interval: CGFloat,
-                             usingPlottingClosure plotClosure: TickPlotterClosure,
+                             inUnitRect unitRect: CGRect,
+                             withTransform transform: CGAffineTransform,
+                             withInterval interval: CGSize,
+                             useVerticalTicks: Bool,
                              withTickWidth tickWidth: CGFloat,
                              withTickColor tickColor: CGColor) {
         // save state of context before we apply transform
         context.saveGState()
-        applyTransforms(
-            toContext: context,
-            atStartPos: unitStartPos,
-            atScale: scale
-        )
+        context.concatenate(transform)
         
-        // convert pixel rect to unit rect and determine
-        let unitRect = buildUnitRect(
-            fromPixelPosition: pixelRect.origin,
-            fromPixelRange: pixelRect.size,
-            withTransform: context.ctm.inverted()
-        )
+        // setup for iterating for each tick
+        var pos1 = unitRect.origin
+        var pos2 = useVerticalTicks
+            ? CGPoint(x: unitRect.minX, y: unitRect.maxY)
+            : CGPoint(x: unitRect.maxX, y: unitRect.minY)
+        let endPos = unitRect.origin + unitRect.size
+        let condition = useVerticalTicks
+            ? {pos1.x < endPos.x}
+            : {pos1.y < endPos.y}
         
-        // plot lines
-        plotClosure(
-            context,
-            unitRect.origin,
-            CGPoint(x: unitRect.maxX, y: unitRect.maxY),
-            interval
-        )
+        // plot ticks
+        while condition() {
+            context.move(to: pos1)
+            context.addLine(to: pos2)
+            pos1 += interval
+            pos2 += interval
+        }
         
         // restore state of context to remove transforms before applying
         context.restoreGState()
@@ -167,80 +219,31 @@ class TimelineViewBase: NSView {
         context.drawPath(using: .stroke)
     }
     
-    internal func calculateStartIntervalPos(interval: CGFloat, start: CGFloat) -> CGFloat {
-        if interval == 0.0 {
-            return 0.0
-        }
-        let multiplier = floor(start / interval)
-        return interval * multiplier
-    }
-    
-    internal func plotHorizontalLines( inContext context: CGContext,
-                                       fromStartPos startPos: CGPoint,
-                                       toEndPos endPos: CGPoint,
-                                       withInterval interval: CGFloat) {
-        var pos = calculateStartIntervalPos(interval: interval, start: startPos.y)
-        while pos < endPos.y {
-            context.move(to: CGPoint(x: startPos.x, y: pos))
-            context.addLine(to: CGPoint(x: endPos.x, y: pos))
-            pos += interval
-        }
-    }
-    
-    internal func plotVerticalLines( inContext context: CGContext,
-                                     fromStartPos startPos: CGPoint,
-                                     toEndPos endPos: CGPoint,
-                                     withInterval interval: CGFloat) {
-        var pos = calculateStartIntervalPos(interval: interval, start: startPos.x)
-        while pos < endPos.x {
-            context.move(to: CGPoint(x: pos, y: startPos.y))
-            context.addLine(to: CGPoint(x: pos, y: endPos.y))
-            pos += interval
-        }
-    }
-    
     internal func drawZeroTick( toContext context: CGContext,
-                                fromStartPos startPos: CGPoint,
-                                toEndPos endPos: CGPoint,
-                                atScale scale: CGSize,
+                                inUnitRect unitRect: CGRect,
+                                withTransform transform: CGAffineTransform,
                                 showHorizontal: Bool,
                                 showVertical: Bool,
                                 withTickWidth tickWidth: CGFloat,
                                 withTickColor tickColor: CGColor) {
         context.saveGState()
-        applyTransforms(toContext: context, atStartPos: startPos, atScale: scale)
+        context.concatenate(transform)
         
         // vertical line
         if showVertical {
-            context.move(to: CGPoint(x: 0.0, y: startPos.y))
-            context.addLine(to: CGPoint(x: 0.0, y: endPos.y))
+            context.move(to: CGPoint(x: 0.0, y: unitRect.minY))
+            context.addLine(to: CGPoint(x: 0.0, y: unitRect.maxY))
         }
         
         // horizontal line
         if showHorizontal {
-            context.move(to: CGPoint(x: startPos.x, y: 0.0))
-            context.addLine(to: CGPoint(x: endPos.x, y: 0.0))
+            context.move(to: CGPoint(x: unitRect.minX, y: 0.0))
+            context.addLine(to: CGPoint(x: unitRect.maxX, y: 0.0))
         }
         
         context.restoreGState()
         context.setLineWidth(tickWidth)
         context.setStrokeColor(tickColor)
         context.drawPath(using: .stroke)
-    }
-    
-    
-    internal func buildUnitRect( fromPixelPosition pixelPos: CGPoint,
-                                fromPixelRange pixelRange: CGSize,
-                                withTransform transform: CGAffineTransform) -> CGRect {
-        let transformedStart = pixelPos.applying(transform)
-        let transformedEnd = CGPoint(
-            x: pixelPos.x + pixelRange.width * 2,
-            y: pixelPos.y + pixelRange.height * 2
-            ).applying(transform)
-        let size = CGSize(
-            width: transformedEnd.x - transformedStart.x,
-            height: transformedEnd.y - transformedStart.y
-        )
-        return CGRect(origin: transformedStart, size: size)
     }
 }

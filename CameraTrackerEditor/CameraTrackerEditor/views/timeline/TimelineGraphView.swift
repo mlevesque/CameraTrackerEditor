@@ -16,6 +16,9 @@ class TimelineGraphView : TimelineViewBase {
     var yRotColor: NSColor = NSColor.yellow
     var zRotColor: NSColor = NSColor.purple
     var lineWidth: CGFloat = 2.0
+    var dataPointLinearThreshold: Double = 1.0
+    var dataPointCubicThreshold: Double = 60.0
+    var interpolationSubdivisionThreshold: Double = 20.0
     
     
     private var m_trackingData: TrackingData?
@@ -29,7 +32,15 @@ class TimelineGraphView : TimelineViewBase {
     var showRotationZ: Bool = true
     
     
+    var m_linearPixelThreshold: CGFloat
+    var m_cubicPixelThreshold: CGFloat
+    var m_subdivisionPixelThreshold: CGFloat
+    
+    
     required init?(coder decoder: NSCoder) {
+        m_linearPixelThreshold = 1.0
+        m_cubicPixelThreshold = 1.0
+        m_subdivisionPixelThreshold = 1.0
         super.init(coder: decoder)
     }
     
@@ -39,36 +50,66 @@ class TimelineGraphView : TimelineViewBase {
     }
     
     
+    private func calculateUnitThreshold( fromPixelThreshold threshold: Double,
+                                         withTransform transform: CGAffineTransform) -> CGFloat {
+        let result = CGSize(width: threshold, height: threshold).applying(transform)
+        return min(result.width, result.height)
+    }
+    
     override func draw(_ dirtyRect: NSRect) {
         // get the context
         guard let context = NSGraphicsContext.current?.cgContext else {
             return
         }
+        
+        // build transform
+        let transform = buildTransform(atStartPos: startUnitPosition, atScale: scale)
+        let invertedTransform = transform.inverted()
+        m_linearPixelThreshold = calculateUnitThreshold(
+            fromPixelThreshold: dataPointLinearThreshold,
+            withTransform: invertedTransform
+        )
+        m_cubicPixelThreshold = calculateUnitThreshold(
+            fromPixelThreshold: dataPointCubicThreshold,
+            withTransform: invertedTransform
+        )
+        m_subdivisionPixelThreshold = calculateUnitThreshold(
+            fromPixelThreshold: interpolationSubdivisionThreshold,
+            withTransform: invertedTransform
+        )
+        let unitRect = buildUnitRect(fromPixelRect: dirtyRect, withTransform: invertedTransform)
 
         // minor Vertical Ticks
-        let s = scale
         let minorInterval = calculateMinorInterval()
         if minorInterval.width > 0.0 {
+            let minorIntervalVertical = CGSize(width: minorInterval.width, height: 0.0)
+            let minorUnitRectVertical = buildIntervalAdjustedUnitRect(
+                fromUnitRect: unitRect,
+                withInterval: minorIntervalVertical
+            )
             drawTicks(
                 toContext: context,
-                inPixelRect: dirtyRect,
-                atUnitStartPos: startUnitPosition,
-                atScale: s,
-                withInterval: minorInterval.width,
-                usingPlottingClosure: plotVerticalLines(inContext:fromStartPos:toEndPos:withInterval:),
+                inUnitRect: minorUnitRectVertical,
+                withTransform: transform,
+                withInterval: CGSize(width: minorInterval.width, height: 0.0),
+                useVerticalTicks: true,
                 withTickWidth: tickMinorWidth,
                 withTickColor: tickMinorColor.cgColor
             )
         }
         // minor horizontal ticks
         if minorInterval.height > 0.0 {
+            let minorIntervalHorizontal = CGSize(width: 0.0, height: minorInterval.height)
+            let minorUnitRectHorizontal = buildIntervalAdjustedUnitRect(
+                fromUnitRect: unitRect,
+                withInterval: minorIntervalHorizontal
+            )
             drawTicks(
                 toContext: context,
-                inPixelRect: dirtyRect,
-                atUnitStartPos: startUnitPosition,
-                atScale: s,
-                withInterval: minorInterval.height,
-                usingPlottingClosure: plotHorizontalLines(inContext:fromStartPos:toEndPos:withInterval:),
+                inUnitRect: minorUnitRectHorizontal,
+                withTransform: transform,
+                withInterval: CGSize(width: 0.0, height: minorInterval.height),
+                useVerticalTicks: false,
                 withTickWidth: tickMinorWidth,
                 withTickColor: tickMinorColor.cgColor
             )
@@ -76,47 +117,50 @@ class TimelineGraphView : TimelineViewBase {
 
         // major vertical ticks
         let majorInterval = calculateMajorInterval()
-        drawTicks(
-            toContext: context,
-            inPixelRect: dirtyRect,
-            atUnitStartPos: startUnitPosition,
-            atScale: s,
-            withInterval: majorInterval.width,
-            usingPlottingClosure: plotVerticalLines(inContext:fromStartPos:toEndPos:withInterval:),
-            withTickWidth: tickMajorWidth,
-            withTickColor: tickMajorColor.cgColor
+        let majorIntervalVertical = CGSize(width: majorInterval.width, height: 0.0)
+        let majorUnitRectVertical = buildIntervalAdjustedUnitRect(
+            fromUnitRect: unitRect,
+            withInterval: majorIntervalVertical
         )
         drawTicks(
             toContext: context,
-            inPixelRect: dirtyRect,
-            atUnitStartPos: startUnitPosition,
-            atScale: s,
-            withInterval: majorInterval.height,
-            usingPlottingClosure: plotHorizontalLines(inContext:fromStartPos:toEndPos:withInterval:),
+            inUnitRect: majorUnitRectVertical,
+            withTransform: transform,
+            withInterval: majorIntervalVertical,
+            useVerticalTicks: true,
+            withTickWidth: tickMajorWidth,
+            withTickColor: tickMajorColor.cgColor
+        )
+        let majorIntervalHorizontal = CGSize(width: 0.0, height: majorInterval.height)
+        let majorUnitRectHorizontal = buildIntervalAdjustedUnitRect(
+            fromUnitRect: unitRect,
+            withInterval: majorIntervalHorizontal
+        )
+        drawTicks(
+            toContext: context,
+            inUnitRect: majorUnitRectHorizontal,
+            withTransform: transform,
+            withInterval: majorIntervalHorizontal,
+            useVerticalTicks: false,
             withTickWidth: tickMajorWidth,
             withTickColor: tickMajorColor.cgColor
         )
 
         // draw zero tick
-        let zeroEndPos = endUnitPosition
         drawZeroTick(
             toContext: context,
-            fromStartPos: startUnitPosition,
-            toEndPos: CGPoint(
-                x: zeroEndPos.x,
-                y: zeroEndPos.y
-            ),
-            atScale: s,
+            inUnitRect: unitRect,
+            withTransform: transform,
             showHorizontal: true,
             showVertical: true,
             withTickWidth: tickZeroWidth,
             withTickColor: tickZeroColor.cgColor
         )
 
-        drawData(inContext: context)
+        drawData(inContext: context, withTransform: transform)
     }
 
-    private func drawData(inContext context: CGContext) {
+    private func drawData(inContext context: CGContext, withTransform transform: CGAffineTransform) {
         guard let startIndex = m_trackingData?.getEntryIndex(fromTime: Double(startUnitPosition.x)),
             let endIndex = m_trackingData?.getEntryIndex(fromTime: Double(startUnitPosition.x + unitRange.width)) else {
                 return
@@ -129,8 +173,7 @@ class TimelineGraphView : TimelineViewBase {
                 color: xPosColor.cgColor,
                 startIndex: startIndex,
                 endIndex: endIndex,
-                subdivisions: 1,
-                interpolation: .Linear
+                withTransform: transform
             )
         }
         if showPositionY {
@@ -140,8 +183,7 @@ class TimelineGraphView : TimelineViewBase {
                 color: yPosColor.cgColor,
                 startIndex: startIndex,
                 endIndex: endIndex,
-                subdivisions: 1,
-                interpolation: .Linear
+                withTransform: transform
             )
         }
         if showPositionZ {
@@ -151,8 +193,7 @@ class TimelineGraphView : TimelineViewBase {
                 color: zPosColor.cgColor,
                 startIndex: startIndex,
                 endIndex: endIndex,
-                subdivisions: 1,
-                interpolation: .Linear
+                withTransform: transform
             )
         }
         if showRotationX {
@@ -162,8 +203,7 @@ class TimelineGraphView : TimelineViewBase {
                 color: xRotColor.cgColor,
                 startIndex: startIndex,
                 endIndex: endIndex,
-                subdivisions: 1,
-                interpolation: .Linear
+                withTransform: transform
             )
         }
         if showRotationY {
@@ -173,8 +213,7 @@ class TimelineGraphView : TimelineViewBase {
                 color: yRotColor.cgColor,
                 startIndex: startIndex,
                 endIndex: endIndex,
-                subdivisions: 1,
-                interpolation: .Linear
+                withTransform: transform
             )
         }
         if showRotationZ {
@@ -184,8 +223,7 @@ class TimelineGraphView : TimelineViewBase {
                 color: zRotColor.cgColor,
                 startIndex: startIndex,
                 endIndex: endIndex,
-                subdivisions: 1,
-                interpolation: .Linear
+                withTransform: transform
             )
         }
     }
@@ -195,27 +233,55 @@ class TimelineGraphView : TimelineViewBase {
                                     color: CGColor,
                                     startIndex: Int,
                                     endIndex: Int,
-                                    subdivisions: Int,
-                                    interpolation: InterpolationMethod ) {
+                                    withTransform transform: CGAffineTransform) {
         // move to starting position
-        guard let data = m_trackingData!.getData(atIndex: startIndex, forComponent: component) else {
+        guard var entry1 = m_trackingData!.getData(atIndex: startIndex, forComponent: component) else {
             return
         }
         context.saveGState()
-        applyTransforms(toContext: context, atStartPos: startUnitPosition, atScale: scale)
-        context.move(to: CGPoint(x: data.time, y: Double(data.value)))
+        context.concatenate(transform)
+        context.move(to: CGPoint(x: entry1.time, y: Double(entry1.value)))
 
         // draw lines
         for index in startIndex..<endIndex {
-            if let dataValues = m_trackingData?.getData(
-                            fromIndex: index,
-                            toIndex: index + 1,
-                            forComponent: component,
-                            withSubdivisions: subdivisions,
-                            withInterpolation: interpolation) {
-                for data in dataValues {
-                    context.addLine(to: CGPoint(x: data.time, y: Double(data.value)))
+            // get data entry pairs
+            guard let entry2 = m_trackingData?.getData(atIndex: index + 1, forComponent: component) else {
+                continue
+            }
+            
+            // get x and y differences to determine level of detail
+            let diff = CGFloat(abs(min(entry2.time - entry1.time, Double(entry2.value - entry1.value))))
+            
+            // if less than linear threshold, then don't bother drawing
+            if diff < m_linearPixelThreshold && index < endIndex - 1 {
+                // note that in this situation, entry1 will stay where it is so that each successive
+                // iteration will accumulate x and y difference until it passes the threshold.
+                // this fixes some visual LOD issues in the graphs
+                continue
+            }
+                
+            // else, if less than cubic threshold, then just draw a line
+            else if diff < m_cubicPixelThreshold {
+                context.addLine(to: CGPoint(x: CGFloat(entry2.time), y: CGFloat(entry2.value)))
+                entry1 = entry2
+            }
+                
+            // else, draw it with cubic interpolation
+            else {
+                // subdivisions is determined by how big the difference is
+                // the bigger teh difference, the more subdivisions
+                let subdivisions = Int(floor(diff / m_subdivisionPixelThreshold))
+                if let dataValues = m_trackingData?.getData(
+                                                            fromIndex: index,
+                                                            toIndex: index + 1,
+                                                            forComponent: component,
+                                                            withSubdivisions: subdivisions,
+                                                            withInterpolation: .Cubic) {
+                    for data in dataValues {
+                        context.addLine(to: CGPoint(x: data.time, y: Double(data.value)))
+                    }
                 }
+                entry1 = entry2
             }
         }
         context.restoreGState()

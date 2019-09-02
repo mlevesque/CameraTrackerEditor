@@ -8,15 +8,6 @@
 
 import Cocoa
 
-/**
-    Extending CGPoint to give it an operator overload for adding a CGSize to it.
- */
-extension CGPoint {
-    static func += ( lhs: inout CGPoint, rhs: CGSize) {
-        lhs = CGPoint(x: lhs.x + rhs.width, y: lhs.y + rhs.height)
-    }
-}
-
 class TimelineMeterView : TimelineViewBase {
     // setting for which direction the meter goes
     @IBInspectable var isVertical: Bool = false
@@ -32,6 +23,23 @@ class TimelineMeterView : TimelineViewBase {
     }
     
     
+    private func adjustInterval(interval: CGSize) -> CGSize {
+        return CGSize(
+            width: isVertical ? 0.0 : interval.width,
+            height: isVertical ? interval.height : 0.0
+        )
+    }
+    
+    override func calculateMinorInterval() -> CGSize {
+        let interval = super.calculateMinorInterval()
+        return adjustInterval(interval: interval)
+    }
+    
+    override func calculateMajorInterval() -> CGSize {
+        let interval = super.calculateMajorInterval()
+        return adjustInterval(interval: interval)
+    }
+    
     override func draw(_ dirtyRect: NSRect) {
         // get the context
         guard let context = NSGraphicsContext.current?.cgContext else {
@@ -40,35 +48,40 @@ class TimelineMeterView : TimelineViewBase {
         // background
         drawBackground(context: context)
         
+        // setup transform
+        let transform = buildTransform(atStartPos: startUnitPosition, atScale: scale)
+        let unitRect = buildUnitRect(fromPixelRect: dirtyRect, withTransform: transform.inverted())
+        
         // draw minor ticks
-        let s = scale
         let minorInterval = calculateMinorInterval()
         let minorIntervalValue = isVertical ? minorInterval.height : minorInterval.width
-        let plotClosure = isVertical
-            ? plotHorizontalLines(inContext:fromStartPos:toEndPos:withInterval:)
-            : plotVerticalLines(inContext:fromStartPos:toEndPos:withInterval:)
         if minorIntervalValue > 0.0 {
+            let minorUnitRect = buildIntervalAdjustedUnitRect(
+                fromUnitRect: unitRect,
+                withInterval: minorInterval
+            )
             drawTicks(
                 toContext: context,
-                inPixelRect: dirtyRect,
-                atUnitStartPos: startUnitPosition,
-                atScale: s,
-                withInterval: minorIntervalValue,
-                usingPlottingClosure: plotClosure,
+                inUnitRect: minorUnitRect,
+                withTransform: transform,
+                withInterval: minorInterval,
+                useVerticalTicks: !isVertical,
                 withTickWidth: tickMinorWidth,
                 withTickColor: tickMinorColor.cgColor
             )
         }
 
         let majorInterval = calculateMajorInterval()
-        let majorIntervalValue = isVertical ? majorInterval.height : majorInterval.width
+        let majorUnitRect = buildIntervalAdjustedUnitRect(
+            fromUnitRect: unitRect,
+            withInterval: majorInterval
+        )
         drawTicks(
             toContext: context,
-            inPixelRect: dirtyRect,
-            atUnitStartPos: startUnitPosition,
-            atScale: s,
-            withInterval: majorIntervalValue,
-            usingPlottingClosure: plotClosure,
+            inUnitRect: majorUnitRect,
+            withTransform: transform,
+            withInterval: majorInterval,
+            useVerticalTicks: !isVertical,
             withTickWidth: tickMajorWidth,
             withTickColor: tickMajorColor.cgColor
         )
@@ -76,12 +89,8 @@ class TimelineMeterView : TimelineViewBase {
         // draw special tick at zero
         drawZeroTick(
             toContext: context,
-            fromStartPos: startUnitPosition,
-            toEndPos: CGPoint(
-                x: startUnitPosition.x + unitRange.width,
-                y: startUnitPosition.y + unitRange.height
-            ),
-            atScale: s,
+            inUnitRect: unitRect,
+            withTransform: transform,
             showHorizontal: isVertical,
             showVertical: !isVertical,
             withTickWidth: tickZeroWidth,
@@ -92,19 +101,35 @@ class TimelineMeterView : TimelineViewBase {
         drawDivider(context: context)
         
         // draw number values
-        let textInterval = calculateTextInterval(minorInterval: minorIntervalValue, majorInterval: majorIntervalValue)
-        drawTextOverVerticalLines(inContext: context, inPixelRect: dirtyRect, withInterval: textInterval)
+        let textInterval = calculateTextInterval(
+            minorInterval: minorInterval,
+            majorInterval: majorInterval
+        )
+        let textUnitRect = buildIntervalAdjustedUnitRect(
+            fromUnitRect: unitRect,
+            withInterval: textInterval
+        )
+        drawTextOverVerticalLines(
+            inContext: context,
+            inUnitRect: textUnitRect,
+            withTransform: transform,
+            withInterval: textInterval
+        )
     }
     
-    private func calculateTextInterval(minorInterval: CGFloat, majorInterval: CGFloat) -> CGFloat {
+    private func calculateTextInterval(minorInterval: CGSize, majorInterval: CGSize) -> CGSize {
         // if too small for minor intervals, just use the major interval
-        if minorInterval == 0.0 {
+        if (isVertical && minorInterval.height == 0.0)
+            || (!isVertical && minorInterval.width == 0.0) {
             return majorInterval
         }
             
         // Otherwise, make it appear for every other minor interval
         else {
-            return minorInterval * 2
+            return CGSize(
+                width: isVertical ? 0.0 : minorInterval.width * 2,
+                height: isVertical ? minorInterval.height * 2 : 0.0
+            )
         }
     }
     
@@ -142,49 +167,35 @@ class TimelineMeterView : TimelineViewBase {
     }
     
     private func drawTextOverVerticalLines( inContext context: CGContext,
-                                    inPixelRect pixelRect: CGRect,
-                                    withInterval interval: CGFloat) {
-        // build matrix and convert pixel rect to unit rect
-        // we will use the bounds of unit rect for iterating over
-        let mat = buildTextPositionMatrix(context: context)
-        let unitRect = buildUnitRect(
-            fromPixelPosition: pixelRect.origin,
-            fromPixelRange: pixelRect.size,
-            withTransform: mat.inverted()
-        )
-        
-        // get starting value position
-        // this also serves as the value to display in text
-        var value = calculateStartIntervalPos(
-            interval: interval,
-            start: isVertical ? unitRect.minY : unitRect.minX
-        )
-        
+                                            inUnitRect unitRect: CGRect,
+                                            withTransform transform: CGAffineTransform,
+                                            withInterval interval: CGSize) {
         // pixelPos represents the origin position for the text
         // midPos is a value that should be in the middle of the meter along its short width
         let midPos = isVertical
             ? startUnitPosition.x + unitRange.width / 2
             : startUnitPosition.y + unitRange.height / 2
         var pixelPos = CGPoint(
-            x: isVertical ? midPos : value,
-            y: isVertical ? value : midPos
-            ).applying(mat)
+            x: isVertical ? midPos : unitRect.minX,
+            y: isVertical ? unitRect.minY : midPos
+            ).applying(transform)
         
         // pixelInterval is the interval amount to traverse in pixel space for each iteration
-        let pI = CGSize(
-            width: isVertical ? 0.0 : interval,
-            height: isVertical ? interval : 0.0
-            ).applying(mat)
-        let pixelInterval = CGSize(
-            width: isVertical ? 0.0 : pI.width,
-            height: isVertical ? pI.height : 0.0
-        )
+        let pixelInterval = adjustInterval(interval: interval.applying(transform))
+        
+        // setup closures for iterations
+        var pos = unitRect.origin
+        let condition = isVertical
+            ? {pos.y < unitRect.maxY}
+            : {pos.x < unitRect.maxX}
+        let getValue = isVertical
+            ? {pos.y}
+            : {pos.x}
         
         // iterate along meter from start to end bounds
-        let end = isVertical ? unitRect.maxY : unitRect.maxX
-        while value < end {
-            drawValueText(value: value, position: pixelPos)
-            value += interval
+        while condition() {
+            drawValueText(value: getValue(), position: pixelPos)
+            pos += interval
             pixelPos += pixelInterval
         }
     }
