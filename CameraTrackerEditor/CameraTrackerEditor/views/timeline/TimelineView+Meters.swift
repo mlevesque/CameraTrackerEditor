@@ -267,25 +267,12 @@ extension TimelineView {
         be centered at this position.
     */
     private func drawValueText(_ value: CGFloat, atPosition position: CGPoint) {
-        // get the font. If not found, then don't draw text
-        guard let font = NSFont(name: "Helvetica Light", size: 10.0) else {
+        // set up formatting of the number
+        guard let s = _numberFormatter.string(
+                                    from: NSNumber(value: Float(value))) else {
             return
         }
-        
-        // set up formatting of the number
-        let nf = NumberFormatter()
-        nf.allowsFloats = true
-        nf.maximumFractionDigits = 2
-        nf.minimumIntegerDigits = 1
-        let text = NSString(
-            string: nf.string(from: NSNumber(value: Float(value)))!
-        )
-        
-        // set up text attributes
-        let attrs: [NSAttributedString.Key:Any] = [
-            .font: font,
-            .foregroundColor: NSColor.white
-        ]
+        let text = NSString(string: s)
         
         // set up bounding area for drawing the text
         let minFrameSize = min(frame.width, frame.height)
@@ -293,7 +280,7 @@ extension TimelineView {
         let boundingRect = text.boundingRect(
             with: size,
             options: [.usesLineFragmentOrigin],
-            attributes: attrs,
+            attributes: _textAttributes,
             context: nil
         )
         let p = CGPoint(
@@ -306,7 +293,7 @@ extension TimelineView {
         text.draw(
             with: textRect,
             options: [.usesLineFragmentOrigin],
-            attributes: attrs,
+            attributes: _textAttributes,
             context: nil
         )
     }

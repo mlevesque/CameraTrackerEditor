@@ -69,6 +69,13 @@ class TimelineView : NSView {
     /** Interval in pixels for determining subdivisions for cubic drawing. */
     @IBInspectable var subdivisionInterval: CGFloat = 20.0
     
+    /** The color for the text values. */
+    @IBInspectable var textColor: NSColor = NSColor.white
+    /** The text size for the text values. */
+    @IBInspectable var textSize: CGFloat = 10
+    /** The font to use for text values. */
+    @IBInspectable var textFont: String = "Helvetica Light"
+    
     
     // -- POSITIONING and SCALING
     /** Start position of graph in units. */
@@ -152,6 +159,15 @@ class TimelineView : NSView {
     internal var _mouseDownPixelPos: CGPoint?
     /** mouse position in units when the mouse down event occurs. */
     internal var _mouseDownUnitPos: CGPoint?
+    
+    
+    // -- TEXT
+    /** Text Font for the text values. */
+    internal var _font: NSFont?
+    /** Text attributes for the text values. */
+    internal var _textAttributes: [NSAttributedString.Key:Any]
+    /** Number formatter for converting the float values to strings. */
+    internal var _numberFormatter: NumberFormatter
     
     
     /**
@@ -274,6 +290,23 @@ class TimelineView : NSView {
         _dataCubicThresholdInUnits = 2.0
         _subdivisionIntervalInUnits = 1.0
         playheadUnitPosition = 0
+        
+        // initialize text data
+        _font = NSFont(name: textFont, size: textSize)
+        if let f = _font {
+            _textAttributes = [
+                .font: f,
+                .foregroundColor: textColor
+            ]
+        }
+        else {
+            _textAttributes = [:]
+        }
+        _numberFormatter = NumberFormatter()
+        _numberFormatter.allowsFloats = true
+        _numberFormatter.maximumFractionDigits = 2
+        _numberFormatter.minimumIntegerDigits = 1
+        
         super.init(coder: decoder)
     }
     
