@@ -64,20 +64,4 @@ extension TimelineViewController : TimelineViewDelegate {
                                  currentUnitLocation: CGPoint) {
         
     }
-    
-    
-    /**
-     Places the playhead in the timeline to the given position in pixel space
-     and this makes the timeline redraw.
-     - Parameter atPixelLocation: The location to place the playhead, in pixel
-        coordinates.
-    */
-    internal func positionPlayhead(atPixelLocation pixelLocation: CGFloat) {
-        let adjustedPixelLocation = timelineView!.convert(
-            CGPoint(x: pixelLocation, y: 0.0),
-            to: self.view
-        ).x
-        timelineView.playheadPixelPosition = adjustedPixelLocation
-        redraw()
-    }
 }

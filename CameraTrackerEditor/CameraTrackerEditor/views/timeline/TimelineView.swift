@@ -412,7 +412,7 @@ class TimelineView : NSView {
         // update pixel rects for meters and graph
         _horizontalMeterRect = CGRect(
             x: verticalMeterThickness,
-            y: frame.maxY - horizontalMeterThickness,
+            y: frame.height - horizontalMeterThickness,
             width: frame.width - verticalMeterThickness,
             height: horizontalMeterThickness
         )

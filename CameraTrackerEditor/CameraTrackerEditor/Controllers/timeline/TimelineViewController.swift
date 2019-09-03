@@ -94,6 +94,28 @@ class TimelineViewController : NSViewController {
         redraw()
     }
     
+    /**
+     Places the playhead in the timeline to the given position in pixel space
+     and this makes the timeline redraw.
+     - Parameter atPixelLocation: The location to place the playhead, in pixel
+     coordinates.
+     */
+    func positionPlayhead(atPixelLocation pixelLocation: CGFloat) {
+        timelineView.playheadPixelPosition = pixelLocation
+        redraw()
+    }
+    
+    /**
+     Places the playhead in the timeline to the given position in pixel space
+     and this makes the timeline redraw.
+     - Parameter atPixelLocation: The location to place the playhead, in pixel
+     coordinates.
+     */
+    func positionPlayhead(atUnitLocation unitLocation: CGFloat) {
+        timelineView.playheadUnitPosition = unitLocation
+        redraw()
+    }
+    
     
     /**
      Calculates the vertical bounds of all data components in the tracking data

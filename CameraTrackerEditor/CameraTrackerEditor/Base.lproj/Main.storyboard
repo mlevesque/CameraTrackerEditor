@@ -710,14 +710,18 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="MainViewController" customModule="CameraTrackerEditor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="570" height="346"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1010" height="636"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <splitView arrangesAllSubviews="NO" dividerStyle="paneSplitter" translatesAutoresizingMaskIntoConstraints="NO" id="yt7-61-iOw">
-                                <rect key="frame" x="57" y="53" width="452" height="254"/>
+                                <rect key="frame" x="0.0" y="0.0" width="692" height="636"/>
                                 <subviews>
+                                    <customView fixedFrame="YES" id="qfz-ra-2fl" userLabel="Viewport3D">
+                                        <rect key="frame" x="0.0" y="0.0" width="692" height="384"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    </customView>
                                     <containerView fixedFrame="YES" id="rJ4-zE-WnB">
-                                        <rect key="frame" x="0.0" y="0.0" width="452" height="254"/>
+                                        <rect key="frame" x="0.0" y="394" width="692" height="242"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <connections>
                                             <segue destination="b4D-6a-GpL" kind="embed" id="KfI-uG-ZHs"/>
@@ -726,20 +730,45 @@
                                 </subviews>
                                 <holdingPriorities>
                                     <real value="250"/>
+                                    <real value="250"/>
                                 </holdingPriorities>
                             </splitView>
+                            <tabView translatesAutoresizingMaskIntoConstraints="NO" id="hm2-W0-oCo">
+                                <rect key="frame" x="694" y="-1" width="314" height="623"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="300" id="Fkz-E1-G8L"/>
+                                </constraints>
+                                <font key="font" metaFont="system"/>
+                                <tabViewItems>
+                                    <tabViewItem label="Tab" identifier="" id="V7H-KX-Lhs">
+                                        <view key="view" id="7Fj-CO-KrI">
+                                            <rect key="frame" x="10" y="33" width="294" height="577"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        </view>
+                                    </tabViewItem>
+                                    <tabViewItem label="View" identifier="" id="bCQ-1L-PBv">
+                                        <view key="view" id="olG-3q-GTV">
+                                            <rect key="frame" x="10" y="33" width="303" height="579"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        </view>
+                                    </tabViewItem>
+                                </tabViewItems>
+                            </tabView>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="yt7-61-iOw" secondAttribute="trailing" constant="61" id="28c-iG-pp7"/>
-                            <constraint firstAttribute="bottom" secondItem="yt7-61-iOw" secondAttribute="bottom" constant="53" id="63E-Se-dxR"/>
-                            <constraint firstItem="yt7-61-iOw" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="39" id="NXu-it-SfE"/>
-                            <constraint firstItem="yt7-61-iOw" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="57" id="h8Y-OF-dGY"/>
+                            <constraint firstAttribute="bottom" secondItem="yt7-61-iOw" secondAttribute="bottom" id="63E-Se-dxR"/>
+                            <constraint firstItem="hm2-W0-oCo" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="AwD-Kl-Wa0"/>
+                            <constraint firstAttribute="bottom" secondItem="hm2-W0-oCo" secondAttribute="bottom" constant="9" id="Kkx-BW-RvO"/>
+                            <constraint firstItem="yt7-61-iOw" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="NWF-bU-UA0"/>
+                            <constraint firstItem="yt7-61-iOw" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="h8Y-OF-dGY"/>
+                            <constraint firstItem="hm2-W0-oCo" firstAttribute="leading" secondItem="yt7-61-iOw" secondAttribute="trailing" constant="9" id="mj9-rJ-Q8a"/>
+                            <constraint firstAttribute="trailing" secondItem="hm2-W0-oCo" secondAttribute="trailing" constant="9" id="t6Z-Sy-2hw"/>
                         </constraints>
                     </view>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="127" y="780"/>
+            <point key="canvasLocation" x="54" y="847"/>
         </scene>
         <!--Timeline View Controller-->
         <scene sceneID="adn-jt-q3W">
@@ -750,7 +779,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="ffU-qO-Hg6" userLabel="TimelineView" customClass="TimelineView" customModule="CameraTrackerEditor" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                                <rect key="frame" x="30" y="20" width="420" height="280"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="meterBackgroundColor">
                                         <color key="value" red="0.25490196078431371" green="0.25882352941176467" blue="0.25882352941176467" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -834,9 +863,9 @@
                             </customView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="ffU-qO-Hg6" firstAttribute="leading" secondItem="SBh-tC-OSy" secondAttribute="leading" id="87n-CU-Rdg"/>
+                            <constraint firstItem="ffU-qO-Hg6" firstAttribute="leading" secondItem="SBh-tC-OSy" secondAttribute="leading" constant="30" id="87n-CU-Rdg"/>
                             <constraint firstItem="ffU-qO-Hg6" firstAttribute="top" secondItem="SBh-tC-OSy" secondAttribute="top" id="Z9y-8I-hfG"/>
-                            <constraint firstAttribute="bottom" secondItem="ffU-qO-Hg6" secondAttribute="bottom" id="cTy-uf-J6B"/>
+                            <constraint firstAttribute="bottom" secondItem="ffU-qO-Hg6" secondAttribute="bottom" constant="20" id="cTy-uf-J6B"/>
                             <constraint firstAttribute="trailing" secondItem="ffU-qO-Hg6" secondAttribute="trailing" id="f6s-Ao-dj6"/>
                         </constraints>
                     </view>
@@ -846,7 +875,7 @@
                 </viewController>
                 <customObject id="GbO-cP-Lbl" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="848" y="780"/>
+            <point key="canvasLocation" x="-252" y="1502"/>
         </scene>
     </scenes>
 </document>
