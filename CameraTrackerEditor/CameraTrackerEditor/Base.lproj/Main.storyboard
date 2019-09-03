@@ -749,116 +749,99 @@
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="7x9-oT-bCi" userLabel="Horizontal Meter" customClass="TimelineMeterView" customModule="CameraTrackerEditor" customModuleProvider="target">
-                                <rect key="frame" x="30" y="280" width="420" height="20"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="20" id="tdl-80-zBr"/>
-                                </constraints>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="ffU-qO-Hg6" userLabel="TimelineView" customClass="TimelineView" customModule="CameraTrackerEditor" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                                 <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isVertical" value="NO"/>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="meterBackgroundColor">
+                                        <color key="value" red="0.25490196078431371" green="0.25882352941176467" blue="0.25882352941176467" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="meterBorderColor">
+                                        <color key="value" red="0.43137254901960786" green="0.43529411764705883" blue="0.43529411764705883" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="xPosColor">
+                                        <color key="value" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="yPosColor">
+                                        <color key="value" red="0.0" green="0.97680455450000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="zPosColor">
+                                        <color key="value" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="xRotColor">
+                                        <color key="value" name="systemPinkColor" catalog="System" colorSpace="catalog"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="yRotColor">
+                                        <color key="value" red="0.99942404029999998" green="0.98555368190000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="zRotColor">
+                                        <color key="value" red="0.57919406890000003" green="0.1280144453" blue="0.57268613580000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="lineWidth">
+                                        <real key="value" value="2"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="tickInterval">
+                                        <real key="value" value="20"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="tMinorWidth">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="tMajorWidth">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="tMinorColor">
+                                        <color key="value" white="0.17999999999999999" alpha="1" colorSpace="calibratedWhite"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="tMajorColor">
+                                        <color key="value" white="0.22" alpha="1" colorSpace="calibratedWhite"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="tZeroColor">
+                                        <color key="value" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="tMMinorColor">
+                                        <color key="value" white="0.23999999999999999" alpha="1" colorSpace="calibratedWhite"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="tMMajorColor">
+                                        <color key="value" white="0.29999999999999999" alpha="1" colorSpace="calibratedWhite"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="tMZeroColor">
+                                        <color key="value" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="tZeroWidth">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="meterDividerColor">
+                                        <color key="value" red="0.76078431372549016" green="0.76078431372549016" blue="0.76078431372549016" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="dataLinearThreshold">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="dataCubicThreshold">
+                                        <real key="value" value="60"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="subdivisionInterval">
+                                        <real key="value" value="20"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="verticalMeterThickness">
+                                        <real key="value" value="30"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="horizontalMeterThickness">
+                                        <real key="value" value="20"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="playheadWidth">
+                                        <real key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
-                            </customView>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="z6m-zd-7Zz" userLabel="Vertical Meter" customClass="TimelineMeterView" customModule="CameraTrackerEditor" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="30" height="280"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="30" id="Wfh-C4-mDR"/>
-                                </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isVertical" value="YES"/>
-                                </userDefinedRuntimeAttributes>
-                            </customView>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="4WY-h2-mmi" userLabel="Timeline Graph" customClass="TimelineGraphView" customModule="CameraTrackerEditor" customModuleProvider="target">
-                                <rect key="frame" x="30" y="0.0" width="420" height="280"/>
-                            </customView>
-                            <customView ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="582-Cg-G1z" userLabel="Playhead" customClass="PlayheadView" customModule="CameraTrackerEditor" customModuleProvider="target">
-                                <rect key="frame" x="30" y="0.0" width="25" height="300"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="10" id="q1o-cJ-P17"/>
-                                </constraints>
                             </customView>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="4WY-h2-mmi" secondAttribute="bottom" id="0IG-55-WMd"/>
-                            <constraint firstAttribute="trailing" secondItem="4WY-h2-mmi" secondAttribute="trailing" id="2Pq-Bd-Dln"/>
-                            <constraint firstItem="582-Cg-G1z" firstAttribute="top" secondItem="SBh-tC-OSy" secondAttribute="top" id="7jw-cR-uXa"/>
-                            <constraint firstItem="7x9-oT-bCi" firstAttribute="leading" secondItem="z6m-zd-7Zz" secondAttribute="trailing" id="AIU-jX-wrV"/>
-                            <constraint firstItem="z6m-zd-7Zz" firstAttribute="top" secondItem="SBh-tC-OSy" secondAttribute="top" constant="20" id="KeL-Rs-uL6"/>
-                            <constraint firstItem="4WY-h2-mmi" firstAttribute="top" secondItem="7x9-oT-bCi" secondAttribute="bottom" id="bo3-Dy-DKa"/>
-                            <constraint firstItem="z6m-zd-7Zz" firstAttribute="leading" secondItem="SBh-tC-OSy" secondAttribute="leading" id="c4f-hl-QXr"/>
-                            <constraint firstItem="7x9-oT-bCi" firstAttribute="top" secondItem="SBh-tC-OSy" secondAttribute="top" id="eaO-z0-Wt9"/>
-                            <constraint firstAttribute="bottom" secondItem="582-Cg-G1z" secondAttribute="bottom" id="hR8-L8-i2F"/>
-                            <constraint firstAttribute="trailing" secondItem="7x9-oT-bCi" secondAttribute="trailing" id="oKN-87-Sjj"/>
-                            <constraint firstAttribute="bottom" secondItem="z6m-zd-7Zz" secondAttribute="bottom" id="qFA-kT-9eU"/>
-                            <constraint firstItem="4WY-h2-mmi" firstAttribute="leading" secondItem="z6m-zd-7Zz" secondAttribute="trailing" id="w9o-TJ-7Hh"/>
+                            <constraint firstItem="ffU-qO-Hg6" firstAttribute="leading" secondItem="SBh-tC-OSy" secondAttribute="leading" id="87n-CU-Rdg"/>
+                            <constraint firstItem="ffU-qO-Hg6" firstAttribute="top" secondItem="SBh-tC-OSy" secondAttribute="top" id="Z9y-8I-hfG"/>
+                            <constraint firstAttribute="bottom" secondItem="ffU-qO-Hg6" secondAttribute="bottom" id="cTy-uf-J6B"/>
+                            <constraint firstAttribute="trailing" secondItem="ffU-qO-Hg6" secondAttribute="trailing" id="f6s-Ao-dj6"/>
                         </constraints>
                     </view>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="color" keyPath="meterBackgroundColor">
-                            <color key="value" red="0.25403624609999997" green="0.25911697099999997" blue="0.25911697099999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="color" keyPath="meterBorderColor">
-                            <color key="value" red="0.42946800631682797" green="0.43372016479521236" blue="0.43372016479521236" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="color" keyPath="xPosColor">
-                            <color key="value" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="color" keyPath="yPosColor">
-                            <color key="value" red="0.0" green="0.97680455450000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="color" keyPath="zPosColor">
-                            <color key="value" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="color" keyPath="xRotColor">
-                            <color key="value" name="systemPinkColor" catalog="System" colorSpace="catalog"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="color" keyPath="yRotColor">
-                            <color key="value" red="0.99942404029999998" green="0.98555368190000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="color" keyPath="zRotColor">
-                            <color key="value" red="0.57919406890000003" green="0.1280144453" blue="0.57268613580000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="number" keyPath="lineWidth">
-                            <real key="value" value="2"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="number" keyPath="tickInterval">
-                            <real key="value" value="20"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="number" keyPath="tMinorWidth">
-                            <real key="value" value="1"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="number" keyPath="tMajorWidth">
-                            <real key="value" value="1"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="color" keyPath="tMinorColor">
-                            <color key="value" white="0.1763519777418816" alpha="1" colorSpace="calibratedWhite"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="color" keyPath="tMajorColor">
-                            <color key="value" white="0.22" alpha="1" colorSpace="calibratedWhite"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="color" keyPath="tZeroColor">
-                            <color key="value" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="color" keyPath="tMMinorColor">
-                            <color key="value" white="0.23999999999999999" alpha="1" colorSpace="calibratedWhite"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="color" keyPath="tMMajorColor">
-                            <color key="value" white="0.29999999999999999" alpha="1" colorSpace="calibratedWhite"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="color" keyPath="tMZeroColor">
-                            <color key="value" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="number" keyPath="tZeroWidth">
-                            <real key="value" value="1"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="color" keyPath="meterDividerColor">
-                            <color key="value" red="0.76209549492385786" green="0.76209549492385786" blue="0.76209549492385786" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        </userDefinedRuntimeAttribute>
-                    </userDefinedRuntimeAttributes>
                     <connections>
-                        <outlet property="graph" destination="4WY-h2-mmi" id="J3y-Sp-yZL"/>
-                        <outlet property="horizontalMeter" destination="7x9-oT-bCi" id="Mvw-0I-jpl"/>
-                        <outlet property="playhead" destination="582-Cg-G1z" id="rBA-o2-aBf"/>
-                        <outlet property="verticalMeter" destination="z6m-zd-7Zz" id="2lU-Ul-qSR"/>
+                        <outlet property="timelineView" destination="ffU-qO-Hg6" id="JVH-nM-W5y"/>
                     </connections>
                 </viewController>
                 <customObject id="GbO-cP-Lbl" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

@@ -7,9 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3302F753231E7545008DE36C /* TimelineView+Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3302F752231E7545008DE36C /* TimelineView+Graph.swift */; };
+		3302F755231E87D2008DE36C /* TimelineView+Meters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3302F754231E87D2008DE36C /* TimelineView+Meters.swift */; };
+		3302F757231E971E008DE36C /* TimelineView+Playhead.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3302F756231E971E008DE36C /* TimelineView+Playhead.swift */; };
+		3302F759231EA4CF008DE36C /* TimelineView+MouseEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3302F758231EA4CF008DE36C /* TimelineView+MouseEvents.swift */; };
+		3302F75B231EC42F008DE36C /* CGPoint+Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3302F75A231EC42F008DE36C /* CGPoint+Operators.swift */; };
 		3358FBC3231D8D97006272CB /* TimelineViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3358FBC2231D8D97006272CB /* TimelineViewDelegate.swift */; };
-		3358FBC5231D940D006272CB /* PlayheadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3358FBC4231D940D006272CB /* PlayheadView.swift */; };
 		3358FBC8231D98FE006272CB /* TimelineViewController+TimelineViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3358FBC7231D98FE006272CB /* TimelineViewController+TimelineViewDelegate.swift */; };
+		33AA5969231E50B1005D977C /* TimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33AA5968231E50B1005D977C /* TimelineView.swift */; };
+		33AA596D231E6D2E005D977C /* TimelineView+Ticks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33AA596C231E6D2E005D977C /* TimelineView+Ticks.swift */; };
 		33B6E1C522FF60C5004ABC73 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B6E1C422FF60C5004ABC73 /* AppDelegate.swift */; };
 		33B6E1C722FF60C5004ABC73 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B6E1C622FF60C5004ABC73 /* MainViewController.swift */; };
 		33B6E1C922FF60C8004ABC73 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33B6E1C822FF60C8004ABC73 /* Assets.xcassets */; };
@@ -24,11 +30,8 @@
 		33B6E20123007DB1004ABC73 /* TrackingDataValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B6E20023007DB1004ABC73 /* TrackingDataValues.swift */; };
 		33B6E207230220C8004ABC73 /* JsonSchemas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B6E206230220C8004ABC73 /* JsonSchemas.swift */; };
 		33B6E20923022632004ABC73 /* DataFileIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B6E20823022632004ABC73 /* DataFileIO.swift */; };
-		33C4E9292316453000FC0EBD /* TimelineMeterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C4E9282316453000FC0EBD /* TimelineMeterView.swift */; };
 		33C4E92D2316DA6D00FC0EBD /* TimelineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C4E92C2316DA6D00FC0EBD /* TimelineViewController.swift */; };
-		33C4E92F2316DC8700FC0EBD /* TimelineGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C4E92E2316DC8700FC0EBD /* TimelineGraphView.swift */; };
 		33C4E9312316F23100FC0EBD /* ModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C4E9302316F23100FC0EBD /* ModelBuilder.swift */; };
-		33C4E93B23190BEC00FC0EBD /* TimelineViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C4E93A23190BEC00FC0EBD /* TimelineViewBase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,9 +52,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3302F752231E7545008DE36C /* TimelineView+Graph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimelineView+Graph.swift"; sourceTree = "<group>"; };
+		3302F754231E87D2008DE36C /* TimelineView+Meters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimelineView+Meters.swift"; sourceTree = "<group>"; };
+		3302F756231E971E008DE36C /* TimelineView+Playhead.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimelineView+Playhead.swift"; sourceTree = "<group>"; };
+		3302F758231EA4CF008DE36C /* TimelineView+MouseEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimelineView+MouseEvents.swift"; sourceTree = "<group>"; };
+		3302F75A231EC42F008DE36C /* CGPoint+Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Operators.swift"; sourceTree = "<group>"; };
 		3358FBC2231D8D97006272CB /* TimelineViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineViewDelegate.swift; sourceTree = "<group>"; };
-		3358FBC4231D940D006272CB /* PlayheadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayheadView.swift; sourceTree = "<group>"; };
 		3358FBC7231D98FE006272CB /* TimelineViewController+TimelineViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimelineViewController+TimelineViewDelegate.swift"; sourceTree = "<group>"; };
+		33AA5968231E50B1005D977C /* TimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineView.swift; sourceTree = "<group>"; };
+		33AA596C231E6D2E005D977C /* TimelineView+Ticks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimelineView+Ticks.swift"; sourceTree = "<group>"; };
 		33B6E1C122FF60C5004ABC73 /* CameraTrackerEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CameraTrackerEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33B6E1C422FF60C5004ABC73 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		33B6E1C622FF60C5004ABC73 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -73,11 +82,8 @@
 		33B6E20023007DB1004ABC73 /* TrackingDataValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingDataValues.swift; sourceTree = "<group>"; };
 		33B6E206230220C8004ABC73 /* JsonSchemas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonSchemas.swift; sourceTree = "<group>"; };
 		33B6E20823022632004ABC73 /* DataFileIO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataFileIO.swift; sourceTree = "<group>"; };
-		33C4E9282316453000FC0EBD /* TimelineMeterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineMeterView.swift; sourceTree = "<group>"; };
 		33C4E92C2316DA6D00FC0EBD /* TimelineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineViewController.swift; sourceTree = "<group>"; };
-		33C4E92E2316DC8700FC0EBD /* TimelineGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineGraphView.swift; sourceTree = "<group>"; };
 		33C4E9302316F23100FC0EBD /* ModelBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelBuilder.swift; sourceTree = "<group>"; };
-		33C4E93A23190BEC00FC0EBD /* TimelineViewBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineViewBase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,6 +190,7 @@
 			children = (
 				33B6E1F623003CFB004ABC73 /* MathUtilities.swift */,
 				33C4E9302316F23100FC0EBD /* ModelBuilder.swift */,
+				3302F75A231EC42F008DE36C /* CGPoint+Operators.swift */,
 			);
 			path = utilities;
 			sourceTree = "<group>";
@@ -235,11 +242,13 @@
 		33C4E927231644F800FC0EBD /* timeline */ = {
 			isa = PBXGroup;
 			children = (
-				33C4E9282316453000FC0EBD /* TimelineMeterView.swift */,
-				33C4E92E2316DC8700FC0EBD /* TimelineGraphView.swift */,
-				33C4E93A23190BEC00FC0EBD /* TimelineViewBase.swift */,
 				3358FBC2231D8D97006272CB /* TimelineViewDelegate.swift */,
-				3358FBC4231D940D006272CB /* PlayheadView.swift */,
+				33AA5968231E50B1005D977C /* TimelineView.swift */,
+				33AA596C231E6D2E005D977C /* TimelineView+Ticks.swift */,
+				3302F752231E7545008DE36C /* TimelineView+Graph.swift */,
+				3302F754231E87D2008DE36C /* TimelineView+Meters.swift */,
+				3302F756231E971E008DE36C /* TimelineView+Playhead.swift */,
+				3302F758231EA4CF008DE36C /* TimelineView+MouseEvents.swift */,
 			);
 			path = timeline;
 			sourceTree = "<group>";
@@ -376,17 +385,20 @@
 			files = (
 				3358FBC8231D98FE006272CB /* TimelineViewController+TimelineViewDelegate.swift in Sources */,
 				33B6E1F723003CFB004ABC73 /* MathUtilities.swift in Sources */,
-				33C4E9292316453000FC0EBD /* TimelineMeterView.swift in Sources */,
-				33C4E92F2316DC8700FC0EBD /* TimelineGraphView.swift in Sources */,
+				3302F759231EA4CF008DE36C /* TimelineView+MouseEvents.swift in Sources */,
 				33B6E1F323002E7A004ABC73 /* TrackingData.swift in Sources */,
 				33B6E207230220C8004ABC73 /* JsonSchemas.swift in Sources */,
 				33B6E20923022632004ABC73 /* DataFileIO.swift in Sources */,
-				33C4E93B23190BEC00FC0EBD /* TimelineViewBase.swift in Sources */,
-				3358FBC5231D940D006272CB /* PlayheadView.swift in Sources */,
+				3302F75B231EC42F008DE36C /* CGPoint+Operators.swift in Sources */,
+				3302F757231E971E008DE36C /* TimelineView+Playhead.swift in Sources */,
 				33C4E92D2316DA6D00FC0EBD /* TimelineViewController.swift in Sources */,
+				3302F753231E7545008DE36C /* TimelineView+Graph.swift in Sources */,
+				3302F755231E87D2008DE36C /* TimelineView+Meters.swift in Sources */,
 				33B6E1C722FF60C5004ABC73 /* MainViewController.swift in Sources */,
 				33B6E1C522FF60C5004ABC73 /* AppDelegate.swift in Sources */,
 				3358FBC3231D8D97006272CB /* TimelineViewDelegate.swift in Sources */,
+				33AA5969231E50B1005D977C /* TimelineView.swift in Sources */,
+				33AA596D231E6D2E005D977C /* TimelineView+Ticks.swift in Sources */,
 				33C4E9312316F23100FC0EBD /* ModelBuilder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

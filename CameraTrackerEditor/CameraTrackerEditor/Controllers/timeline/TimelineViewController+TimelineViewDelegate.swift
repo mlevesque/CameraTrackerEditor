@@ -9,37 +9,75 @@
 import Cocoa
 
 extension TimelineViewController : TimelineViewDelegate {
-    func didClickOnMeter(sender: TimelineViewBase, pixelLocation: CGFloat, unitLocation: CGFloat) {
-        positionPlayhead(atPixelLocation: pixelLocation)
+    /**
+     When the mouse clicks somewhere on the horizontal meter.
+     - Parameter sender: Who sent the event.
+     - Parameter currentPixelLocation: Current mouse location in pixel space.
+     - Parameter currentUnitLocation: Current mouse location in unit space.
+     */
+    func didClickOnHorizontalMeter( sender: TimelineView,
+                                    currentPixelLocation: CGFloat,
+                                    currentUnitLocation: CGFloat) {
+        positionPlayhead(atPixelLocation: currentPixelLocation)
     }
     
-    func didDragOnMeter(sender: TimelineViewBase, pixelLocation: CGFloat, unitLocation: CGFloat) {
-        positionPlayhead(atPixelLocation: pixelLocation)
+    /**
+     When the mouse is dragged from the horizontal meter.
+     - Parameter sender: Who sent the event.
+     - Parameter startPixelLocation: Starting mouse location in pixel space.
+     - Parameter currentPixelLocation: Current mouse location in pixel space.
+     - Parameter startUnitLocation: Starting mouse location in unit space.
+     - Parameter currentUnitLocation: Current mouse location in unit space.
+     */
+    func didDragOnHorizontalMeter( sender: TimelineView,
+                                   startPixelLocation: CGFloat,
+                                   currentPixelLocation: CGFloat,
+                                   startUnitLocation: CGFloat,
+                                   currentUnitLocation: CGFloat) {
+        positionPlayhead(atPixelLocation: currentPixelLocation)
     }
     
-    func didChange(sender: TimelineViewBase, unitToPixelTransform: CGAffineTransform) {
+    /**
+     When the mouse clicks somewhere on the graph.
+     - Parameter sender: Who sent the event.
+     - Parameter currentPixelLocation: Current mouse location in pixel space.
+     - Parameter currentUnitLocation: Current mouse location in unit space.
+     */
+    func didClickOnTimelineGraph( sender: TimelineView,
+                                  currentPixelLocation: CGPoint,
+                                  currentUnitLocation: CGPoint) {
+        
     }
     
-    func didClickOnTimelineGraph(sender: TimelineViewBase, pixelLocation: CGPoint, unitLocation: CGPoint) {
+    /**
+     When the mouse is dragged from the horizontal meter.
+     - Parameter sender: Who sent the event.
+     - Parameter startPixelLocation: Starting mouse location in pixel space.
+     - Parameter currentPixelLocation: Current mouse location in pixel space.
+     - Parameter startUnitLocation: Starting mouse location in unit space.
+     - Parameter currentUnitLocation: Current mouse location in unit space.
+     */
+    func didDragOnTimelineGraph( sender: TimelineView,
+                                 startPixelLocation: CGPoint,
+                                 currentPixelLocation: CGPoint,
+                                 startUnitLocation: CGPoint,
+                                 currentUnitLocation: CGPoint) {
+        
     }
     
-    func positionPlayhead(atPixelLocation pixelLocation: CGFloat) {
-        let adjustedPixelLocation = horizontalMeter!.convert(
+    
+    /**
+     Places the playhead in the timeline to the given position in pixel space
+     and this makes the timeline redraw.
+     - Parameter atPixelLocation: The location to place the playhead, in pixel
+        coordinates.
+    */
+    internal func positionPlayhead(atPixelLocation pixelLocation: CGFloat) {
+        let adjustedPixelLocation = timelineView!.convert(
             CGPoint(x: pixelLocation, y: 0.0),
             to: self.view
         ).x
-        playhead.position = adjustedPixelLocation
-    }
-    
-    func positionPlayhead(atUnitLocation unitLocation: CGFloat) {
-        let pos = CGPoint(
-            x: horizontalMeter!.getPixelPosition(fromUnitPosition: unitLocation),
-            y: 0.0
-        )
-        let adjustedPixelLocation = horizontalMeter!.convert(
-            pos,
-            to: self.view
-        ).x
-        playhead.position = adjustedPixelLocation
+        timelineView.playheadPixelPosition = adjustedPixelLocation
+        redraw()
     }
 }

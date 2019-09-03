@@ -9,187 +9,133 @@
 import Cocoa
 
 class TimelineViewController : NSViewController {
-    
-    @IBInspectable var meterBackgroundColor: NSColor = NSColor.darkGray
-    @IBInspectable var meterBorderColor: NSColor = NSColor.lightGray
-    @IBInspectable var meterDividerColor: NSColor = NSColor.white
-    
-    @IBInspectable var tickInterval: CGFloat = 30.0
-    
-    @IBInspectable var tMinorWidth: CGFloat = 1.0
-    @IBInspectable var tMajorWidth: CGFloat = 1.0
-    @IBInspectable var tZeroWidth: CGFloat = 1.0
-    
-    @IBInspectable var tMinorColor: NSColor = NSColor.lightGray
-    @IBInspectable var tMajorColor: NSColor = NSColor.lightGray
-    @IBInspectable var tZeroColor: NSColor = NSColor.red
-    @IBInspectable var tMMinorColor: NSColor = NSColor.lightGray
-    @IBInspectable var tMMajorColor: NSColor = NSColor.lightGray
-    @IBInspectable var tMZeroColor: NSColor = NSColor.red
-    
-    @IBInspectable var xPosColor: NSColor = NSColor.red
-    @IBInspectable var yPosColor: NSColor = NSColor.green
-    @IBInspectable var zPosColor: NSColor = NSColor.blue
-    @IBInspectable var xRotColor: NSColor = NSColor.systemPink
-    @IBInspectable var yRotColor: NSColor = NSColor.yellow
-    @IBInspectable var zRotColor: NSColor = NSColor.purple
-    @IBInspectable var lineWidth: CGFloat = 2.0
-    
-    
+    /** The tracking data to render in the timeline. */
     private var m_trackingData: TrackingData?
     
-    private var m_showPosX: Bool = true
-    private var m_showPosY: Bool = true
-    private var m_showPosZ: Bool = true
-    private var m_showRotX: Bool = true
-    private var m_showRotY: Bool = true
-    private var m_showRotZ: Bool = true
-    
-    @IBOutlet var horizontalMeter: TimelineMeterView!
-    @IBOutlet var verticalMeter: TimelineMeterView!
-    @IBOutlet var graph: TimelineGraphView!
-    @IBOutlet var playhead: PlayheadView!
+    /** reference to the timeline view */
+    @IBOutlet var timelineView: TimelineView!
     
     
+    /**
+     When the view loads. Set it up for rendering.
+    */
     override func viewDidLoad() {
-        graph.setTrackingData(data: m_trackingData)
-        
-        // set attributes to sub views
-        let subviews = [graph, horizontalMeter, verticalMeter]
-        for v in subviews {
-            v?.tickInterval = tickInterval
-            v?.tickMinorWidth = tMinorWidth
-            v?.tickMajorWidth = tMajorWidth
-            v?.tickZeroWidth = tZeroWidth
-        }
-        let meters = [horizontalMeter, verticalMeter]
-        for v in meters {
-            v?.backgroundColor = meterBackgroundColor
-            v?.borderColor = meterBorderColor
-            v?.dividerColor = meterDividerColor
-            v?.tickMinorColor = tMMinorColor
-            v?.tickMajorColor = tMMajorColor
-            v?.tickZeroColor = tMZeroColor
-        }
-        graph.tickMinorColor = tMinorColor
-        graph.tickMajorColor = tMajorColor
-        graph.tickZeroColor = tZeroColor
-        graph.xPosColor = xPosColor
-        graph.yPosColor = yPosColor
-        graph.zPosColor = zPosColor
-        graph.xRotColor = xRotColor
-        graph.yRotColor = yRotColor
-        graph.zRotColor = zRotColor
-        graph.lineWidth = lineWidth
-        
-        horizontalMeter.updateTransform()
-        verticalMeter.updateTransform()
-        graph.updateTransform()
-        
-        horizontalMeter.delegate = self
-        
-        positionPlayhead(atPixelLocation: 0)
-        
+        // setup the view
+        timelineView.trackingData = m_trackingData
+        timelineView.updateTransform()
+        timelineView.delegate = self
         super.viewDidLoad()
     }
     
+    /**
+     Sets the tracking data to the given one. This will also pass it to the
+     view for rendering and will scale the timeline to fit the data.
+     - Parameter data: The data to render in the timeline.
+    */
     func setTrackingData(data: TrackingData?) {
         m_trackingData = data
-        if graph != nil {
-            graph.setTrackingData(data: m_trackingData)
+        if timelineView != nil {
+            timelineView.trackingData = m_trackingData
         }
         scaleToFit()
     }
     
+    /**
+     Makes the timeline redraw.
+    */
     func redraw() {
-        if let hm = horizontalMeter {
-            hm.setNeedsDisplay(hm.frame.offsetBy(dx: -hm.frame.minX, dy: -hm.frame.minY))
-        }
-        if let vm = verticalMeter {
-            vm.setNeedsDisplay(vm.frame.offsetBy(dx: -vm.frame.minX, dy: -vm.frame.minY))
-        }
-        if let g = graph {
-            g.setNeedsDisplay(g.frame.offsetBy(dx: -g.frame.minX, dy: -g.frame.minY))
+        if let v = timelineView {
+            v.setNeedsDisplay(
+                v.frame.offsetBy(dx: -v.frame.minX, dy: -v.frame.minY)
+            )
         }
     }
     
+    /**
+     Uses the tracking data and what data points are marked to be shown and
+     scales the timeline so that all that data fits without scrolling. If
+     there is no tracking data, then this defaults the timeline to default
+     values.
+     - Parameter vertically: Changes the x scale to fit the entire duration
+        of the tracking data. This is true by default.
+     - Parameter horizontally: Changes the y scale to fit all visible tracking
+        data. This is true by default.
+    */
     func scaleToFit(vertically: Bool = true, horizontally: Bool = true) {
         // get current position and scale
-        var startPos = graph?.startUnitPosition ?? CGPoint(x: 0.0, y: 0.0)
-        var unitRange = graph?.unitRange ?? CGSize(width: 1.0, height: 1.0)
+        var startPos = timelineView?.startUnitPosition
+            ?? CGPoint(x: 0, y: -5)
+        var unitDimensions = timelineView?.unitDimensions
+            ?? CGSize(width: 10, height: 10)
         
         // adjust vertically
         if vertically {
             let range = calculateVerticalBounds()
             startPos.y = range.start
-            unitRange.height = range.end - range.start
+            unitDimensions.height = range.end - range.start
         }
         
         // adjust horizontally
         if horizontally {
-            startPos.x = 0.0
+            startPos.x = 0
             if let duration = m_trackingData?.duration {
-                unitRange.width = CGFloat(duration)
+                unitDimensions.width = CGFloat(duration)
             }
             else {
-                unitRange.width = 1.0
+                unitDimensions.width = 10
             }
         }
         
-        // add adjustments to views
-        if let vm = verticalMeter {
-            vm.startUnitPosition = startPos
-            vm.unitRange = unitRange
-        }
-        if let hm = horizontalMeter {
-            hm.startUnitPosition = startPos
-            hm.unitRange = unitRange
-        }
-        if let g = graph {
-            g.startUnitPosition = startPos
-            g.unitRange = unitRange
-        }
+        // add adjustments to view
+        timelineView?.startUnitPosition = startPos
+        timelineView?.unitDimensions = unitDimensions
         
         // refresh draw
         redraw()
     }
     
     
+    /**
+     Calculates the vertical bounds of all data components in the tracking data
+     that are marked to be shown and returns the range.
+     - Returns: The range of the minimal and maximal data values from the
+        tracking data.
+    */
     private func calculateVerticalBounds() -> (start: CGFloat, end: CGFloat) {
         guard let data = m_trackingData else {
-            return (start: -0.5, end: 0.5)
+            return (start: -5, end: 5)
         }
         
         // get min max values of all components that will be drawn
         var minVal = CGFloat.greatestFiniteMagnitude
         var maxVal = -CGFloat.greatestFiniteMagnitude
         var valuesAreSet = false
-        if m_showPosX {
+        if timelineView.showPositionX {
             minVal = CGFloat(min(Float(minVal), data.minPositionValues.x))
             maxVal = CGFloat(max(Float(maxVal), data.maxPositionValues.x))
             valuesAreSet = true
         }
-        if m_showPosY {
+        if timelineView.showPositionY {
             minVal = CGFloat(min(Float(minVal), data.minPositionValues.y))
             maxVal = CGFloat(max(Float(maxVal), data.maxPositionValues.y))
             valuesAreSet = true
         }
-        if m_showPosZ {
+        if timelineView.showPositionZ {
             minVal = CGFloat(min(Float(minVal), data.minPositionValues.z))
             maxVal = CGFloat(max(Float(maxVal), data.maxPositionValues.z))
             valuesAreSet = true
         }
-        if m_showRotX {
+        if timelineView.showRotationX {
             minVal = CGFloat(min(Float(minVal), data.minRotationValues.x))
             maxVal = CGFloat(max(Float(maxVal), data.maxRotationValues.x))
             valuesAreSet = true
         }
-        if m_showRotY {
+        if timelineView.showRotationY {
             minVal = CGFloat(min(Float(minVal), data.minRotationValues.y))
             maxVal = CGFloat(max(Float(maxVal), data.maxRotationValues.y))
             valuesAreSet = true
         }
-        if m_showRotZ {
+        if timelineView.showRotationZ {
             minVal = CGFloat(min(Float(minVal), data.minRotationValues.z))
             maxVal = CGFloat(max(Float(maxVal), data.maxRotationValues.z))
             valuesAreSet = true
@@ -197,8 +143,8 @@ class TimelineViewController : NSViewController {
         
         // if nothing is being shown, then return default values
         if !valuesAreSet {
-            minVal = -0.5
-            maxVal = 0.5
+            minVal = -5
+            maxVal = 5
         }
         return (start: minVal, end: maxVal)
     }
