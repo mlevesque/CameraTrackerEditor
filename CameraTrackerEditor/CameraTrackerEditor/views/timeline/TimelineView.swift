@@ -76,12 +76,17 @@ class TimelineView : NSView {
     /** The font to use for text values. */
     @IBInspectable var textFont: String = "Helvetica Light"
     
+    /** How many seconds appear in the timeline at zoom 100%. */
+    @IBInspectable var durationAtZoom100: CGFloat = 10
+    /** How manu units appear in the timeline at zoom 100%. */
+    @IBInspectable var unitRangeAtZoom100: CGFloat = 10
+    
     
     // -- POSITIONING and SCALING
     /** Start position of graph in units. */
     private var _startUnitPosition: CGPoint
     /** Graph dimensions in units. */
-    private var _unitDimensions: CGSize
+    private var _scale: CGSize
     /** Transform matrix for unit to pixel space. */
     private var _unitToPixelTransform: CGAffineTransform
     /** Transform matrix from pixel to unit space. */
@@ -179,13 +184,16 @@ class TimelineView : NSView {
         set(value) { _startUnitPosition = value }
     }
     
-    /**
-     The width and height dimensions of the graph visual area of the timeline,
-     in unit space.
-    */
-    var unitDimensions: CGSize {
-        get { return _unitDimensions }
-        set(value) { _unitDimensions = value }
+    var unitLength: CGSize {
+        get {
+            return CGSize(
+                width: scale.width * durationAtZoom100,
+                height: scale.height * unitRangeAtZoom100
+            )
+        }
+        set(value) {
+            endUnitPosition = _startUnitPosition + value
+        }
     }
     
     /**
@@ -195,8 +203,8 @@ class TimelineView : NSView {
     var endUnitPosition: CGPoint {
         get {
             return CGPoint(
-                x: _startUnitPosition.x + _unitDimensions.width,
-                y: _startUnitPosition.y + _unitDimensions.height
+                x: _startUnitPosition.x + scale.width * durationAtZoom100,
+                y: _startUnitPosition.y + scale.height * unitRangeAtZoom100
             )
         }
         set(value) {
@@ -208,8 +216,10 @@ class TimelineView : NSView {
             if value.y < _startUnitPosition.y {
                 _startUnitPosition.y = value.y
             }
-            _unitDimensions.width = value.x - _startUnitPosition.x
-            _unitDimensions.height = value.y - _startUnitPosition.y
+            _scale.width = (value.x - _startUnitPosition.x)
+                / durationAtZoom100
+            _scale.height = (value.y - _startUnitPosition.y)
+                / unitRangeAtZoom100
         }
     }
     
@@ -240,19 +250,22 @@ class TimelineView : NSView {
     }
     
     /**
+     The width and height dimensions of the graph visual area of the timeline,
+     in unit space.
+     */
+    var scale: CGSize {
+        get { return _scale }
+        set(value) { _scale = value }
+    }
+    
+    /**
      The scale multiplier to scale from unit space to pixel space.
     */
-    var scale: CGSize {
+    internal var scaleTransform: CGSize {
         get {
             return CGSize(
-                width: _graphRect.width / _unitDimensions.width,
-                height: _graphRect.height / _unitDimensions.height
-            )
-        }
-        set(value) {
-            _unitDimensions = CGSize(
-                width: frame.width / value.width,
-                height: frame.height / value.height
+                width: _graphRect.width / (_scale.width * durationAtZoom100),
+                height: _graphRect.height / (_scale.height * unitRangeAtZoom100)
             )
         }
     }
@@ -279,7 +292,7 @@ class TimelineView : NSView {
     */
     required init?(coder decoder: NSCoder) {
         _startUnitPosition = CGPoint(x: 0.0, y: -5.0)
-        _unitDimensions = CGSize(width: 10.0, height: 10.0)
+        _scale = CGSize(width: 1, height: 1)
         _unitToPixelTransform = CGAffineTransform.identity
         _pixelToUnitTransform = CGAffineTransform.identity
         _horizontalMeterRect = CGRect(x: 0.0, y: 0.0, width: 1.0, height: 1.0)
@@ -316,7 +329,7 @@ class TimelineView : NSView {
      scale.
     */
     func updateTransform() {
-        let s = scale
+        let s = scaleTransform
         _unitToPixelTransform = CGAffineTransform.identity
             // apply offset from meters
             .translatedBy(
@@ -386,7 +399,7 @@ class TimelineView : NSView {
                 x: pixelPosition,
                 y: 0
             )
-            ).x
+        ).x
     }
     
     /**
@@ -400,7 +413,7 @@ class TimelineView : NSView {
                 x: 0,
                 y: pixelPosition
             )
-            ).y
+        ).y
     }
     
     

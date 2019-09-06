@@ -12,6 +12,8 @@
 		3302F757231E971E008DE36C /* TimelineView+Playhead.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3302F756231E971E008DE36C /* TimelineView+Playhead.swift */; };
 		3302F759231EA4CF008DE36C /* TimelineView+MouseEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3302F758231EA4CF008DE36C /* TimelineView+MouseEvents.swift */; };
 		3302F75B231EC42F008DE36C /* CGPoint+Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3302F75A231EC42F008DE36C /* CGPoint+Operators.swift */; };
+		331F0378231F50F6004472C1 /* TimelineViewController+Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331F0377231F50F6004472C1 /* TimelineViewController+Actions.swift */; };
+		331F037D2321A49D004472C1 /* TimelineViewController+Scale&Position.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331F037C2321A49D004472C1 /* TimelineViewController+Scale&Position.swift */; };
 		3358FBC3231D8D97006272CB /* TimelineViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3358FBC2231D8D97006272CB /* TimelineViewDelegate.swift */; };
 		3358FBC8231D98FE006272CB /* TimelineViewController+TimelineViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3358FBC7231D98FE006272CB /* TimelineViewController+TimelineViewDelegate.swift */; };
 		33AA5969231E50B1005D977C /* TimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33AA5968231E50B1005D977C /* TimelineView.swift */; };
@@ -57,6 +59,8 @@
 		3302F756231E971E008DE36C /* TimelineView+Playhead.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimelineView+Playhead.swift"; sourceTree = "<group>"; };
 		3302F758231EA4CF008DE36C /* TimelineView+MouseEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimelineView+MouseEvents.swift"; sourceTree = "<group>"; };
 		3302F75A231EC42F008DE36C /* CGPoint+Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Operators.swift"; sourceTree = "<group>"; };
+		331F0377231F50F6004472C1 /* TimelineViewController+Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimelineViewController+Actions.swift"; sourceTree = "<group>"; };
+		331F037C2321A49D004472C1 /* TimelineViewController+Scale&Position.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimelineViewController+Scale&Position.swift"; sourceTree = "<group>"; };
 		3358FBC2231D8D97006272CB /* TimelineViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineViewDelegate.swift; sourceTree = "<group>"; };
 		3358FBC7231D98FE006272CB /* TimelineViewController+TimelineViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimelineViewController+TimelineViewDelegate.swift"; sourceTree = "<group>"; };
 		33AA5968231E50B1005D977C /* TimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineView.swift; sourceTree = "<group>"; };
@@ -116,6 +120,8 @@
 			children = (
 				33C4E92C2316DA6D00FC0EBD /* TimelineViewController.swift */,
 				3358FBC7231D98FE006272CB /* TimelineViewController+TimelineViewDelegate.swift */,
+				331F0377231F50F6004472C1 /* TimelineViewController+Actions.swift */,
+				331F037C2321A49D004472C1 /* TimelineViewController+Scale&Position.swift */,
 			);
 			path = timeline;
 			sourceTree = "<group>";
@@ -386,8 +392,10 @@
 				3358FBC8231D98FE006272CB /* TimelineViewController+TimelineViewDelegate.swift in Sources */,
 				33B6E1F723003CFB004ABC73 /* MathUtilities.swift in Sources */,
 				3302F759231EA4CF008DE36C /* TimelineView+MouseEvents.swift in Sources */,
+				331F0378231F50F6004472C1 /* TimelineViewController+Actions.swift in Sources */,
 				33B6E1F323002E7A004ABC73 /* TrackingData.swift in Sources */,
 				33B6E207230220C8004ABC73 /* JsonSchemas.swift in Sources */,
+				331F037D2321A49D004472C1 /* TimelineViewController+Scale&Position.swift in Sources */,
 				33B6E20923022632004ABC73 /* DataFileIO.swift in Sources */,
 				3302F75B231EC42F008DE36C /* CGPoint+Operators.swift in Sources */,
 				3302F757231E971E008DE36C /* TimelineView+Playhead.swift in Sources */,

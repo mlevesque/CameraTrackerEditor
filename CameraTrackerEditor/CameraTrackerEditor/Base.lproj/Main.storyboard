@@ -748,7 +748,7 @@
                                     </tabViewItem>
                                     <tabViewItem label="View" identifier="" id="bCQ-1L-PBv">
                                         <view key="view" id="olG-3q-GTV">
-                                            <rect key="frame" x="10" y="33" width="303" height="579"/>
+                                            <rect key="frame" x="10" y="33" width="294" height="577"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         </view>
                                     </tabViewItem>
@@ -768,18 +768,18 @@
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="54" y="847"/>
+            <point key="canvasLocation" x="127" y="911"/>
         </scene>
         <!--Timeline View Controller-->
         <scene sceneID="adn-jt-q3W">
             <objects>
                 <viewController id="b4D-6a-GpL" customClass="TimelineViewController" customModule="CameraTrackerEditor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="SBh-tC-OSy">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="750" height="328"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="ffU-qO-Hg6" userLabel="TimelineView" customClass="TimelineView" customModule="CameraTrackerEditor" customModuleProvider="target">
-                                <rect key="frame" x="30" y="20" width="420" height="280"/>
+                                <rect key="frame" x="30" y="20" width="720" height="308"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="meterBackgroundColor">
                                         <color key="value" red="0.25490196078431371" green="0.25882352941176467" blue="0.25882352941176467" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -861,21 +861,46 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </customView>
+                            <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="esU-pp-upe" userLabel="Scale Slider">
+                                <rect key="frame" x="547" y="2" width="200" height="15"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="hl1-R2-cEW"/>
+                                </constraints>
+                                <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" minValue="10" maxValue="500" doubleValue="100" tickMarkPosition="above" sliderType="linear" id="LxJ-e5-yKO"/>
+                                <connections>
+                                    <action selector="zoomSliderAction:" target="b4D-6a-GpL" id="Bdi-SQ-TYZ"/>
+                                </connections>
+                            </slider>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="B0p-Gb-LpG" userLabel="Scale Label">
+                                <rect key="frame" x="508" y="4" width="33" height="14"/>
+                                <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" alignment="right" title="100%" id="4DG-Um-uxh">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="esU-pp-upe" firstAttribute="leading" secondItem="B0p-Gb-LpG" secondAttribute="trailing" constant="8" id="0Ty-dW-9Aq"/>
                             <constraint firstItem="ffU-qO-Hg6" firstAttribute="leading" secondItem="SBh-tC-OSy" secondAttribute="leading" constant="30" id="87n-CU-Rdg"/>
+                            <constraint firstAttribute="bottom" secondItem="esU-pp-upe" secondAttribute="bottom" constant="3" id="Wrr-nw-aWe"/>
                             <constraint firstItem="ffU-qO-Hg6" firstAttribute="top" secondItem="SBh-tC-OSy" secondAttribute="top" id="Z9y-8I-hfG"/>
                             <constraint firstAttribute="bottom" secondItem="ffU-qO-Hg6" secondAttribute="bottom" constant="20" id="cTy-uf-J6B"/>
                             <constraint firstAttribute="trailing" secondItem="ffU-qO-Hg6" secondAttribute="trailing" id="f6s-Ao-dj6"/>
+                            <constraint firstAttribute="trailing" secondItem="esU-pp-upe" secondAttribute="trailing" constant="3" id="gmW-SX-WGN"/>
+                            <constraint firstAttribute="bottom" secondItem="B0p-Gb-LpG" secondAttribute="bottom" constant="4" id="j6Q-oV-gNz"/>
+                            <constraint firstItem="B0p-Gb-LpG" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="SBh-tC-OSy" secondAttribute="leading" constant="30" id="puz-by-LyX"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="timelineView" destination="ffU-qO-Hg6" id="JVH-nM-W5y"/>
+                        <outlet property="zoomTimeLabel" destination="B0p-Gb-LpG" id="eQJ-Jf-jel"/>
+                        <outlet property="zoomTimeSlider" destination="esU-pp-upe" id="WBj-4f-QxO"/>
                     </connections>
                 </viewController>
                 <customObject id="GbO-cP-Lbl" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-252" y="1502"/>
+            <point key="canvasLocation" x="127" y="1578"/>
         </scene>
     </scenes>
 </document>

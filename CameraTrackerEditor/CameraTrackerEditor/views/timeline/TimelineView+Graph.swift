@@ -143,7 +143,7 @@ extension TimelineView {
                 fromTime: Double(startUnitPosition.x)
             ),
             let endIndex = trackingData?.getEntryIndex(
-                fromTime: Double(startUnitPosition.x + unitDimensions.width)
+                fromTime: Double(endUnitPosition.x)
             ) else {
                 return
         }

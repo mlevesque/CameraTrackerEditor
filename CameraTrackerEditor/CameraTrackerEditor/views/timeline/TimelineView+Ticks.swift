@@ -14,7 +14,7 @@ extension TimelineView {
      - Returns: Size of interval for major ticks in x and y direction.
     */
     internal func calculateMajorInterval() -> CGSize {
-        let s = scale
+        let s = scaleTransform
         return CGSize(
             width: calculateMajorInterval(scale: s.width),
             height: calculateMajorInterval(scale: s.height)
@@ -26,7 +26,7 @@ extension TimelineView {
      - Returns: Size of interval for minor ticks in x and y direction.
     */
     internal func calculateMinorInterval() -> CGSize {
-        let s = scale
+        let s = scaleTransform
         return CGSize(
             width: calculateMinorInterval(scale: s.width),
             height: calculateMinorInterval(scale: s.height)
