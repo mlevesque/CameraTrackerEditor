@@ -705,6 +705,19 @@
             </objects>
             <point key="canvasLocation" x="127.5" y="264.5"/>
         </scene>
+        <!--Scene View Controller-->
+        <scene sceneID="ckT-di-hgf">
+            <objects>
+                <viewController id="Dox-Mb-79v" customClass="SceneViewController" customModule="CameraTrackerEditor" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="KG3-SQ-F3i" customClass="MTKView">
+                        <rect key="frame" x="0.0" y="0.0" width="718" height="421"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+                <customObject id="bNC-HM-pGx" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-877" y="1625"/>
+        </scene>
         <!--Main View Controller-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
@@ -716,12 +729,15 @@
                             <splitView arrangesAllSubviews="NO" dividerStyle="paneSplitter" translatesAutoresizingMaskIntoConstraints="NO" id="yt7-61-iOw">
                                 <rect key="frame" x="0.0" y="0.0" width="692" height="636"/>
                                 <subviews>
-                                    <customView fixedFrame="YES" id="qfz-ra-2fl" userLabel="Viewport3D">
-                                        <rect key="frame" x="0.0" y="0.0" width="692" height="384"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    </customView>
-                                    <containerView fixedFrame="YES" id="rJ4-zE-WnB">
-                                        <rect key="frame" x="0.0" y="394" width="692" height="242"/>
+                                    <containerView fixedFrame="YES" id="6KI-G3-znU" userLabel="Scene Container">
+                                        <rect key="frame" x="0.0" y="0.0" width="692" height="407"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <connections>
+                                            <segue destination="Dox-Mb-79v" kind="embed" id="JLs-T4-OBa"/>
+                                        </connections>
+                                    </containerView>
+                                    <containerView fixedFrame="YES" id="rJ4-zE-WnB" userLabel="Timeline Container">
+                                        <rect key="frame" x="0.0" y="417" width="692" height="219"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <connections>
                                             <segue destination="b4D-6a-GpL" kind="embed" id="KfI-uG-ZHs"/>
@@ -780,6 +796,9 @@
                         <subviews>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="ffU-qO-Hg6" userLabel="TimelineView" customClass="TimelineView" customModule="CameraTrackerEditor" customModuleProvider="target">
                                 <rect key="frame" x="30" y="20" width="720" height="308"/>
+                                <gestureRecognizers>
+                                    <panGestureRecognizer delaysPrimaryMouseButtonEvents="YES" id="Xtt-YI-uvQ"/>
+                                </gestureRecognizers>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="meterBackgroundColor">
                                         <color key="value" red="0.25490196078431371" green="0.25882352941176467" blue="0.25882352941176467" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -900,7 +919,7 @@
                 </viewController>
                 <customObject id="GbO-cP-Lbl" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="127" y="1578"/>
+            <point key="canvasLocation" x="152" y="1624"/>
         </scene>
     </scenes>
 </document>
