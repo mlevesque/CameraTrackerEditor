@@ -796,9 +796,6 @@
                         <subviews>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="ffU-qO-Hg6" userLabel="TimelineView" customClass="TimelineView" customModule="CameraTrackerEditor" customModuleProvider="target">
                                 <rect key="frame" x="30" y="20" width="720" height="308"/>
-                                <gestureRecognizers>
-                                    <panGestureRecognizer delaysPrimaryMouseButtonEvents="YES" id="Xtt-YI-uvQ"/>
-                                </gestureRecognizers>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="meterBackgroundColor">
                                         <color key="value" red="0.25490196078431371" green="0.25882352941176467" blue="0.25882352941176467" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
