@@ -17,6 +17,9 @@ extension TimelineView {
     */
     internal func drawPlayhead( inContext context: CGContext,
                                 inPixelRect pixelRect: NSRect) {
+        // set clipping
+        context.clip(to: pixelRect)
+        
         // draw head
         context.move(to: CGPoint(       // top left
             x: pixelRect.minX + 1,
@@ -61,5 +64,7 @@ extension TimelineView {
             CGColor.init(red: 1.0, green: 0.0, blue: 0.0, alpha: 1.0)
         )
         context.drawPath(using: .stroke)
+        
+        context.resetClip()
     }
 }

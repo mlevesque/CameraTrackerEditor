@@ -28,6 +28,9 @@ extension TimelineView {
                              isVertical: Bool,
                              withMinorInterval minorInterval: CGSize,
                              withMajorInterval majorInterval: CGSize) {
+        // setup clip
+        context.clip(to: dirtyRect)
+        
         // draw background
         let meterRect = isVertical
             ? _verticalMeterRect
@@ -110,6 +113,8 @@ extension TimelineView {
             withInterval: textInterval,
             isVertical: isVertical
         )
+        
+        context.resetClip()
     }
     
     /**

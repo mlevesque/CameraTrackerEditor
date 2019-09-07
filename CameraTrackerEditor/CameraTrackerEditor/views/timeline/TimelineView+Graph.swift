@@ -21,8 +21,12 @@ extension TimelineView {
                              inPixelRect dirtyRect: NSRect,
                              withMinorInterval minorInterval: CGSize,
                              withMajorInterval majorInterval: CGSize) {
-        // build transform
+        // update the thresholds. These are used for level of detail rendering
+        // for the data points
         updateThresholds()
+        
+        // set up clip
+        context.clip(to: dirtyRect)
         
         // transform draw area to unit space
         let unitRect = buildUnitRect(
@@ -90,6 +94,8 @@ extension TimelineView {
         )
         
         drawData(inContext: context, withTransform: unitToPixelTransform)
+        
+        context.resetClip()
     }
     
     
