@@ -15,13 +15,32 @@ extension TimelineView {
     */
     override func mouseDown(with event: NSEvent) {
         // get mouse position information
-        let pos = convert(event.locationInWindow, from: nil)
-        _mouseDownPixelPos = pos
-        _mouseDownUnitPos = pos.applying(pixelToUnitTransform)
+        let positions = getMousePositioning(fromMouseEvent: event)
+        _mouseDownPixelPos = positions.pixelPosition
+        _mouseDownUnitPos = positions.unitPosition
         
         // collision check
-        _mouseOnHorizontalMeter = _horizontalMeterRect.contains(pos)
-        _mouseOnGraph = _graphRect.contains(pos)
+        _mouseOnHorizontalMeter
+            = _horizontalMeterRect.contains(positions.pixelPosition)
+        _mouseOnGraph = _graphRect.contains(positions.pixelPosition)
+        
+        // call delegate
+        if _mouseOnHorizontalMeter {
+            mouseDelegate?.didMouseDownOnTimeMeter(
+                sender: self,
+                mouseEvent: event,
+                currentPixelLocation: positions.pixelPosition.x,
+                currentUnitLocation: positions.unitPosition.x
+            )
+        }
+        else if _mouseOnGraph {
+            mouseDelegate?.didMouseDownOnGraph(
+                sender: self,
+                mouseEvent: event,
+                currentPixelLocation: positions.pixelPosition,
+                currentUnitLocation: positions.unitPosition
+            )
+        }
     }
     
     /**
@@ -34,15 +53,17 @@ extension TimelineView {
         
         // handle the event to the delegate
         if _mouseOnHorizontalMeter {
-            delegate?.didClickOnHorizontalMeter(
+            mouseDelegate?.didMouseUpOnTimeMeter(
                 sender: self,
+                mouseEvent: event,
                 currentPixelLocation: positions.pixelPosition.x,
                 currentUnitLocation: positions.unitPosition.x
             )
         }
         else if _mouseOnGraph {
-            delegate?.didClickOnTimelineGraph(
+            mouseDelegate?.didMouseUpOnGraph(
                 sender: self,
+                mouseEvent: event,
                 currentPixelLocation: positions.pixelPosition,
                 currentUnitLocation: positions.unitPosition
             )
@@ -63,8 +84,9 @@ extension TimelineView {
         
         // handle the event to the delegate
         if _mouseOnHorizontalMeter {
-            delegate?.didDragOnHorizontalMeter(
+            mouseDelegate?.didDragOnTimeMeter(
                 sender: self,
+                mouseEvent: event,
                 startPixelLocation: _mouseDownPixelPos?.x ?? 0,
                 currentPixelLocation: positions.pixelPosition.x,
                 startUnitLocation: _mouseDownUnitPos?.x ?? 0,
@@ -72,8 +94,9 @@ extension TimelineView {
             )
         }
         else if _mouseOnGraph {
-            delegate?.didDragOnTimelineGraph(
+            mouseDelegate?.didDragOnGraph(
                 sender: self,
+                mouseEvent: event,
                 startPixelLocation: _mouseDownPixelPos ?? CGPoint(x: 0, y: 0),
                 currentPixelLocation: positions.pixelPosition,
                 startUnitLocation: _mouseDownUnitPos ?? CGPoint(x: 0, y: 0),

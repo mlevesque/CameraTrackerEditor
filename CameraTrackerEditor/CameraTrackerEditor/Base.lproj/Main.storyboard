@@ -895,20 +895,88 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="GhE-Yg-DM6" userLabel="Pointer Button">
+                                <rect key="frame" x="1" y="298" width="28" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="28" id="2DI-hj-MpX"/>
+                                    <constraint firstAttribute="height" constant="28" id="Vzd-8x-No1"/>
+                                </constraints>
+                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="pointer_norm" imagePosition="only" alignment="center" alternateImage="pointer_down" imageScaling="proportionallyUpOrDown" inset="2" id="bSH-po-fJW">
+                                    <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="buttonPointerClicked:" target="b4D-6a-GpL" id="YZc-Wa-XZT"/>
+                                </connections>
+                            </button>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="WnU-f7-92p" userLabel="Trim Button">
+                                <rect key="frame" x="1" y="269" width="28" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="28" id="X1j-HG-scb"/>
+                                    <constraint firstAttribute="height" constant="28" id="m3H-eG-9yQ"/>
+                                </constraints>
+                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="trim_norm" imagePosition="only" alignment="center" alternateImage="trim_down" imageScaling="proportionallyUpOrDown" inset="2" id="Qdt-dJ-IZL">
+                                    <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="buttonTrimClicked:" target="b4D-6a-GpL" id="fGf-LO-ysX"/>
+                                </connections>
+                            </button>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="UD3-ai-pjT" userLabel="Zoom Button">
+                                <rect key="frame" x="1" y="240" width="28" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="28" id="8Y1-yq-siF"/>
+                                    <constraint firstAttribute="width" constant="28" id="Yhh-gV-HbF"/>
+                                </constraints>
+                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="zoom_norm" imagePosition="only" alignment="center" alternateImage="zoom_down" imageScaling="proportionallyUpOrDown" inset="2" id="m95-wi-zgp">
+                                    <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="buttonZoomClicked:" target="b4D-6a-GpL" id="tT2-se-YkY"/>
+                                </connections>
+                            </button>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="gpV-cF-dEb" userLabel="Hand Button">
+                                <rect key="frame" x="1" y="211" width="28" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="28" id="kZ5-KK-dn5"/>
+                                    <constraint firstAttribute="width" constant="28" id="kac-Xw-lTT"/>
+                                </constraints>
+                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="hand_norm" imagePosition="only" alignment="center" alternateImage="hand_down" imageScaling="proportionallyUpOrDown" inset="2" id="ld4-i9-Wdi">
+                                    <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="buttonHandClicked:" target="b4D-6a-GpL" id="T50-7q-2Ip"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="UD3-ai-pjT" firstAttribute="top" secondItem="WnU-f7-92p" secondAttribute="bottom" constant="1" id="0AT-ab-oVM"/>
                             <constraint firstItem="esU-pp-upe" firstAttribute="leading" secondItem="B0p-Gb-LpG" secondAttribute="trailing" constant="8" id="0Ty-dW-9Aq"/>
+                            <constraint firstItem="GhE-Yg-DM6" firstAttribute="top" secondItem="SBh-tC-OSy" secondAttribute="top" constant="2" id="1eh-Zz-Phw"/>
                             <constraint firstItem="ffU-qO-Hg6" firstAttribute="leading" secondItem="SBh-tC-OSy" secondAttribute="leading" constant="30" id="87n-CU-Rdg"/>
+                            <constraint firstItem="gpV-cF-dEb" firstAttribute="leading" secondItem="SBh-tC-OSy" secondAttribute="leading" constant="1" id="I99-ZL-3mX"/>
                             <constraint firstAttribute="bottom" secondItem="esU-pp-upe" secondAttribute="bottom" constant="3" id="Wrr-nw-aWe"/>
+                            <constraint firstItem="WnU-f7-92p" firstAttribute="leading" secondItem="SBh-tC-OSy" secondAttribute="leading" constant="1" id="Y7d-l1-JHI"/>
                             <constraint firstItem="ffU-qO-Hg6" firstAttribute="top" secondItem="SBh-tC-OSy" secondAttribute="top" id="Z9y-8I-hfG"/>
+                            <constraint firstItem="WnU-f7-92p" firstAttribute="top" secondItem="GhE-Yg-DM6" secondAttribute="bottom" constant="1" id="aow-E5-kth"/>
+                            <constraint firstItem="GhE-Yg-DM6" firstAttribute="leading" secondItem="SBh-tC-OSy" secondAttribute="leading" constant="1" id="cKw-Dk-kBL"/>
                             <constraint firstAttribute="bottom" secondItem="ffU-qO-Hg6" secondAttribute="bottom" constant="20" id="cTy-uf-J6B"/>
                             <constraint firstAttribute="trailing" secondItem="ffU-qO-Hg6" secondAttribute="trailing" id="f6s-Ao-dj6"/>
                             <constraint firstAttribute="trailing" secondItem="esU-pp-upe" secondAttribute="trailing" constant="3" id="gmW-SX-WGN"/>
+                            <constraint firstItem="gpV-cF-dEb" firstAttribute="top" secondItem="UD3-ai-pjT" secondAttribute="bottom" constant="1" id="iBm-U4-8Bi"/>
                             <constraint firstAttribute="bottom" secondItem="B0p-Gb-LpG" secondAttribute="bottom" constant="4" id="j6Q-oV-gNz"/>
                             <constraint firstItem="B0p-Gb-LpG" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="SBh-tC-OSy" secondAttribute="leading" constant="30" id="puz-by-LyX"/>
+                            <constraint firstItem="UD3-ai-pjT" firstAttribute="leading" secondItem="SBh-tC-OSy" secondAttribute="leading" constant="1" id="ua9-2Q-088"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="buttonHand" destination="gpV-cF-dEb" id="AGd-1y-xTt"/>
+                        <outlet property="buttonPointer" destination="GhE-Yg-DM6" id="efM-md-NQq"/>
+                        <outlet property="buttonTrim" destination="WnU-f7-92p" id="iAx-mD-csA"/>
+                        <outlet property="buttonZoom" destination="UD3-ai-pjT" id="Swe-qk-L0c"/>
                         <outlet property="timelineView" destination="ffU-qO-Hg6" id="JVH-nM-W5y"/>
                         <outlet property="zoomTimeLabel" destination="B0p-Gb-LpG" id="eQJ-Jf-jel"/>
                         <outlet property="zoomTimeSlider" destination="esU-pp-upe" id="WBj-4f-QxO"/>
@@ -919,4 +987,14 @@
             <point key="canvasLocation" x="152" y="1624"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="hand_down" width="120" height="120"/>
+        <image name="hand_norm" width="120" height="120"/>
+        <image name="pointer_down" width="120" height="120"/>
+        <image name="pointer_norm" width="120" height="120"/>
+        <image name="trim_down" width="120" height="120"/>
+        <image name="trim_norm" width="120" height="120"/>
+        <image name="zoom_down" width="120" height="120"/>
+        <image name="zoom_norm" width="120" height="120"/>
+    </resources>
 </document>

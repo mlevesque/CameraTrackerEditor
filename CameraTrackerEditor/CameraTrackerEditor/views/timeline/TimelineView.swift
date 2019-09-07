@@ -93,6 +93,15 @@ class TimelineView : NSView {
     private var _pixelToUnitTransform: CGAffineTransform
     
     
+    // -- CHANGE FLAGS
+    /** Flag indicating that start position has been changed. */
+    internal var _positionChange: Bool = true
+    /** Flag indicating that scale has been changed. */
+    internal var _scaleChange: Bool = true
+    /** Flag indicating that the playhead has moved. */
+    internal var _playheadChange: Bool = true
+    
+    
     // -- DRAW AREAS
     /** Rect in pixels that represents the draw area for the horizontal meter.*/
     internal var _horizontalMeterRect: CGRect
@@ -132,7 +141,28 @@ class TimelineView : NSView {
     
     // -- PLAYHEAD
     /** position of playhead in unit space. */
-    var playheadUnitPosition: CGFloat
+    private var _playheadUnitPosition: CGFloat
+    /** position of playhead in unit space. */
+    var playheadUnitPosition: CGFloat {
+        get { return _playheadUnitPosition }
+        set(value) {
+            let previousUnitPosition = _playheadUnitPosition
+            let previousPixelPosition = playheadPixelPosition
+            _playheadUnitPosition = value
+            // set if playhead has changed
+            _playheadChange = previousUnitPosition != _playheadUnitPosition
+            // call delegate if changed
+            if _playheadChange {
+                changeDelegate?.didPlayheadChange(
+                    sender: self,
+                    previousPixelLocation: previousPixelPosition,
+                    previousUnitLocation: previousUnitPosition,
+                    currentPixelLocation: playheadPixelPosition,
+                    currentUnitLocation: _playheadUnitPosition
+                )
+            }
+        }
+    }
     /** Position of playhead in pixel space. */
     var playheadPixelPosition: CGFloat {
         get {
@@ -150,9 +180,11 @@ class TimelineView : NSView {
     }
     
     
-    // -- DELEGATE
-    /** delegate for sending mouse events and other changes. */
-    weak var delegate: TimelineViewDelegate?
+    // -- DELEGATES
+    /** delegate for sending mouse events. */
+    weak var mouseDelegate: TimelineViewMouseDelegate?
+    /** delegate for sending timeline changes. */
+    weak var changeDelegate: TimelineViewChangeDelegate?
     
     
     // -- MOUSE DATA
@@ -181,9 +213,28 @@ class TimelineView : NSView {
      */
     var startUnitPosition: CGPoint {
         get { return _startUnitPosition }
-        set(value) { _startUnitPosition = value }
+        set(value) {
+            let previousUnitPositon = _startUnitPosition
+            let previousPixelPosition = startPixelPosition
+            _startUnitPosition = value
+            // set if positioning has changed
+            _positionChange = previousUnitPositon != _startUnitPosition
+            // call delegate if changed
+            if _positionChange {
+                changeDelegate?.didPositionChange(
+                    sender: self,
+                    previousPixelPosition: previousPixelPosition,
+                    previousUnitPosition: previousUnitPositon,
+                    currentPixelPosition: startPixelPosition,
+                    currentUnitPosition: _startUnitPosition
+                )
+            }
+        }
     }
     
+    /**
+     The length of the visible timeline in unit space.
+    */
     var unitLength: CGSize {
         get {
             return CGSize(
@@ -216,10 +267,10 @@ class TimelineView : NSView {
             if value.y < _startUnitPosition.y {
                 _startUnitPosition.y = value.y
             }
-            _scale.width = (value.x - _startUnitPosition.x)
-                / durationAtZoom100
-            _scale.height = (value.y - _startUnitPosition.y)
-                / unitRangeAtZoom100
+            scale = CGSize(
+                width: (value.x - _startUnitPosition.x) / durationAtZoom100,
+                height: (value.y - _startUnitPosition.y) / unitRangeAtZoom100
+            )
         }
     }
     
@@ -229,10 +280,10 @@ class TimelineView : NSView {
     */
     var startPixelPosition: CGPoint {
         get {
-            return _startUnitPosition.applying(_unitToPixelTransform)
+            return startUnitPosition.applying(_unitToPixelTransform)
         }
         set(value) {
-            _startUnitPosition = value.applying(_pixelToUnitTransform)
+            startUnitPosition = value.applying(_pixelToUnitTransform)
         }
     }
     
@@ -255,7 +306,19 @@ class TimelineView : NSView {
      */
     var scale: CGSize {
         get { return _scale }
-        set(value) { _scale = value }
+        set(value) {
+            let previousScale = _scale
+            _scale = value
+            // determine if there is a scale change
+            _scaleChange = previousScale != _scale
+            // call delegate if changed
+            if _scaleChange {
+                changeDelegate?.didScaleChange(
+                    sender: self,
+                    previousScale: previousScale,
+                    currentScale: _scale)
+            }
+        }
     }
     
     /**
@@ -302,7 +365,7 @@ class TimelineView : NSView {
         _dataLinearThresholdInUnits = 1.0
         _dataCubicThresholdInUnits = 2.0
         _subdivisionIntervalInUnits = 1.0
-        playheadUnitPosition = 0
+        _playheadUnitPosition = 0
         
         // initialize text data
         _font = NSFont(name: textFont, size: textSize)
@@ -493,6 +556,11 @@ class TimelineView : NSView {
         
         // draw playhead
         drawPlayhead(inContext: context, inPixelRect: _playheadRect)
+        
+        // reset flags
+        _positionChange = false
+        _scaleChange = false
+        _playheadChange = false
     }
     
     

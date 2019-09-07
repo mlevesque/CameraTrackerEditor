@@ -10,33 +10,6 @@ import Cocoa
 
 extension TimelineViewController {
     /**
-     Updates the UI based on the scaling of the timeline.
-    */
-    private func updateUI() {
-        guard timelineView != nil else {
-            return
-        }
-        
-        // get scale from timeline
-        let scale = timelineView.scale
-        let adjustedScale = CGSize(
-            width: 100 / scale.width,
-            height: 100 / scale.height
-        )
-        
-        // update slider value
-        zoomTimeSlider.doubleValue = Double(adjustedScale.width)
-        
-        // update slider label
-        let nf = NumberFormatter()
-        nf.maximumFractionDigits = 0
-        let numText = nf.string(
-            from: NSNumber(value: Double(adjustedScale.width))
-        )!
-        zoomTimeLabel.stringValue = "\(numText)%"
-    }
-    
-    /**
      Scales the time (x axis) in timeline based on the percent value, then
      updates the UI.
      - Parameter percentValue: The percent value to scale the timeline to.
@@ -47,7 +20,7 @@ extension TimelineViewController {
             width: CGFloat(scale),
             height: timelineView.scale.height
         )
-        updateUI()
+        updateSliderUI()
     }
     
     /**
@@ -60,7 +33,7 @@ extension TimelineViewController {
             width: CGFloat(duration),
             height: timelineView.unitLength.height
         )
-        updateUI()
+        updateSliderUI()
     }
     
     /**
@@ -74,7 +47,7 @@ extension TimelineViewController {
             width: timelineView.scale.width,
             height: CGFloat(scale)
         )
-        updateUI()
+        updateSliderUI()
     }
     
     /**
@@ -87,7 +60,7 @@ extension TimelineViewController {
             width: timelineView.unitLength.height,
             height: CGFloat(length)
         )
-        updateUI()
+        updateSliderUI()
     }
     
     /**
@@ -96,7 +69,6 @@ extension TimelineViewController {
     */
     func positionTimeline(inUnits pos: CGPoint) {
         timelineView?.startUnitPosition = pos
-        updateUI()
     }
     
     /**
@@ -105,7 +77,6 @@ extension TimelineViewController {
     */
     func positionTimeline(inPixels pos: CGPoint) {
         timelineView?.startPixelPosition = pos
-        updateUI()
     }
     
     /**
