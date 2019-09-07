@@ -722,7 +722,7 @@
         <scene sceneID="hIz-AP-VOD">
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="MainViewController" customModule="CameraTrackerEditor" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="m2S-Jp-Qdl">
+                    <view key="view" id="m2S-Jp-Qdl" customClass="MainView" customModule="CameraTrackerEditor" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="1010" height="636"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>

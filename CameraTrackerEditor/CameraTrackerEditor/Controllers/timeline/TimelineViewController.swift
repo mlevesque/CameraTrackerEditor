@@ -9,11 +9,10 @@
 import Cocoa
 
 class TimelineViewController : NSViewController {
-    /** Reprsents the scale multiplier for the scale along the x axis of the
-        timeline. Essentailly, this is like the number of pixel distance for
-        one second, and when one second is displayed with this distance, then
-        the user scale is 100%. */
-    @IBInspectable var userTimeScale: Double = 75
+    @IBInspectable var pointerKey: String = "a"
+    @IBInspectable var trimKey: String = "t"
+    @IBInspectable var zoomKey: String = "z"
+    @IBInspectable var handKey: String = "h"
     
     
     /** The tracking data to render in the timeline. */
@@ -54,6 +53,13 @@ class TimelineViewController : NSViewController {
         timelineView.trackingData = _trackingData
         timelineView.updateTransform()
         timelineView.changeDelegate = self
+        
+        // setup controller to listen for key presses
+        NSEvent.addLocalMonitorForEvents(matching: .keyUp) {
+            self.keyUp(with: $0)
+            return $0
+        }
+        
         super.viewDidLoad()
     }
     

@@ -68,4 +68,42 @@ extension TimelineViewController {
         scaleTimeByPercent(sender.doubleValue)
         redraw()
     }
+    
+    
+    /**
+     Allows this to accept first responder for keyboard presses.
+     - Returns: true
+    */
+    override var acceptsFirstResponder : Bool {
+        return true
+    }
+
+    /**
+     Allows for the keys we need to be listened for.
+     - Parameter event: The keyboard event.
+     - Returns: True if the key is accepted. False if not.
+    */
+    override func performKeyEquivalent(with event: NSEvent) -> Bool {
+        return true
+    }
+
+    /**
+     Triggered when an acceptable key is pressed. Will perform the appropriate
+     action.
+     - Parameter event: The keyboard event.
+    */
+    override func keyUp(with event: NSEvent) {
+        switch event.characters {
+        case pointerKey:
+            buttonPointerClicked(buttonPointer)
+        case trimKey:
+            buttonTrimClicked(buttonTrim)
+        case zoomKey:
+            buttonZoomClicked(buttonZoom)
+        case handKey:
+            buttonHandClicked(buttonHand)
+        default:
+            return
+        }
+    }
 }
