@@ -54,12 +54,6 @@ class TimelineViewController : NSViewController {
         timelineView.updateTransform()
         timelineView.changeDelegate = self
         
-        // setup controller to listen for key presses
-        NSEvent.addLocalMonitorForEvents(matching: .keyUp) {
-            self.keyUp(with: $0)
-            return $0
-        }
-        
         super.viewDidLoad()
     }
     
