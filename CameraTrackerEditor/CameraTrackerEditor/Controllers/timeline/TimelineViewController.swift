@@ -47,7 +47,7 @@ class TimelineViewController : NSViewController {
     override func viewDidLoad() {
         // setup tool buttons
         _toolButtons = [buttonPointer, buttonTrim, buttonZoom, buttonHand]
-        buttonPointerClicked(buttonPointer)
+        buttonPointerClicked()
         
         // setup the view
         timelineView.trackingData = _trackingData
@@ -55,6 +55,17 @@ class TimelineViewController : NSViewController {
         timelineView.changeDelegate = self
         
         super.viewDidLoad()
+    }
+    
+    /**
+     When the view appears, we will change where the controller is in the
+     responder chain. This 
+    */
+    override func viewDidAppear() {
+        if let window = NSApp.windows.first{
+            self.nextResponder = window.windowController?.nextResponder
+            window.windowController?.nextResponder = self.view
+        }
     }
     
     /**
