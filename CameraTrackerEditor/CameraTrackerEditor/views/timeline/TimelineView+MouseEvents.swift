@@ -82,6 +82,9 @@ extension TimelineView {
         // get mouse position information
         let positions = getPositioningFromMouse(fromMouseEvent: event)
         
+        // unset drag flag
+        _mouseIsDragging = false
+        
         // handle the event to the delegate
         switch _mouseTarget {
         case .TimeMeter:
@@ -128,6 +131,9 @@ extension TimelineView {
         let positions = getPositioningFromMouse(fromMouseEvent: event)
         let mouseDownPixelPos = _mouseDownPixelPos ?? CGPoint(x: 0, y: 0)
         let mouseDownUnitPos = _mouseDownUnitPos ?? CGPoint(x: 0, y: 0)
+        
+        // set drag flag
+        _mouseIsDragging = true
         
         // handle the event to the delegate
         switch _mouseTarget {

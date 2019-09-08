@@ -22,7 +22,7 @@ class TimelineViewController : NSViewController {
     internal var _toolButtons: [NSButton] = []
     /** The current tool controller for handling timeline actions upon mouse
         events. */
-    internal var _toolController: TimelineViewMouseDelegate?
+    internal var _toolController: TimelineToolController?
     
     
     /** reference to the timeline view */
@@ -97,9 +97,14 @@ class TimelineViewController : NSViewController {
      with the TimelineView.
      - Parameter controller: The controller to set.
     */
-    internal func setToolController(_ controller: TimelineViewMouseDelegate) {
+    internal func setToolController(_ controller: TimelineToolController) {
+        // close out previous controller
+        _toolController?.onEnd(forView: timelineView)
+        
+        // set new controller
         _toolController = controller
         timelineView.mouseDelegate = _toolController
+        _toolController?.onStart(forView: timelineView)
     }
     
     /**

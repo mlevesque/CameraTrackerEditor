@@ -194,6 +194,8 @@ class TimelineView : NSView {
     internal var _mouseDownPixelPos: CGPoint?
     /** mouse position in units when the mouse down event occurs. */
     internal var _mouseDownUnitPos: CGPoint?
+    /** flag for determining of the mouse is currently dragging. */
+    internal var _mouseIsDragging: Bool = false
     /** Tracking area for mouse enter/exit events. */
     private var _trackingArea: NSTrackingArea?
     
@@ -348,6 +350,12 @@ class TimelineView : NSView {
     var pixelToUnitTransform: CGAffineTransform {
         get { return _pixelToUnitTransform }
     }
+    
+    /**
+     Flag for whether or not the mouse is currently dragging from the
+     timeline.
+    */
+    var mouseIsDragging: Bool { get {return _mouseIsDragging} }
     
     
     /**

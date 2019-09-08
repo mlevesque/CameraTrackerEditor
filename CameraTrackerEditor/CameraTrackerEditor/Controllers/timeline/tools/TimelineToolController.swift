@@ -12,11 +12,20 @@ import Cocoa
  Base class for the tool controllers. Meant to be subclassed.
  */
 class TimelineToolController : TimelineViewMouseDelegate {
-    /** Flag for if we are currently dragging the mouse. */
-    private var _isDragging: Bool = false
+    /**
+     Called when this controller's tool is first selected.
+     - Parameter forView: The timeline view.
+    */
+    func onStart( forView view: TimelineView ) {
+    }
     
-    /** Returns if mouse is currently dragging or not. */
-    var isDragging: Bool { get { return _isDragging } }
+    /**
+     Called when this controller's tool is about to be unselected.
+     - Parameter forView: The timeline view.
+    */
+    func onEnd( forView view: TimelineView) {
+        resetCursor(inView: view)
+    }
     
     /**
      Changes the cursor to teh given cursor for the given view.
@@ -26,6 +35,7 @@ class TimelineToolController : TimelineViewMouseDelegate {
     func changeCursor(inView view: NSView, withCursor cursor: NSCursor) {
         view.addCursorRect(view.bounds, cursor: cursor)
         cursor.set()
+        view.discardCursorRects()
     }
     
     /**
@@ -195,7 +205,6 @@ class TimelineToolController : TimelineViewMouseDelegate {
                                mouseEvent: NSEvent,
                                currentPixelLocation: CGPoint,
                                currentUnitLocation: CGPoint) {
-        _isDragging = false
     }
     
     /**
@@ -213,7 +222,6 @@ class TimelineToolController : TimelineViewMouseDelegate {
                             currentPixelLocation: CGPoint,
                             startUnitLocation: CGPoint,
                             currentUnitLocation: CGPoint) {
-        _isDragging = true
     }
     
     /**
@@ -233,7 +241,7 @@ class TimelineToolController : TimelineViewMouseDelegate {
     func didMouseExit( sender: TimelineView,
                        mouseEvent: NSEvent) {
         // change cursor back if when we are outside view and are not dragging.
-        if !isDragging {
+        if !sender.mouseIsDragging {
             resetCursor(inView: sender)
         }
     }
