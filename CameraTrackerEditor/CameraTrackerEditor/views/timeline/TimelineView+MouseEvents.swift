@@ -9,38 +9,69 @@
 import Cocoa
 
 extension TimelineView {
+    /** Enum for indicating which part of the timeline the mouse has clicked
+        down on. */
+    internal enum MouseTarget {
+        case TimeMeter
+        case UnitMeter
+        case Graph
+        case None
+    }
+    
+    /**
+     Mouse positioning used in mouse events.
+    */
+    typealias MousePositioning = (
+        pixelPosition: CGPoint,
+        pixelPositionCapped: CGPoint,
+        unitPositionCapped: CGPoint
+    )
+    
     /**
      Mouse down event.
      - Parameter event: Mouse event.
     */
     override func mouseDown(with event: NSEvent) {
         // get mouse position information
-        let positions = getMousePositioning(fromMouseEvent: event)
-        _mouseDownPixelPos = positions.pixelPosition
-        _mouseDownUnitPos = positions.unitPosition
+        let positions = getPositioningFromMouse(fromMouseEvent: event)
+        _mouseDownPixelPos = positions.pixelPositionCapped
+        _mouseDownUnitPos = positions.unitPositionCapped
         
         // collision check
-        _mouseOnHorizontalMeter
-            = _horizontalMeterRect.contains(positions.pixelPosition)
-        _mouseOnGraph = _graphRect.contains(positions.pixelPosition)
+        _mouseTarget = getMouseTarget(fromPixelPos: positions.pixelPosition)
         
-        // call delegate
-        if _mouseOnHorizontalMeter {
+        // call delegates
+        switch _mouseTarget {
+        case .TimeMeter:
             mouseDelegate?.didMouseDownOnTimeMeter(
                 sender: self,
                 mouseEvent: event,
-                currentPixelLocation: positions.pixelPosition.x,
-                currentUnitLocation: positions.unitPosition.x
+                currentPixelLocation: positions.pixelPositionCapped.x,
+                currentUnitLocation: positions.unitPositionCapped.x
             )
-        }
-        else if _mouseOnGraph {
+        case .UnitMeter:
+            mouseDelegate?.didMouseDownOnUnitMeter(
+                sender: self,
+                mouseEvent: event,
+                currentPixelLocation: positions.pixelPositionCapped.y,
+                currentUnitLocation: positions.unitPositionCapped.y
+            )
+        case .Graph:
             mouseDelegate?.didMouseDownOnGraph(
                 sender: self,
                 mouseEvent: event,
-                currentPixelLocation: positions.pixelPosition,
-                currentUnitLocation: positions.unitPosition
+                currentPixelLocation: positions.pixelPositionCapped,
+                currentUnitLocation: positions.unitPositionCapped
             )
+        default:
+            break
         }
+        mouseDelegate?.didMouseDownOnTimeline(
+            sender: self,
+            mouseEvent: event,
+            currentPixelLocation: positions.pixelPositionCapped,
+            currentUnitLocation: positions.unitPositionCapped
+        )
     }
     
     /**
@@ -49,29 +80,43 @@ extension TimelineView {
     */
     override func mouseUp(with event: NSEvent) {
         // get mouse position information
-        let positions = getMousePositioning(fromMouseEvent: event)
+        let positions = getPositioningFromMouse(fromMouseEvent: event)
         
         // handle the event to the delegate
-        if _mouseOnHorizontalMeter {
+        switch _mouseTarget {
+        case .TimeMeter:
             mouseDelegate?.didMouseUpOnTimeMeter(
                 sender: self,
                 mouseEvent: event,
-                currentPixelLocation: positions.pixelPosition.x,
-                currentUnitLocation: positions.unitPosition.x
+                currentPixelLocation: positions.pixelPositionCapped.x,
+                currentUnitLocation: positions.unitPositionCapped.x
             )
-        }
-        else if _mouseOnGraph {
+        case .UnitMeter:
+            mouseDelegate?.didMouseUpOnUnitMeter(
+                sender: self,
+                mouseEvent: event,
+                currentPixelLocation: positions.pixelPositionCapped.y,
+                currentUnitLocation: positions.unitPositionCapped.y
+            )
+        case .Graph:
             mouseDelegate?.didMouseUpOnGraph(
                 sender: self,
                 mouseEvent: event,
-                currentPixelLocation: positions.pixelPosition,
-                currentUnitLocation: positions.unitPosition
+                currentPixelLocation: positions.pixelPositionCapped,
+                currentUnitLocation: positions.unitPositionCapped
             )
+        default:
+            break
         }
+        mouseDelegate?.didMouseUpOnTimeline(
+            sender: self,
+            mouseEvent: event,
+            currentPixelLocation: positions.pixelPositionCapped,
+            currentUnitLocation: positions.unitPositionCapped
+        )
         
-        // reset flags
-        _mouseOnHorizontalMeter = false
-        _mouseOnGraph = false
+        // reset target
+        _mouseTarget = .None
     }
     
     /**
@@ -80,29 +125,66 @@ extension TimelineView {
      */
     override func mouseDragged(with event: NSEvent) {
         // get current position
-        let positions = getMousePositioning(fromMouseEvent: event)
+        let positions = getPositioningFromMouse(fromMouseEvent: event)
+        let mouseDownPixelPos = _mouseDownPixelPos ?? CGPoint(x: 0, y: 0)
+        let mouseDownUnitPos = _mouseDownUnitPos ?? CGPoint(x: 0, y: 0)
         
         // handle the event to the delegate
-        if _mouseOnHorizontalMeter {
+        switch _mouseTarget {
+        case .TimeMeter:
             mouseDelegate?.didDragOnTimeMeter(
                 sender: self,
                 mouseEvent: event,
-                startPixelLocation: _mouseDownPixelPos?.x ?? 0,
-                currentPixelLocation: positions.pixelPosition.x,
-                startUnitLocation: _mouseDownUnitPos?.x ?? 0,
-                currentUnitLocation: positions.unitPosition.x
+                startPixelLocation: mouseDownPixelPos.x,
+                currentPixelLocation: positions.pixelPositionCapped.x,
+                startUnitLocation: mouseDownUnitPos.x,
+                currentUnitLocation: positions.unitPositionCapped.x
             )
-        }
-        else if _mouseOnGraph {
+        case .UnitMeter:
+            mouseDelegate?.didDragOnUnitMeter(
+                sender: self,
+                mouseEvent: event,
+                startPixelLocation: mouseDownPixelPos.y,
+                currentPixelLocation: positions.pixelPositionCapped.y,
+                startUnitLocation: mouseDownUnitPos.y,
+                currentUnitLocation: positions.unitPositionCapped.y
+            )
+        case .Graph:
             mouseDelegate?.didDragOnGraph(
                 sender: self,
                 mouseEvent: event,
-                startPixelLocation: _mouseDownPixelPos ?? CGPoint(x: 0, y: 0),
-                currentPixelLocation: positions.pixelPosition,
-                startUnitLocation: _mouseDownUnitPos ?? CGPoint(x: 0, y: 0),
-                currentUnitLocation: positions.unitPosition
+                startPixelLocation: mouseDownPixelPos,
+                currentPixelLocation: positions.pixelPositionCapped,
+                startUnitLocation: mouseDownUnitPos,
+                currentUnitLocation: positions.unitPositionCapped
             )
+        default:
+            break
         }
+        mouseDelegate?.didDragOnTimeline(
+            sender: self,
+            mouseEvent: event,
+            startPixelLocation: mouseDownPixelPos,
+            currentPixelLocation: positions.pixelPositionCapped,
+            startUnitLocation: mouseDownUnitPos,
+            currentUnitLocation: positions.unitPositionCapped
+        )
+    }
+    
+    /**
+     Mouse enter event.
+     - Parameter event: Mouse event.
+    */
+    override func mouseEntered(with event: NSEvent) {
+        mouseDelegate?.didMouseEnter(sender: self, mouseEvent: event)
+    }
+    
+    /**
+     Mouse exit event.
+     - Parameter event: Mouse event.
+    */
+    override func mouseExited(with event: NSEvent) {
+        mouseDelegate?.didMouseExit(sender: self, mouseEvent: event)
     }
     
     /**
@@ -110,26 +192,47 @@ extension TimelineView {
      event.
      - Parameter fromMouseEvent: Mouse event.
     */
-    private func getMousePositioning( fromMouseEvent event: NSEvent
-                        ) -> (pixelPosition: CGPoint, unitPosition: CGPoint) {
+    private func getPositioningFromMouse( fromMouseEvent event: NSEvent
+                                            ) -> MousePositioning {
         // get pixel position relative to the view
-        var pixelPos = convert(event.locationInWindow, from: nil)
+        let pixelPos = convert(event.locationInWindow, from: nil)
         
         // cap the values
         let startPixelPos = startPixelPosition
         let endPixelPos = endPixelPosition
-        pixelPos = CGPoint(
+        var pixelPosCapped = CGPoint(
             x: max(pixelPos.x, startPixelPos.x),
             y: max(pixelPos.y, startPixelPos.y)
         )
-        pixelPos = CGPoint(
+        pixelPosCapped = CGPoint(
             x: min(pixelPos.x, endPixelPos.x),
             y: min(pixelPos.y, endPixelPos.y)
         )
         
         return (
             pixelPosition: pixelPos,
-            unitPosition: pixelPos.applying(pixelToUnitTransform)
+            pixelPositionCapped: pixelPosCapped,
+            unitPositionCapped: pixelPosCapped.applying(pixelToUnitTransform)
         )
+    }
+    
+    /**
+     Returns which part of the timeline the given position is over.
+     - Parameter fromPixelPos: The position to check, in pixels.
+     - Returns: The mouse target.
+    */
+    private func getMouseTarget(fromPixelPos pos: CGPoint) -> MouseTarget {
+        if _graphRect.contains(pos) {
+            return .Graph
+        }
+        else if _horizontalMeterRect.contains(pos) {
+            return .TimeMeter
+        }
+        else if _verticalMeterRect.contains(pos) {
+            return .UnitMeter
+        }
+        else {
+            return .None
+        }
     }
 }

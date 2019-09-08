@@ -188,14 +188,14 @@ class TimelineView : NSView {
     
     
     // -- MOUSE DATA
-    /** flag for when a mouse down event happens over the horizontal meter. */
-    internal var _mouseOnHorizontalMeter: Bool = false
-    /** flag for when a mouse down event happens over the graph. */
-    internal var _mouseOnGraph: Bool = false
+    /** Stores what part of the timeline the mouse has clicked on. */
+    internal var _mouseTarget: MouseTarget = .None
     /** mouse position in pixels when the mouse down event occurs. */
     internal var _mouseDownPixelPos: CGPoint?
     /** mouse position in units when the mouse down event occurs. */
     internal var _mouseDownUnitPos: CGPoint?
+    /** Tracking area for mouse enter/exit events. */
+    private var _trackingArea: NSTrackingArea?
     
     
     // -- TEXT
@@ -479,6 +479,31 @@ class TimelineView : NSView {
         ).y
     }
     
+    
+    /**
+     Sets up tracking area for mouse entered and exited events.
+    */
+    override func updateTrackingAreas() {
+        super.updateTrackingAreas()
+        
+        // if tracking area already exists, remove it
+        if let trackingArea = _trackingArea {
+            self.removeTrackingArea(trackingArea)
+        }
+        
+        // create a new tracking area to the size of the view
+        let options: NSTrackingArea.Options = [
+            .mouseEnteredAndExited,
+            .activeAlways
+        ]
+        let trackingArea = NSTrackingArea(
+            rect: self.bounds,
+            options: options,
+            owner: self,
+            userInfo: nil
+        )
+        self.addTrackingArea(trackingArea)
+    }
     
     /**
      Called when view is about be be drawn. Set up transforms and bounding
