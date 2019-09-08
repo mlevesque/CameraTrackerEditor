@@ -28,22 +28,45 @@ class TimelineToolController : TimelineViewMouseDelegate {
     }
     
     /**
-     Changes the cursor to teh given cursor for the given view.
-     - Parameter inView: The view for the cursor.
+     Called when the TimelineViewController receives a key up event.
+     - Parameter forView: The timeline view.
+     - Parameter withEvent: The keyboard event.
+    */
+    func onKeyUp( forView view: TimelineView, withEvent event: NSEvent) {
+    }
+    
+    /**
+     Called when the TimelineViewController receives a key down event.
+     - Parameter forView: The timeline view.
+     - Parameter withEvent: The keyboard event.
+    */
+    func onKeyDown( forView view: TimelineView, withEvent event: NSEvent) {
+    }
+    
+    /**
+     Called when one of the modifier keys (Control, Shift, Option, etc) is
+     pressed or released.
+     - Parameter forView: The timeline view.
+     - Parameter withEvent: The keyboard event.
+    */
+    func onFlagsChanged( forView view: TimelineView, withEvent event: NSEvent) {
+    }
+    
+    /**
+     Changes the cursor to the given cursor.
      - Parameter withCursor: The cursor to change to.
     */
-    func changeCursor(inView view: NSView, withCursor cursor: NSCursor) {
+    final func changeCursor(withCursor cursor: NSCursor, inView view: NSView) {
         view.addCursorRect(view.bounds, cursor: cursor)
         cursor.set()
         view.discardCursorRects()
     }
     
     /**
-     Resets the cursor to the arrow cursor in the given view.
-     - Parameter inView: The view for the cursor.
+     Resets the cursor to the arrow cursor.
     */
-    func resetCursor(inView view: NSView) {
-        changeCursor(inView: view, withCursor: NSCursor.arrow)
+    final func resetCursor(inView view: NSView) {
+        changeCursor(withCursor: NSCursor.arrow, inView: view)
     }
     
     /**

@@ -17,7 +17,7 @@ class TimelineHandController : TimelineToolController {
      - Parameter forView: The timeline view.
      */
     override func onStart( forView view: TimelineView ) {
-        changeCursor(inView: view, withCursor: NSCursor.openHand)
+        changeCursor(withCursor: NSCursor.openHand, inView: view)
     }
     
     /**
@@ -95,7 +95,7 @@ class TimelineHandController : TimelineToolController {
                                           currentPixelLocation: CGPoint,
                                           currentUnitLocation: CGPoint) {
         // change to close hand
-        changeCursor(inView: sender, withCursor: NSCursor.closedHand)
+        changeCursor(withCursor: NSCursor.closedHand, inView: sender)
     }
     
     /**
@@ -113,7 +113,7 @@ class TimelineHandController : TimelineToolController {
         // we just reset it. This handles the case of if we had just finished
         // dragging and may be outside the view.
         if sender.frame.contains(mouseEvent.locationInWindow) {
-            changeCursor(inView: sender, withCursor: NSCursor.openHand)
+            changeCursor(withCursor: NSCursor.openHand, inView: sender)
         }
         else {
             resetCursor(inView: sender)
@@ -129,7 +129,7 @@ class TimelineHandController : TimelineToolController {
                                  mouseEvent: NSEvent) {
         // as long as the mouse isn't being dragged, change cursor to open hand
         if !sender.mouseIsDragging {
-            changeCursor(inView: sender, withCursor: NSCursor.openHand)
+            changeCursor(withCursor: NSCursor.openHand, inView: sender)
         }
     }
     
@@ -148,6 +148,6 @@ class TimelineHandController : TimelineToolController {
         )
         
         // update cursor
-        changeCursor(inView: view, withCursor: NSCursor.closedHand)
+        changeCursor(withCursor: NSCursor.closedHand, inView: view)
     }
 }

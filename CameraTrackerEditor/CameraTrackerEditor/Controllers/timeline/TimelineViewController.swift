@@ -9,10 +9,9 @@
 import Cocoa
 
 class TimelineViewController : NSViewController {
-    @IBInspectable var pointerKey: String = "a"
-    @IBInspectable var trimKey: String = "t"
-    @IBInspectable var zoomKey: String = "z"
-    @IBInspectable var handKey: String = "h"
+    // -- CURSOR ICONS
+//    var zoomInCursor: NSCursor
+//    var zoomOutCursor: NSCursor
     
     
     /** The tracking data to render in the timeline. */
@@ -40,6 +39,22 @@ class TimelineViewController : NSViewController {
     @IBOutlet var buttonZoom: NSButton!
     /** Reference to the hand tool button. */
     @IBOutlet var buttonHand: NSButton!
+    
+    required init?(coder: NSCoder) {
+        // setup cursor icons
+//        let zoomInImage = NSImage(named: NSImage.Name("cursor_zoom_in"))
+//        zoomInImage?.size = NSSize(width: 16, height: 16)
+//        print("IMAGE: \(zoomInImage?.isValid)")
+//        zoomInCursor = NSCursor(
+//            image: zoomInImage!,
+//            hotSpot: NSPoint(x: 0, y: 0)
+//        )
+//        zoomOutCursor = NSCursor(
+//            image: NSImage(byReferencingFile: "cursor_zoom_out.png")!,
+//            hotSpot: NSPoint(x: 0, y: 0)
+//        )
+        super.init(coder: coder)
+    }
     
     /**
      When the view loads. Set it up for rendering.

@@ -48,7 +48,8 @@ extension TimelineViewController {
     */
     @IBAction func buttonZoomClicked(_ sender: Any = 0) {
         updateToolButtons(currentSelectedButton: buttonZoom)
-        setToolController(TimelineZoomController())
+        let controller = TimelineZoomController()
+        setToolController(controller)
     }
     
     /**
@@ -67,5 +68,28 @@ extension TimelineViewController {
     @IBAction func zoomSliderAction(_ sender: NSSlider) {
         scaleTimeByPercent(sender.doubleValue)
         redraw()
+    }
+    
+    /**
+     Key up event. Will notify the tool controller.
+     - Parameter event: The keyboard event.
+    */
+    override func keyUp(with event: NSEvent) {
+        _toolController?.onKeyUp(forView: timelineView, withEvent: event)
+    }
+    
+    /**
+     Key down event. Will notify the tool controller.
+    */
+    override func keyDown(with event: NSEvent) {
+        _toolController?.onKeyDown(forView: timelineView, withEvent: event)
+    }
+    
+    /**
+     Called when a modifier key (Shift, Control, Option, etc) has been pressed
+     or released.
+    */
+    override func flagsChanged(with event: NSEvent) {
+        _toolController?.onFlagsChanged(forView: timelineView, withEvent: event)
     }
 }

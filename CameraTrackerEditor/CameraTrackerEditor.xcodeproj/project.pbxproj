@@ -20,9 +20,9 @@
 		3343C2562321F9DB00D033B8 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 3343C2552321F9DB00D033B8 /* Shaders.metal */; };
 		3358FBC3231D8D97006272CB /* TimelineViewMouseDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3358FBC2231D8D97006272CB /* TimelineViewMouseDelegate.swift */; };
 		3358FBC8231D98FE006272CB /* TimelineViewController+TimelineViewChangeDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3358FBC7231D98FE006272CB /* TimelineViewController+TimelineViewChangeDelegate.swift */; };
+		3368EE2123257C2F001B2AC7 /* CustomCursors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3368EE2023257C2F001B2AC7 /* CustomCursors.swift */; };
 		33A9D2F523233CBB00D157D8 /* TimelineToolController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A9D2F423233CBB00D157D8 /* TimelineToolController.swift */; };
 		33A9D2F723233E4800D157D8 /* TimelinePointerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A9D2F623233E4800D157D8 /* TimelinePointerController.swift */; };
-		33A9D2F9232341D000D157D8 /* CommonToolActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A9D2F8232341D000D157D8 /* CommonToolActions.swift */; };
 		33A9D2FB2323478700D157D8 /* TimelineTrimController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A9D2FA2323478700D157D8 /* TimelineTrimController.swift */; };
 		33A9D2FD232347C300D157D8 /* TimelineZoomController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A9D2FC232347C300D157D8 /* TimelineZoomController.swift */; };
 		33A9D2FF23234DB300D157D8 /* TimelineHandController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A9D2FE23234DB300D157D8 /* TimelineHandController.swift */; };
@@ -79,9 +79,9 @@
 		3343C2552321F9DB00D033B8 /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
 		3358FBC2231D8D97006272CB /* TimelineViewMouseDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineViewMouseDelegate.swift; sourceTree = "<group>"; };
 		3358FBC7231D98FE006272CB /* TimelineViewController+TimelineViewChangeDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimelineViewController+TimelineViewChangeDelegate.swift"; sourceTree = "<group>"; };
+		3368EE2023257C2F001B2AC7 /* CustomCursors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCursors.swift; sourceTree = "<group>"; };
 		33A9D2F423233CBB00D157D8 /* TimelineToolController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineToolController.swift; sourceTree = "<group>"; };
 		33A9D2F623233E4800D157D8 /* TimelinePointerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelinePointerController.swift; sourceTree = "<group>"; };
-		33A9D2F8232341D000D157D8 /* CommonToolActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonToolActions.swift; sourceTree = "<group>"; };
 		33A9D2FA2323478700D157D8 /* TimelineTrimController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineTrimController.swift; sourceTree = "<group>"; };
 		33A9D2FC232347C300D157D8 /* TimelineZoomController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineZoomController.swift; sourceTree = "<group>"; };
 		33A9D2FE23234DB300D157D8 /* TimelineHandController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineHandController.swift; sourceTree = "<group>"; };
@@ -174,7 +174,6 @@
 			children = (
 				33A9D2F423233CBB00D157D8 /* TimelineToolController.swift */,
 				33A9D2F623233E4800D157D8 /* TimelinePointerController.swift */,
-				33A9D2F8232341D000D157D8 /* CommonToolActions.swift */,
 				33A9D2FA2323478700D157D8 /* TimelineTrimController.swift */,
 				33A9D2FC232347C300D157D8 /* TimelineZoomController.swift */,
 				33A9D2FE23234DB300D157D8 /* TimelineHandController.swift */,
@@ -254,6 +253,7 @@
 				33C4E9302316F23100FC0EBD /* ModelBuilder.swift */,
 				3302F75A231EC42F008DE36C /* CGPoint+Operators.swift */,
 				33A9D3022324123C00D157D8 /* CGSize+Operators.swift */,
+				3368EE2023257C2F001B2AC7 /* CustomCursors.swift */,
 			);
 			path = utilities;
 			sourceTree = "<group>";
@@ -472,9 +472,9 @@
 				3343C2562321F9DB00D033B8 /* Shaders.metal in Sources */,
 				33A9D2FF23234DB300D157D8 /* TimelineHandController.swift in Sources */,
 				3343C2522321F7A400D033B8 /* SceneRenderer.swift in Sources */,
-				33A9D2F9232341D000D157D8 /* CommonToolActions.swift in Sources */,
 				33B6E1C522FF60C5004ABC73 /* AppDelegate.swift in Sources */,
 				33A9D3012323FF7400D157D8 /* TimelineViewChangeDelegate.swift in Sources */,
+				3368EE2123257C2F001B2AC7 /* CustomCursors.swift in Sources */,
 				3358FBC3231D8D97006272CB /* TimelineViewMouseDelegate.swift in Sources */,
 				33A9D2FB2323478700D157D8 /* TimelineTrimController.swift in Sources */,
 				33AA5969231E50B1005D977C /* TimelineView.swift in Sources */,

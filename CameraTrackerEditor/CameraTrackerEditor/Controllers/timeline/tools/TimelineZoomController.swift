@@ -13,7 +13,82 @@ import Cocoa
 */
 class TimelineZoomController : TimelineToolController {
     /** Value multiplier to zoom by. */
-    private let zoomMultiplier: CGSize = CGSize(width: 2, height: 2)
+    private let _zoomMultiplier: CGSize = CGSize(width: 2, height: 2)
+    
+    /**
+     Called when this controller's tool is first selected.
+     - Parameter forView: The timeline view.
+     */
+    override func onStart( forView view: TimelineView ) {
+        updateZoomCursor(event: nil, view: view)
+    }
+    
+    /**
+     Called when one of the modifier keys (Control, Shift, Option, etc) is
+     pressed or released.
+     - Parameter forView: The timeline view.
+     - Parameter withEvent: The keyboard event.
+     */
+    override func onFlagsChanged( forView view: TimelineView,
+                                  withEvent event: NSEvent) {
+        updateZoomCursor(event: event, view: view)
+    }
+    
+    /**
+     When a mouse up event occurs somewhere on the horizontal time meter.
+     - Parameter sender: Who sent the event.
+     - Parameter mouseEvent: The mouse event that was dispatched.
+     - Parameter currentPixelLocation: Current mouse location in pixel space.
+     - Parameter currentUnitLocation: Current mouse location in unit space.
+     */
+    override func didMouseUpOnTimeMeter( sender: TimelineView,
+                                         mouseEvent: NSEvent,
+                                         currentPixelLocation: CGFloat,
+                                         currentUnitLocation: CGFloat) {
+        // perform zoom
+        let zoomAmount = getZoomMultiplier(
+            zoomOut: isOptionDown(event: mouseEvent)
+        )
+        zoom(
+            withView: sender,
+            atUnitPosition: CGPoint(
+                x: currentUnitLocation,
+                y: 0
+            ),
+            withUnitZoom: CGSize(
+                width: zoomAmount.width,
+                height: 1
+            )
+        )
+    }
+    
+    /**
+     When a mouse up event occurs somewhere on the vertical unit meter.
+     - Parameter sender: Who sent the event.
+     - Parameter mouseEvent: The mouse event that was dispatched.
+     - Parameter currentPixelLocation: Current mouse location in pixel space.
+     - Parameter currentUnitLocation: Current mouse location in unit space.
+     */
+    override func didMouseUpOnUnitMeter( sender: TimelineView,
+                                         mouseEvent: NSEvent,
+                                         currentPixelLocation: CGFloat,
+                                         currentUnitLocation: CGFloat) {
+        // perform zoom
+        let zoomAmount = getZoomMultiplier(
+            zoomOut: isOptionDown(event: mouseEvent)
+        )
+        zoom(
+            withView: sender,
+            atUnitPosition: CGPoint(
+                x: 0,
+                y: currentUnitLocation
+            ),
+            withUnitZoom: CGSize(
+                width: 1,
+                height: zoomAmount.width
+            )
+        )
+    }
     
     /**
      When a mouse up event occurs somewhere on the graph.
@@ -26,23 +101,65 @@ class TimelineZoomController : TimelineToolController {
                                      mouseEvent: NSEvent,
                                      currentPixelLocation: CGPoint,
                                      currentUnitLocation: CGPoint) {
-        // if option key is down, then zoom out
-        let optionKeyDown = mouseEvent.modifierFlags.contains(.option)
-        let zoomAmount = optionKeyDown
-            ? CGSize( // zoom out
-                width: 1 / zoomMultiplier.width,
-                height: 1 / zoomMultiplier.height
-                )
-            : CGSize( // zoom in
-                width: zoomMultiplier.width,
-                height: zoomMultiplier.height
-        )
-        
         // perform zoom
+        let zoomAmount = getZoomMultiplier(
+        zoomOut: isOptionDown(event: mouseEvent)
+        )
         zoom(
             withView: sender,
             atUnitPosition: currentUnitLocation,
             withUnitZoom: zoomAmount
+        )
+    }
+    
+    /**
+     When the mouse enters the timeline view.
+     - Parameter sender: Who sent the event.
+     - Parameter mouseEvent: The mouse event that was dispatched.
+     */
+    override func didMouseEnter( sender: TimelineView,
+                                 mouseEvent: NSEvent) {
+        updateZoomCursor(event: mouseEvent, view: sender)
+    }
+    
+    
+    /**
+     Returns true if the option key is down.
+     - Parameter event: The event where we can check if Option is pressed.
+     - Returns: True if Option is pressed. False if not.
+    */
+    private func isOptionDown(event: NSEvent?) -> Bool {
+        return event?.modifierFlags.contains(.option) ?? false
+    }
+    
+    /**
+     Sets the appropriate zoom cursor icon.
+     - Parameter event: The event used to detect if Option is pressed or not.
+    */
+    private func updateZoomCursor(event: NSEvent?, view: TimelineView) {
+        if isOptionDown(event: event) {
+            changeCursor(withCursor: cursorZoomOut, inView: view)
+        }
+        else {
+            changeCursor(withCursor: cursorZoomIn, inView: view)
+        }
+    }
+    
+    /**
+     Returns the zoom multiplier.
+     - Parameter zoomOut: If true, will return zoom out multiplier. If false,
+        will return zoom in multiplier.
+     - Returns: The zoom multiplier.
+    */
+    private func getZoomMultiplier(zoomOut: Bool) -> CGSize {
+        return zoomOut
+            ? CGSize( // zoom out
+                width: 1 / _zoomMultiplier.width,
+                height: 1 / _zoomMultiplier.height
+                )
+            : CGSize( // zoom in
+                width: _zoomMultiplier.width,
+                height: _zoomMultiplier.height
         )
     }
     
