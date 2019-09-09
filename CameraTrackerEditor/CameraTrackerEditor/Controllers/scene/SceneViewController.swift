@@ -9,13 +9,6 @@
 import MetalKit
 
 class SceneViewController : NSViewController {
-    var renderer: SceneRenderer?
-    
     override func viewDidLoad() {
-        guard let metalView = view as? MTKView else {
-            fatalError("metal view not set up in storyboard")
-        }
-        
-        renderer = SceneRenderer(metalView: metalView)
     }
 }

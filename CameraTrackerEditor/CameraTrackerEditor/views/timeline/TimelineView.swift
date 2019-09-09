@@ -113,6 +113,10 @@ class TimelineView : NSView {
     internal var _playheadRect: CGRect
     
     
+    // -- LAYERS
+    internal var _playheadLayer: CGLayer?
+    
+    
     // -- DATA
     /** The tracking data to be graphed. */
     var trackingData: TrackingData?
@@ -197,7 +201,7 @@ class TimelineView : NSView {
     /** flag for determining of the mouse is currently dragging. */
     internal var _mouseIsDragging: Bool = false
     /** Tracking area for mouse enter/exit events. */
-    private var _trackingArea: NSTrackingArea?
+    internal var _trackingArea: NSTrackingArea?
     
     
     // -- TEXT
@@ -485,115 +489,6 @@ class TimelineView : NSView {
                 y: pixelPosition
             )
         ).y
-    }
-    
-    
-    /**
-     Sets up tracking area for mouse entered and exited events.
-    */
-    override func updateTrackingAreas() {
-        super.updateTrackingAreas()
-        
-        // if tracking area already exists, remove it
-        if let trackingArea = _trackingArea {
-            self.removeTrackingArea(trackingArea)
-        }
-        
-        // create a new tracking area to the size of the view
-        let options: NSTrackingArea.Options = [
-            .mouseEnteredAndExited,
-            .activeAlways
-        ]
-        let trackingArea = NSTrackingArea(
-            rect: self.bounds,
-            options: options,
-            owner: self,
-            userInfo: nil
-        )
-        self.addTrackingArea(trackingArea)
-    }
-    
-    /**
-     Called when view is about be be drawn. Set up transforms and bounding
-     rectangles for elements of the timeline.
-    */
-    override func viewWillDraw() {
-        // update pixel rects for meters and graph
-        _horizontalMeterRect = CGRect(
-            x: verticalMeterThickness,
-            y: frame.height - horizontalMeterThickness,
-            width: frame.width - verticalMeterThickness,
-            height: horizontalMeterThickness
-        )
-        _verticalMeterRect = CGRect(
-            x: 0,
-            y: 0,
-            width: verticalMeterThickness,
-            height: frame.height - horizontalMeterThickness
-        )
-        _graphRect = CGRect(
-            x: _verticalMeterRect.maxX,
-            y: 0,
-            width: _horizontalMeterRect.width,
-            height: _verticalMeterRect.height
-        )
-        
-        // set up transforms
-        updateTransform()
-        
-        // update playhead rect
-        _playheadRect = CGRect(
-            x: playheadPixelPosition - playheadWidth / 2,
-            y: 0,
-            width: playheadWidth,
-            height: frame.height
-        )
-    }
-    
-    /**
-     Draw call for drawing the entire timeline view.
-    */
-    override func draw(_ dirtyRect: NSRect) {
-        // get the context
-        guard let context = NSGraphicsContext.current?.cgContext else {
-            return
-        }
-        
-        // get intevals
-        let minorInterval = calculateMinorInterval()
-        let majorInterval = calculateMajorInterval()
-        
-        // draw graph
-        drawGraph(
-            inContext: context,
-            inPixelRect: _graphRect,
-            withMinorInterval: minorInterval,
-            withMajorInterval: majorInterval
-        )
-        
-        // draw meters
-        drawMeter(
-            inContext: context,
-            inPixelRect: _horizontalMeterRect,
-            isVertical: false,
-            withMinorInterval: minorInterval,
-            withMajorInterval: majorInterval
-        )
-        drawMeter(
-            inContext: context,
-            inPixelRect: _verticalMeterRect,
-            isVertical: true,
-            withMinorInterval: minorInterval,
-            withMajorInterval: majorInterval
-        )
-        
-        // draw playhead
-        drawPlayhead(inContext: context, inPixelRect: _playheadRect)
-        
-        // reset flags
-        _positionChange = false
-        _scaleChange = false
-        _playheadChange = false
     }
     
     

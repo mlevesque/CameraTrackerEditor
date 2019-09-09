@@ -9,20 +9,26 @@
 #include <metal_stdlib>
 using namespace metal;
 
-// 1
 struct VertexIn {
-    float4 position [[ attribute(0) ]];
+    float3 position;
+    float4 color;
 };
 
-// 2
-vertex float4 vertex_main(const VertexIn vertexIn [[ stage_in ]],
-                          constant float &timer [[ buffer(1) ]]) {
-    float4 position = vertexIn.position;
-    position.y += timer;
-    return position;
+struct RasterizerData {
+    float4 position [[ position ]];
+    float4 color;
+};
+
+vertex RasterizerData vertex_main(device VertexIn *vertices [[ buffer(0) ]],
+                          uint vertexID [[ vertex_id ]]) {
+    RasterizerData data;
+    data.position = float4(vertices[vertexID].position, 1);
+    data.color = vertices[vertexID].color;
+    return data;
 }
 
-fragment float4 fragment_main() {
-    return float4(1, 0, 0, 1);
+fragment half4 fragment_main(RasterizerData data [[ stage_in ]]) {
+    float4 color = data.color;
+    return half4(color.r, color.g, color.b, color.a);
 }
 

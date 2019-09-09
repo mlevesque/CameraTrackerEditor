@@ -28,6 +28,31 @@ extension TimelineView {
     )
     
     /**
+     Sets up tracking area for mouse entered and exited events.
+     */
+    override func updateTrackingAreas() {
+        super.updateTrackingAreas()
+        
+        // if tracking area already exists, remove it
+        if let trackingArea = _trackingArea {
+            self.removeTrackingArea(trackingArea)
+        }
+        
+        // create a new tracking area to the size of the view
+        let options: NSTrackingArea.Options = [
+            .mouseEnteredAndExited,
+            .activeAlways
+        ]
+        let trackingArea = NSTrackingArea(
+            rect: self.bounds,
+            options: options,
+            owner: self,
+            userInfo: nil
+        )
+        self.addTrackingArea(trackingArea)
+    }
+    
+    /**
      Mouse down event.
      - Parameter event: Mouse event.
     */
