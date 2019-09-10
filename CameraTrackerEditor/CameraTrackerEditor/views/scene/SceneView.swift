@@ -9,12 +9,6 @@
 import MetalKit
 
 class SceneView : MTKView {
-    
-    struct Vertex {
-        var position: float3
-        var color: float4
-    }
-    
     var commandQueue: MTLCommandQueue!
     var renderPipelineState: MTLRenderPipelineState!
     
@@ -44,6 +38,7 @@ class SceneView : MTKView {
         )
         self.colorPixelFormat = .bgra8Unorm
         self.commandQueue = device?.makeCommandQueue()
+        self.enableSetNeedsDisplay = true
         
         createRenderPipelineState()
         createBuffers()
@@ -52,7 +47,7 @@ class SceneView : MTKView {
     func createBuffers() {
         vertexBuffer = device?.makeBuffer(
             bytes: vertices,
-            length: MemoryLayout<Vertex>.stride * vertices.count,
+            length: Vertex.stride * vertices.count,
             options: []
         )
     }
@@ -62,10 +57,25 @@ class SceneView : MTKView {
         let vertexFunction = library?.makeFunction(name: "vertex_main")
         let fragmentFunction = library?.makeFunction(name: "fragment_main")
         
+        let vertexDescriptor = MTLVertexDescriptor()
+        
+        // position
+        vertexDescriptor.attributes[0].format = .float3
+        vertexDescriptor.attributes[0].bufferIndex = 0
+        vertexDescriptor.attributes[0].offset = 0
+        
+        // color
+        vertexDescriptor.attributes[1].format = .float4
+        vertexDescriptor.attributes[1].bufferIndex = 0
+        vertexDescriptor.attributes[1].offset = float3.size
+        
+        vertexDescriptor.layouts[0].stride = Vertex.stride
+        
         let renderPipelineDescriptor = MTLRenderPipelineDescriptor()
         renderPipelineDescriptor.colorAttachments[0].pixelFormat = .bgra8Unorm
         renderPipelineDescriptor.vertexFunction = vertexFunction
         renderPipelineDescriptor.fragmentFunction = fragmentFunction
+        renderPipelineDescriptor.vertexDescriptor = vertexDescriptor
         
         do {
             renderPipelineState = try device?.makeRenderPipelineState(

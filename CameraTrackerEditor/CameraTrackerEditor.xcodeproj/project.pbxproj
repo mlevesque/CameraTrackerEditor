@@ -22,6 +22,8 @@
 		3368EE2523259159001B2AC7 /* TimelineView+StartDrawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3368EE2423259159001B2AC7 /* TimelineView+StartDrawing.swift */; };
 		3368EE292325A536001B2AC7 /* FloorPrimitive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3368EE282325A536001B2AC7 /* FloorPrimitive.swift */; };
 		3368EE2B2326FF13001B2AC7 /* SceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3368EE2A2326FF13001B2AC7 /* SceneView.swift */; };
+		3368EE2D232729CB001B2AC7 /* Sizeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3368EE2C232729CB001B2AC7 /* Sizeable.swift */; };
+		3368EE2F23272A88001B2AC7 /* Vertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3368EE2E23272A88001B2AC7 /* Vertex.swift */; };
 		33A9D2F523233CBB00D157D8 /* TimelineToolController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A9D2F423233CBB00D157D8 /* TimelineToolController.swift */; };
 		33A9D2F723233E4800D157D8 /* TimelinePointerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A9D2F623233E4800D157D8 /* TimelinePointerController.swift */; };
 		33A9D2FB2323478700D157D8 /* TimelineTrimController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A9D2FA2323478700D157D8 /* TimelineTrimController.swift */; };
@@ -82,6 +84,8 @@
 		3368EE2423259159001B2AC7 /* TimelineView+StartDrawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimelineView+StartDrawing.swift"; sourceTree = "<group>"; };
 		3368EE282325A536001B2AC7 /* FloorPrimitive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloorPrimitive.swift; sourceTree = "<group>"; };
 		3368EE2A2326FF13001B2AC7 /* SceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneView.swift; sourceTree = "<group>"; };
+		3368EE2C232729CB001B2AC7 /* Sizeable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sizeable.swift; sourceTree = "<group>"; };
+		3368EE2E23272A88001B2AC7 /* Vertex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vertex.swift; sourceTree = "<group>"; };
 		33A9D2F423233CBB00D157D8 /* TimelineToolController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineToolController.swift; sourceTree = "<group>"; };
 		33A9D2F623233E4800D157D8 /* TimelinePointerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelinePointerController.swift; sourceTree = "<group>"; };
 		33A9D2FA2323478700D157D8 /* TimelineTrimController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineTrimController.swift; sourceTree = "<group>"; };
@@ -174,6 +178,7 @@
 		3368EE272325A523001B2AC7 /* primitives */ = {
 			isa = PBXGroup;
 			children = (
+				3368EE2E23272A88001B2AC7 /* Vertex.swift */,
 				3368EE282325A536001B2AC7 /* FloorPrimitive.swift */,
 			);
 			path = primitives;
@@ -264,6 +269,7 @@
 				3302F75A231EC42F008DE36C /* CGPoint+Operators.swift */,
 				33A9D3022324123C00D157D8 /* CGSize+Operators.swift */,
 				3368EE2023257C2F001B2AC7 /* CustomCursors.swift */,
+				3368EE2C232729CB001B2AC7 /* Sizeable.swift */,
 			);
 			path = utilities;
 			sourceTree = "<group>";
@@ -468,6 +474,7 @@
 				3343C24F2321F61200D033B8 /* SceneViewController.swift in Sources */,
 				33B6E207230220C8004ABC73 /* JsonSchemas.swift in Sources */,
 				331F037D2321A49D004472C1 /* TimelineViewController+Scale&Position.swift in Sources */,
+				3368EE2D232729CB001B2AC7 /* Sizeable.swift in Sources */,
 				33B6E20923022632004ABC73 /* DataFileIO.swift in Sources */,
 				33A9D2F523233CBB00D157D8 /* TimelineToolController.swift in Sources */,
 				3302F75B231EC42F008DE36C /* CGPoint+Operators.swift in Sources */,
@@ -476,6 +483,7 @@
 				33C4E92D2316DA6D00FC0EBD /* TimelineViewController.swift in Sources */,
 				3302F753231E7545008DE36C /* TimelineView+Graph.swift in Sources */,
 				33A9D3032324123C00D157D8 /* CGSize+Operators.swift in Sources */,
+				3368EE2F23272A88001B2AC7 /* Vertex.swift in Sources */,
 				3302F755231E87D2008DE36C /* TimelineView+Meters.swift in Sources */,
 				3368EE2523259159001B2AC7 /* TimelineView+StartDrawing.swift in Sources */,
 				33A9D2FD232347C300D157D8 /* TimelineZoomController.swift in Sources */,
