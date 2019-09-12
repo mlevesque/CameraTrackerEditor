@@ -24,6 +24,14 @@
 		3368EE2B2326FF13001B2AC7 /* SceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3368EE2A2326FF13001B2AC7 /* SceneView.swift */; };
 		3368EE2D232729CB001B2AC7 /* Sizeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3368EE2C232729CB001B2AC7 /* Sizeable.swift */; };
 		3368EE2F23272A88001B2AC7 /* Vertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3368EE2E23272A88001B2AC7 /* Vertex.swift */; };
+		3368EE3123272CEA001B2AC7 /* RenderPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3368EE3023272CEA001B2AC7 /* RenderPreferences.swift */; };
+		3368EE3323272D7F001B2AC7 /* SceneEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3368EE3223272D7F001B2AC7 /* SceneEngine.swift */; };
+		33A1FD372329925E00F38D0C /* ShaderLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A1FD362329925E00F38D0C /* ShaderLibrary.swift */; };
+		33A1FD3A2329C45300F38D0C /* VertexDescriptorLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A1FD392329C45300F38D0C /* VertexDescriptorLibrary.swift */; };
+		33A1FD3C2329C6A700F38D0C /* RenderPipelineDescriptorLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A1FD3B2329C6A700F38D0C /* RenderPipelineDescriptorLibrary.swift */; };
+		33A1FD3E2329C8C800F38D0C /* RenderPipelineStateLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A1FD3D2329C8C800F38D0C /* RenderPipelineStateLibrary.swift */; };
+		33A1FD40232A236700F38D0C /* GameObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A1FD3F232A236700F38D0C /* GameObject.swift */; };
+		33A1FD43232A25F600F38D0C /* SceneRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A1FD42232A25F600F38D0C /* SceneRenderer.swift */; };
 		33A9D2F523233CBB00D157D8 /* TimelineToolController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A9D2F423233CBB00D157D8 /* TimelineToolController.swift */; };
 		33A9D2F723233E4800D157D8 /* TimelinePointerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A9D2F623233E4800D157D8 /* TimelinePointerController.swift */; };
 		33A9D2FB2323478700D157D8 /* TimelineTrimController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A9D2FA2323478700D157D8 /* TimelineTrimController.swift */; };
@@ -86,6 +94,14 @@
 		3368EE2A2326FF13001B2AC7 /* SceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneView.swift; sourceTree = "<group>"; };
 		3368EE2C232729CB001B2AC7 /* Sizeable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sizeable.swift; sourceTree = "<group>"; };
 		3368EE2E23272A88001B2AC7 /* Vertex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vertex.swift; sourceTree = "<group>"; };
+		3368EE3023272CEA001B2AC7 /* RenderPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderPreferences.swift; sourceTree = "<group>"; };
+		3368EE3223272D7F001B2AC7 /* SceneEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneEngine.swift; sourceTree = "<group>"; };
+		33A1FD362329925E00F38D0C /* ShaderLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaderLibrary.swift; sourceTree = "<group>"; };
+		33A1FD392329C45300F38D0C /* VertexDescriptorLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VertexDescriptorLibrary.swift; sourceTree = "<group>"; };
+		33A1FD3B2329C6A700F38D0C /* RenderPipelineDescriptorLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderPipelineDescriptorLibrary.swift; sourceTree = "<group>"; };
+		33A1FD3D2329C8C800F38D0C /* RenderPipelineStateLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderPipelineStateLibrary.swift; sourceTree = "<group>"; };
+		33A1FD3F232A236700F38D0C /* GameObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameObject.swift; sourceTree = "<group>"; };
+		33A1FD42232A25F600F38D0C /* SceneRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneRenderer.swift; sourceTree = "<group>"; };
 		33A9D2F423233CBB00D157D8 /* TimelineToolController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineToolController.swift; sourceTree = "<group>"; };
 		33A9D2F623233E4800D157D8 /* TimelinePointerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelinePointerController.swift; sourceTree = "<group>"; };
 		33A9D2FA2323478700D157D8 /* TimelineTrimController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineTrimController.swift; sourceTree = "<group>"; };
@@ -156,9 +172,10 @@
 		3343C2502321F77300D033B8 /* scene */ = {
 			isa = PBXGroup;
 			children = (
+				33A1FD41232A25E000F38D0C /* display */,
+				33A1FD382329BB4300F38D0C /* core */,
+				33A1FD352329924C00F38D0C /* libraries */,
 				3368EE272325A523001B2AC7 /* primitives */,
-				3343C2552321F9DB00D033B8 /* Shaders.metal */,
-				3368EE2A2326FF13001B2AC7 /* SceneView.swift */,
 			);
 			path = scene;
 			sourceTree = "<group>";
@@ -180,8 +197,40 @@
 			children = (
 				3368EE2E23272A88001B2AC7 /* Vertex.swift */,
 				3368EE282325A536001B2AC7 /* FloorPrimitive.swift */,
+				33A1FD3F232A236700F38D0C /* GameObject.swift */,
 			);
 			path = primitives;
+			sourceTree = "<group>";
+		};
+		33A1FD352329924C00F38D0C /* libraries */ = {
+			isa = PBXGroup;
+			children = (
+				33A1FD362329925E00F38D0C /* ShaderLibrary.swift */,
+				33A1FD392329C45300F38D0C /* VertexDescriptorLibrary.swift */,
+				33A1FD3B2329C6A700F38D0C /* RenderPipelineDescriptorLibrary.swift */,
+				33A1FD3D2329C8C800F38D0C /* RenderPipelineStateLibrary.swift */,
+			);
+			path = libraries;
+			sourceTree = "<group>";
+		};
+		33A1FD382329BB4300F38D0C /* core */ = {
+			isa = PBXGroup;
+			children = (
+				3368EE2C232729CB001B2AC7 /* Sizeable.swift */,
+				3368EE3023272CEA001B2AC7 /* RenderPreferences.swift */,
+				3368EE3223272D7F001B2AC7 /* SceneEngine.swift */,
+			);
+			path = core;
+			sourceTree = "<group>";
+		};
+		33A1FD41232A25E000F38D0C /* display */ = {
+			isa = PBXGroup;
+			children = (
+				3343C2552321F9DB00D033B8 /* Shaders.metal */,
+				3368EE2A2326FF13001B2AC7 /* SceneView.swift */,
+				33A1FD42232A25F600F38D0C /* SceneRenderer.swift */,
+			);
+			path = display;
 			sourceTree = "<group>";
 		};
 		33A9D2EF2322F99B00D157D8 /* tools */ = {
@@ -269,7 +318,6 @@
 				3302F75A231EC42F008DE36C /* CGPoint+Operators.swift */,
 				33A9D3022324123C00D157D8 /* CGSize+Operators.swift */,
 				3368EE2023257C2F001B2AC7 /* CustomCursors.swift */,
-				3368EE2C232729CB001B2AC7 /* Sizeable.swift */,
 			);
 			path = utilities;
 			sourceTree = "<group>";
@@ -477,11 +525,16 @@
 				3368EE2D232729CB001B2AC7 /* Sizeable.swift in Sources */,
 				33B6E20923022632004ABC73 /* DataFileIO.swift in Sources */,
 				33A9D2F523233CBB00D157D8 /* TimelineToolController.swift in Sources */,
+				33A1FD3E2329C8C800F38D0C /* RenderPipelineStateLibrary.swift in Sources */,
+				33A1FD40232A236700F38D0C /* GameObject.swift in Sources */,
 				3302F75B231EC42F008DE36C /* CGPoint+Operators.swift in Sources */,
 				3302F757231E971E008DE36C /* TimelineView+Playhead.swift in Sources */,
 				3368EE292325A536001B2AC7 /* FloorPrimitive.swift in Sources */,
+				33A1FD43232A25F600F38D0C /* SceneRenderer.swift in Sources */,
 				33C4E92D2316DA6D00FC0EBD /* TimelineViewController.swift in Sources */,
+				33A1FD372329925E00F38D0C /* ShaderLibrary.swift in Sources */,
 				3302F753231E7545008DE36C /* TimelineView+Graph.swift in Sources */,
+				3368EE3323272D7F001B2AC7 /* SceneEngine.swift in Sources */,
 				33A9D3032324123C00D157D8 /* CGSize+Operators.swift in Sources */,
 				3368EE2F23272A88001B2AC7 /* Vertex.swift in Sources */,
 				3302F755231E87D2008DE36C /* TimelineView+Meters.swift in Sources */,
@@ -490,11 +543,14 @@
 				33A9D2F723233E4800D157D8 /* TimelinePointerController.swift in Sources */,
 				3368EE2B2326FF13001B2AC7 /* SceneView.swift in Sources */,
 				33B6E1C722FF60C5004ABC73 /* MainViewController.swift in Sources */,
+				33A1FD3A2329C45300F38D0C /* VertexDescriptorLibrary.swift in Sources */,
 				3343C2562321F9DB00D033B8 /* Shaders.metal in Sources */,
 				33A9D2FF23234DB300D157D8 /* TimelineHandController.swift in Sources */,
 				33B6E1C522FF60C5004ABC73 /* AppDelegate.swift in Sources */,
+				33A1FD3C2329C6A700F38D0C /* RenderPipelineDescriptorLibrary.swift in Sources */,
 				33A9D3012323FF7400D157D8 /* TimelineViewChangeDelegate.swift in Sources */,
 				3368EE2123257C2F001B2AC7 /* CustomCursors.swift in Sources */,
+				3368EE3123272CEA001B2AC7 /* RenderPreferences.swift in Sources */,
 				3358FBC3231D8D97006272CB /* TimelineViewMouseDelegate.swift in Sources */,
 				33A9D2FB2323478700D157D8 /* TimelineTrimController.swift in Sources */,
 				33AA5969231E50B1005D977C /* TimelineView.swift in Sources */,

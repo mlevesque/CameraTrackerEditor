@@ -8,6 +8,9 @@
 
 import simd
 
+/**
+ Defines a vertex to be fed to the vertex shader.
+ */
 struct Vertex : Sizeable {
     var position: float3
     var color: float4
