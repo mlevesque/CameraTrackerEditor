@@ -44,5 +44,6 @@ extension Sizeable {
     }
 }
 
+extension float2 : Sizeable {}
 extension float3 : Sizeable {}
 extension float4 : Sizeable {}

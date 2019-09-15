@@ -12,7 +12,6 @@ import MetalKit
  Handles the responsibility of rendering the scene.
  */
 class SceneRenderer : NSObject {
-    var gameObject: GameObject = GameObject()
 }
 
 extension SceneRenderer : MTKViewDelegate {
@@ -34,7 +33,7 @@ extension SceneRenderer : MTKViewDelegate {
             descriptor: renderPassDescriptor
         )
         
-        gameObject.render(renderCommandEncoder!)
+        SceneManager.current?.render(renderCommandEncoder: renderCommandEncoder!)
         
         renderCommandEncoder?.endEncoding()
         commandBuffer?.present(drawable)

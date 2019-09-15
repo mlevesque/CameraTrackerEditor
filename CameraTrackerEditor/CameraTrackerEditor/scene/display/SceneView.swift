@@ -18,9 +18,9 @@ class SceneView : MTKView {
         self.device = MTLCreateSystemDefaultDevice()
         SceneEngine.initialize(device: self.device!)
         
-        self.clearColor = RenderPreferences.clearColor
-        self.colorPixelFormat = RenderPreferences.pixelFormat
-        self.enableSetNeedsDisplay = true
+        self.clearColor = GraphicsPreferences.clearColor
+        self.colorPixelFormat = GraphicsPreferences.mainPixelFormat
+        //self.enableSetNeedsDisplay = true
         
         self.renderer = SceneRenderer()
         self.delegate = renderer

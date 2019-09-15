@@ -14,4 +14,6 @@ import simd
 struct Vertex : Sizeable {
     var position: float3
     var color: float4
+    var textureCoord: float2
+    var normal: float3
 }
