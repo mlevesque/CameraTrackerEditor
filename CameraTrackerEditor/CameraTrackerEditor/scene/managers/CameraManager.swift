@@ -13,14 +13,14 @@ class CameraManager {
     /** The currently active camera. */
     private var _currentCamera: Camera?
     /** The main camera for the scene that is controlled by the tracking data. */
-    private var _mainCamera: Camera?
+    private var _trackingCamera: Camera?
     /** List of all cameras for the scene. */
     private var _cameras: [Camera] = []
     
     /** The currently active camera. */
     var currentCamera: Camera? { return _currentCamera }
     /** The main camera for the scene that is controlled by the tracking data. */
-    var mainCamera: Camera? { return _mainCamera }
+    var trackingCamera: Camera? { return _trackingCamera }
     /** List of all cameras. */
     var cameras: [Camera] { return _cameras }
     
@@ -30,8 +30,8 @@ class CameraManager {
     */
     func addCamera(_ camera: Camera) {
         _cameras.append(camera)
-        if camera.type == .main {
-            _mainCamera = camera
+        if camera.type == .tracking {
+            _trackingCamera = camera
         }
     }
     
@@ -65,13 +65,18 @@ class CameraManager {
     /**
      Sets the main camera as the currently active camera.
     */
-    func setMainCameraAsCurrent() {
-        if let main = _mainCamera {
-            _currentCamera = main
+    func setTrackingCameraAsCurrent() {
+        if let trackingCam = _trackingCamera {
+            _currentCamera = trackingCam
         }
     }
     
-    internal func updateCameras(timeStamp: Double) {
+    /**
+     Called from the current scene to update all camera positioning first so that the view and projection matrices will
+     be updated for all other Nodes in the scene.
+     - Parameter timeStamp: The tracking data curernt timestamp.
+    */
+    func updateCameras(timeStamp: Double) {
         for camera in _cameras {
             camera.updateCamera(timeStamp: timeStamp)
         }

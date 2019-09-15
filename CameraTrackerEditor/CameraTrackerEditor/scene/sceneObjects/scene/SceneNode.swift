@@ -15,6 +15,7 @@ import MetalKit
 class SceneNode : Node {
     /** Manages all cameras for the scene. */
     private var _cameraManager = CameraManager()
+    /** Manages all lights for the scene. */
     private var _lightManager = LightManager()
     /** Constants for teh scene used for the shaders. */
     private var _sceneConstants = SceneConstants()
@@ -22,8 +23,9 @@ class SceneNode : Node {
     private var _timePosition: Double = 0
     
     /** Manages the cameras for the scene. */
-    var cameraManager: CameraManager { return _cameraManager }
-    var lightManager: LightManager { return _lightManager }
+    internal var cameraManager: CameraManager { return _cameraManager }
+    /** Manages the lights for the scene. */
+    internal var lightManager: LightManager { return _lightManager }
     
     
     /**
@@ -51,36 +53,15 @@ class SceneNode : Node {
         _sceneConstants.projectionMatrix = currentCamera?.projectionMatrix ?? matrix_identity_float4x4
     }
     
-    override func render(renderCommandEncoder: MTLRenderCommandEncoder) {
-        renderCommandEncoder.setVertexBytes(&_sceneConstants, length: SceneConstants.stride, index: 1)
-        _lightManager.setLightData(renderCommandEncoder)
-        super.render(renderCommandEncoder: renderCommandEncoder)
-    }
-}
-
-class DefaultSceneNode : SceneNode {
     /**
-     Constructor.
+     Renders all nodes in the scene.
     */
-    override init(name: String = "Default Scene Node") {
-        super.init(name: name)
-        initialize()
-    }
-    
-    private func initialize() {
-        let mainCamera = MainCamera()
-        mainCamera.focalLength = 35
-        mainCamera.positionZ = 10
-        cameraManager.addCamera(mainCamera)
-        cameraManager.setCameraAsCurrent(mainCamera)
-        mainCamera.parent = self
-        
-        let cube = ObjectNode(meshType: .Cube_Custom)
-        cube.position = float3(5,-5,-5)
-        cube.addMaterialDiffuse(1)
-        cube.parent = self
-        
-        let light = LightObject(name: "Light")
-        lightManager.addLightObject(light)
+    override func render(renderCommandEncoder: MTLRenderCommandEncoder) {
+        // set view and projection matrices
+        renderCommandEncoder.setVertexBytes(&_sceneConstants, length: SceneConstants.stride, index: 1)
+        // set lighting
+        _lightManager.setLightData(renderCommandEncoder)
+        // render all renderable nodes
+        super.render(renderCommandEncoder: renderCommandEncoder)
     }
 }

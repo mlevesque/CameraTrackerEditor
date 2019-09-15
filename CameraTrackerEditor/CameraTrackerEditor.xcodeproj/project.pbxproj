@@ -51,6 +51,8 @@
 		33A1FD86232DE59400F38D0C /* Entities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A1FD85232DE59400F38D0C /* Entities.swift */; };
 		33A1FD88232DF10700F38D0C /* LightManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A1FD87232DF10700F38D0C /* LightManager.swift */; };
 		33A1FD8A232DF14000F38D0C /* LightObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A1FD89232DF14000F38D0C /* LightObject.swift */; };
+		33A1FD8F232E32FE00F38D0C /* DefaultScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A1FD8E232E32FE00F38D0C /* DefaultScene.swift */; };
+		33A1FD91232E33EF00F38D0C /* InstancedObjectNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A1FD90232E33EF00F38D0C /* InstancedObjectNode.swift */; };
 		33A9D2F523233CBB00D157D8 /* TimelineToolController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A9D2F423233CBB00D157D8 /* TimelineToolController.swift */; };
 		33A9D2F723233E4800D157D8 /* TimelinePointerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A9D2F623233E4800D157D8 /* TimelinePointerController.swift */; };
 		33A9D2FB2323478700D157D8 /* TimelineTrimController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A9D2FA2323478700D157D8 /* TimelineTrimController.swift */; };
@@ -140,6 +142,8 @@
 		33A1FD85232DE59400F38D0C /* Entities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entities.swift; sourceTree = "<group>"; };
 		33A1FD87232DF10700F38D0C /* LightManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightManager.swift; sourceTree = "<group>"; };
 		33A1FD89232DF14000F38D0C /* LightObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightObject.swift; sourceTree = "<group>"; };
+		33A1FD8E232E32FE00F38D0C /* DefaultScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultScene.swift; sourceTree = "<group>"; };
+		33A1FD90232E33EF00F38D0C /* InstancedObjectNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstancedObjectNode.swift; sourceTree = "<group>"; };
 		33A9D2F423233CBB00D157D8 /* TimelineToolController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineToolController.swift; sourceTree = "<group>"; };
 		33A9D2F623233E4800D157D8 /* TimelinePointerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelinePointerController.swift; sourceTree = "<group>"; };
 		33A9D2FA2323478700D157D8 /* TimelineTrimController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineTrimController.swift; sourceTree = "<group>"; };
@@ -325,8 +329,9 @@
 		33A1FD7F232DE4CB00F38D0C /* sceneObjects */ = {
 			isa = PBXGroup;
 			children = (
+				33A1FD8D232E32E100F38D0C /* scene */,
+				33A1FD92232E376500F38D0C /* instanced */,
 				33A1FD4A232C468200F38D0C /* Node.swift */,
-				33A1FD4F232C7B6000F38D0C /* SceneNode.swift */,
 				33A1FD51232D77D100F38D0C /* Camera.swift */,
 				33A1FD7D232DE45000F38D0C /* ObjectNode.swift */,
 				33A1FD89232DF14000F38D0C /* LightObject.swift */,
@@ -343,6 +348,23 @@
 				33A1FD83232DE53800F38D0C /* MeshLibrary.swift */,
 			);
 			path = libraries;
+			sourceTree = "<group>";
+		};
+		33A1FD8D232E32E100F38D0C /* scene */ = {
+			isa = PBXGroup;
+			children = (
+				33A1FD4F232C7B6000F38D0C /* SceneNode.swift */,
+				33A1FD8E232E32FE00F38D0C /* DefaultScene.swift */,
+			);
+			path = scene;
+			sourceTree = "<group>";
+		};
+		33A1FD92232E376500F38D0C /* instanced */ = {
+			isa = PBXGroup;
+			children = (
+				33A1FD90232E33EF00F38D0C /* InstancedObjectNode.swift */,
+			);
+			path = instanced;
 			sourceTree = "<group>";
 		};
 		33A9D2EF2322F99B00D157D8 /* tools */ = {
@@ -637,6 +659,7 @@
 				33A1FD76232DDD0100F38D0C /* BasicShaders.metal in Sources */,
 				33B6E1F323002E7A004ABC73 /* TrackingData.swift in Sources */,
 				3343C24F2321F61200D033B8 /* SceneViewController.swift in Sources */,
+				33A1FD8F232E32FE00F38D0C /* DefaultScene.swift in Sources */,
 				33A1FD50232C7B6000F38D0C /* SceneNode.swift in Sources */,
 				33B6E207230220C8004ABC73 /* JsonSchemas.swift in Sources */,
 				33A1FD78232DDD1A00F38D0C /* InstancedShaders.metal in Sources */,
@@ -674,6 +697,7 @@
 				33A1FD6F232DB37A00F38D0C /* SamplerStateLibrary.swift in Sources */,
 				33A9D2FF23234DB300D157D8 /* TimelineHandController.swift in Sources */,
 				33B6E1C522FF60C5004ABC73 /* AppDelegate.swift in Sources */,
+				33A1FD91232E33EF00F38D0C /* InstancedObjectNode.swift in Sources */,
 				33A1FD82232DE51100F38D0C /* TextureLibrary.swift in Sources */,
 				33A1FD7C232DE39E00F38D0C /* Floor.swift in Sources */,
 				33A1FD8A232DF14000F38D0C /* LightObject.swift in Sources */,

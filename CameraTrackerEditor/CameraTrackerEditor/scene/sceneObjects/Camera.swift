@@ -13,7 +13,7 @@ enum CameraType {
     /** Base camera. */
     case base
     /** Main camera that is controlled by the tracking data. */
-    case main
+    case tracking
     /** Free camera that can be moved around by the user. */
     case debug
 }
@@ -89,19 +89,25 @@ class Camera : Node {
         super.init(name: name)
     }
     
+    /**
+     Meant to be overriden in subclasses. This is a specific update call for setting up the camera positioning and
+     rotation. This is called from the Camera Manager and is kicked off when the scene updates. This ensures that
+     the camera is updated in order to provide all other nodes a proper view and projection matrix.
+     - Parameter timeStamp: The tracking timestamp position. Helpful for the tracking camera.
+    */
     func updateCamera(timeStamp: Double) {}
 }
 
 /**
  Represents the main camera that is controlled by the tracking data.
  */
-class MainCamera : Camera {
+class TarckingCamera : Camera {
     /**
      Constructor.
     */
-    override init(name: String = "Main Camera") {
+    override init(name: String = "Tracking Camera") {
         super.init(name: name)
-        _cameraType = .main
+        _cameraType = .tracking
     }
     
     /**
