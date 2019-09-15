@@ -88,6 +88,8 @@ class Camera : Node {
         _cropFactor = 1
         super.init(name: name)
     }
+    
+    func updateCamera(timeStamp: Double) {}
 }
 
 /**
@@ -106,7 +108,13 @@ class MainCamera : Camera {
      Updates the main camera with the tracking data at the given time.
      - Parameter timeStamp: The timestamp to use to get the camera position and rotation.
     */
-    override func doUpdateBeforeChildren(timeStamp: Double) {
-        // @TODO Update position and rotation from tracking data
+    override func updateCamera(timeStamp: Double) {
+        guard let entry = TrackingDataManager.currentData?.getData(atTime: timeStamp) else {
+            return
+        }
+        let p = entry.position
+        let r = entry.rotation
+        self.position = float3(p.x, p.y, p.z)
+        self.rotation = float3(r.x, r.y, r.z)
     }
 }

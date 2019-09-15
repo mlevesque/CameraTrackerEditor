@@ -38,7 +38,7 @@ class SceneNode : Node {
      - Parameter timeStamp: The timestamp for the tracking data.
     */
     override func doUpdateBeforeChildren(timeStamp: Double) {
-        _cameraManager.update(timeStamp: timeStamp)
+        _cameraManager.updateCameras(timeStamp: timeStamp)
         updateSceneConstants()
     }
     

@@ -71,9 +71,9 @@ class CameraManager {
         }
     }
     
-    internal func update(timeStamp: Double) {
+    internal func updateCameras(timeStamp: Double) {
         for camera in _cameras {
-            camera.update(timeStamp: timeStamp)
+            camera.updateCamera(timeStamp: timeStamp)
         }
     }
     
