@@ -61,6 +61,7 @@ extension TimelineViewController : TimelineViewChangeDelegate {
                             previousUnitLocation: CGFloat,
                             currentPixelLocation: CGFloat,
                             currentUnitLocation: CGFloat) {
+        TrackingDataManager.timeStamp = Double(currentUnitLocation)
         redraw()
     }
     

@@ -32,7 +32,7 @@ class DefaultSceneNode : SceneNode {
         mainCamera.parent = self
         
         let cube = ObjectNode(meshType: .Cube_Custom)
-        cube.position = float3(5,-5,-5)
+        cube.position = float3(0,0,-10)
         cube.addMaterialDiffuse(1)
         cube.parent = self
         
