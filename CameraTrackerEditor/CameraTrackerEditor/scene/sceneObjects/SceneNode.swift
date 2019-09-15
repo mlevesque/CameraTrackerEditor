@@ -9,16 +9,6 @@
 import simd
 
 /**
- Scene constants for the shaders.
- */
-struct SceneConstants {
-    /** Camera view matrix. */
-    var viewMatrix = matrix_identity_float4x4
-    /** Camera projection matrix. */
-    var projectionMatrix = matrix_identity_float4x4
-}
-
-/**
  Represents a scene of cameras and other nodes. There should only be one active scene at a time and should always be
  the top level of the Node hierarchy.
  */
