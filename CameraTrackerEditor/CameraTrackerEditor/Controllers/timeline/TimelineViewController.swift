@@ -9,13 +9,6 @@
 import Cocoa
 
 class TimelineViewController : NSViewController {
-    // -- CURSOR ICONS
-//    var zoomInCursor: NSCursor
-//    var zoomOutCursor: NSCursor
-    
-    
-    /** The tracking data to render in the timeline. */
-    internal var _trackingData: TrackingData?
     /** Array of all tool buttons. This helps us update them all for simple
         toggle swapping. */
     internal var _toolButtons: [NSButton] = []
@@ -40,21 +33,6 @@ class TimelineViewController : NSViewController {
     /** Reference to the hand tool button. */
     @IBOutlet var buttonHand: NSButton!
     
-    required init?(coder: NSCoder) {
-        // setup cursor icons
-//        let zoomInImage = NSImage(named: NSImage.Name("cursor_zoom_in"))
-//        zoomInImage?.size = NSSize(width: 16, height: 16)
-//        print("IMAGE: \(zoomInImage?.isValid)")
-//        zoomInCursor = NSCursor(
-//            image: zoomInImage!,
-//            hotSpot: NSPoint(x: 0, y: 0)
-//        )
-//        zoomOutCursor = NSCursor(
-//            image: NSImage(byReferencingFile: "cursor_zoom_out.png")!,
-//            hotSpot: NSPoint(x: 0, y: 0)
-//        )
-        super.init(coder: coder)
-    }
     
     /**
      When the view loads. Set it up for rendering.
@@ -65,7 +43,6 @@ class TimelineViewController : NSViewController {
         buttonPointerClicked()
         
         // setup the view
-        timelineView.trackingData = _trackingData
         timelineView.updateTransform()
         timelineView.changeDelegate = self
         
@@ -81,19 +58,6 @@ class TimelineViewController : NSViewController {
             self.nextResponder = window.windowController?.nextResponder
             window.windowController?.nextResponder = self.view
         }
-    }
-    
-    /**
-     Sets the tracking data to the given one. This will also pass it to the
-     view for rendering and will scale the timeline to fit the data.
-     - Parameter data: The data to render in the timeline.
-    */
-    func setTrackingData(data: TrackingData?) {
-        _trackingData = data
-        if timelineView != nil {
-            timelineView.trackingData = _trackingData
-        }
-        scaleToFit()
     }
     
     /**

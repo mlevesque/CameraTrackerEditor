@@ -102,7 +102,7 @@ extension TimelineViewController {
         // adjust horizontally
         if horizontally {
             pos.x = 0
-            if let duration = _trackingData?.duration {
+            if let duration = TrackingDataManager.currentData?.duration {
                 scaleTimeByDuration(duration)
             }
             else {
@@ -121,7 +121,7 @@ extension TimelineViewController {
      tracking data.
      */
     private func calculateVerticalBounds() -> (start: Double, end: Double) {
-        guard let data = _trackingData else {
+        guard let data = TrackingDataManager.currentData else {
             return (start: -5, end: 5)
         }
         

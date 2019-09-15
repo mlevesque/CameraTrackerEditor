@@ -145,14 +145,11 @@ extension TimelineView {
     private func drawData( inContext context: CGContext,
                            withTransform transform: CGAffineTransform) {
         // don't draw if we can't get the index bounds from the data
-        guard let startIndex = trackingData?.getEntryIndex(
-                fromTime: Double(startUnitPosition.x)
-            ),
-            let endIndex = trackingData?.getEntryIndex(
-                fromTime: Double(endUnitPosition.x)
-            ) else {
+        guard let trackingData = TrackingDataManager.currentData else {
                 return
         }
+        let startIndex = trackingData.getEntryIndex(fromTime: Double(startUnitPosition.x))
+        let endIndex = trackingData.getEntryIndex(fromTime: Double(endUnitPosition.x))
         
         if showPositionX {
             drawDataComponent(
@@ -220,9 +217,8 @@ extension TimelineView {
                                     toIndex endIndex: Int,
                                     withTransform transform: CGAffineTransform){
         // move to starting position
-        guard var entry1 = trackingData!.getData(
-                    atIndex: startIndex,
-                    forComponent: component) else {
+        guard let trackingData = TrackingDataManager.currentData,
+            var entry1 = trackingData.getData(atIndex: startIndex, forComponent: component) else {
             return
         }
         context.saveGState()
@@ -232,7 +228,7 @@ extension TimelineView {
         // draw lines
         for index in startIndex..<endIndex {
             // get data entry pairs
-            guard let entry2 = trackingData?.getData(
+            guard let entry2 = trackingData.getData(
                     atIndex: index + 1,
                     forComponent: component) else {
                 continue
@@ -275,17 +271,17 @@ extension TimelineView {
                 let subdivisions = Int(
                     floor(diff / _subdivisionIntervalInUnits)
                 )
-                if let dataValues = trackingData?.getData(
+                let dataValues = trackingData.getData(
                     fromIndex: index,
                     toIndex: index + 1,
                     forComponent: component,
                     withSubdivisions: subdivisions,
-                    withInterpolation: .Cubic) {
-                    for data in dataValues {
-                        context.addLine(
-                            to: CGPoint(x: data.time, y: Double(data.value))
-                        )
-                    }
+                    withInterpolation: .Cubic
+                )
+                for data in dataValues {
+                    context.addLine(
+                        to: CGPoint(x: data.time, y: Double(data.value))
+                    )
                 }
                 entry1 = entry2
             }

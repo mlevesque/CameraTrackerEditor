@@ -15,9 +15,6 @@ class MainViewController: NSViewController {
     /** Reference to the TimelineViewController. */
     private var viewTimeline: TimelineViewController?
     
-    /** The loaded tracking data. */
-    private var m_trackingData: TrackingData?
-    
     /**
      Called when view controllers are embredded into this view controller.
      - Parameter segue: The embed segue.
@@ -28,7 +25,6 @@ class MainViewController: NSViewController {
         case is TimelineViewController:
             viewTimeline
                 = segue.destinationController as? TimelineViewController
-            viewTimeline?.setTrackingData(data: m_trackingData)
         default:
             break
         }
@@ -53,8 +49,9 @@ class MainViewController: NSViewController {
                  let openFileIO = DataFileIO(url: url)
                 let parsedData = try? openFileIO.loadDataModelFromFile()
                 if let data = parsedData {
-                    m_trackingData = buildModelFromSchema(schema: data)
-                    viewTimeline?.setTrackingData(data: m_trackingData!)
+                    let trackingData = buildModelFromSchema(schema: data)
+                    TrackingDataManager.setOriginalData(trackingData)
+                    viewTimeline?.scaleToFit()
                 }
             }
         } else {

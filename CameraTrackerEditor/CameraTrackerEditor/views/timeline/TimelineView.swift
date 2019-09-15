@@ -118,8 +118,6 @@ class TimelineView : NSView {
     
     
     // -- DATA
-    /** The tracking data to be graphed. */
-    var trackingData: TrackingData?
     /** Flag for whether or not to draw the X position data. */
     var showPositionX: Bool = true
     /** Flag for whether or not to draw the Y position data. */

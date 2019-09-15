@@ -47,6 +47,7 @@
 		33A1FD74232DDCE000F38D0C /* Shared.metal in Sources */ = {isa = PBXBuildFile; fileRef = 33A1FD73232DDCE000F38D0C /* Shared.metal */; };
 		33A1FD76232DDD0100F38D0C /* BasicShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 33A1FD75232DDD0100F38D0C /* BasicShaders.metal */; };
 		33A1FD78232DDD1A00F38D0C /* InstancedShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 33A1FD77232DDD1A00F38D0C /* InstancedShaders.metal */; };
+		33A1FD7A232DDE7400F38D0C /* TrackingDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A1FD79232DDE7400F38D0C /* TrackingDataManager.swift */; };
 		33A9D2F523233CBB00D157D8 /* TimelineToolController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A9D2F423233CBB00D157D8 /* TimelineToolController.swift */; };
 		33A9D2F723233E4800D157D8 /* TimelinePointerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A9D2F623233E4800D157D8 /* TimelinePointerController.swift */; };
 		33A9D2FB2323478700D157D8 /* TimelineTrimController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A9D2FA2323478700D157D8 /* TimelineTrimController.swift */; };
@@ -132,6 +133,7 @@
 		33A1FD73232DDCE000F38D0C /* Shared.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shared.metal; sourceTree = "<group>"; };
 		33A1FD75232DDD0100F38D0C /* BasicShaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = BasicShaders.metal; sourceTree = "<group>"; };
 		33A1FD77232DDD1A00F38D0C /* InstancedShaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = InstancedShaders.metal; sourceTree = "<group>"; };
+		33A1FD79232DDE7400F38D0C /* TrackingDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingDataManager.swift; sourceTree = "<group>"; };
 		33A9D2F423233CBB00D157D8 /* TimelineToolController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineToolController.swift; sourceTree = "<group>"; };
 		33A9D2F623233E4800D157D8 /* TimelinePointerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelinePointerController.swift; sourceTree = "<group>"; };
 		33A9D2FA2323478700D157D8 /* TimelineTrimController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineTrimController.swift; sourceTree = "<group>"; };
@@ -400,6 +402,7 @@
 			isa = PBXGroup;
 			children = (
 				33B6E1F223002E7A004ABC73 /* TrackingData.swift */,
+				33A1FD79232DDE7400F38D0C /* TrackingDataManager.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -639,6 +642,7 @@
 				3302F753231E7545008DE36C /* TimelineView+Graph.swift in Sources */,
 				33A1FD58232DA1FA00F38D0C /* SceneManager.swift in Sources */,
 				3368EE3323272D7F001B2AC7 /* SceneEngine.swift in Sources */,
+				33A1FD7A232DDE7400F38D0C /* TrackingDataManager.swift in Sources */,
 				33A1FD4B232C468200F38D0C /* Node.swift in Sources */,
 				33A9D3032324123C00D157D8 /* CGSize+Operators.swift in Sources */,
 				3368EE2F23272A88001B2AC7 /* Vertex.swift in Sources */,
