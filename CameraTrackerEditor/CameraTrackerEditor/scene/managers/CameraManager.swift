@@ -71,6 +71,12 @@ class CameraManager {
         }
     }
     
+    internal func update(timeStamp: Double) {
+        for camera in _cameras {
+            camera.update(timeStamp: timeStamp)
+        }
+    }
+    
     /**
      Returns true if the given camera is already in the list.
      - Parameter camera: The camera to check for.

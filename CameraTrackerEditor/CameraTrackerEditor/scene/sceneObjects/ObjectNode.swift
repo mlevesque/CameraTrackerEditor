@@ -39,7 +39,7 @@ extension ObjectNode: Renderable {
     
     func doRender(_ renderCommandEncoder: MTLRenderCommandEncoder) {
         renderCommandEncoder.setRenderPipelineState(Graphics.renderPipelineStates[.basic])
-        renderCommandEncoder.setDepthStencilState(Graphics.depthStencilStates[.less])
+        //renderCommandEncoder.setDepthStencilState(Graphics.depthStencilStates[.less])
         
         //Vertex Shader
         renderCommandEncoder.setVertexBytes(&modelConstants, length: ModelConstants.stride, index: 2)

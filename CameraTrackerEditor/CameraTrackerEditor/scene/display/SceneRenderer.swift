@@ -33,7 +33,7 @@ extension SceneRenderer : MTKViewDelegate {
             descriptor: renderPassDescriptor
         )
         
-        SceneManager.current?.render(renderCommandEncoder: renderCommandEncoder!)
+        SceneManager.updateScane(renderCommandEncoder: renderCommandEncoder!)
         
         renderCommandEncoder?.endEncoding()
         commandBuffer?.present(drawable)

@@ -49,6 +49,8 @@
 		33A1FD82232DE51100F38D0C /* TextureLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A1FD81232DE51100F38D0C /* TextureLibrary.swift */; };
 		33A1FD84232DE53800F38D0C /* MeshLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A1FD83232DE53800F38D0C /* MeshLibrary.swift */; };
 		33A1FD86232DE59400F38D0C /* Entities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A1FD85232DE59400F38D0C /* Entities.swift */; };
+		33A1FD88232DF10700F38D0C /* LightManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A1FD87232DF10700F38D0C /* LightManager.swift */; };
+		33A1FD8A232DF14000F38D0C /* LightObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A1FD89232DF14000F38D0C /* LightObject.swift */; };
 		33A9D2F523233CBB00D157D8 /* TimelineToolController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A9D2F423233CBB00D157D8 /* TimelineToolController.swift */; };
 		33A9D2F723233E4800D157D8 /* TimelinePointerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A9D2F623233E4800D157D8 /* TimelinePointerController.swift */; };
 		33A9D2FB2323478700D157D8 /* TimelineTrimController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A9D2FA2323478700D157D8 /* TimelineTrimController.swift */; };
@@ -136,6 +138,8 @@
 		33A1FD81232DE51100F38D0C /* TextureLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextureLibrary.swift; sourceTree = "<group>"; };
 		33A1FD83232DE53800F38D0C /* MeshLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshLibrary.swift; sourceTree = "<group>"; };
 		33A1FD85232DE59400F38D0C /* Entities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entities.swift; sourceTree = "<group>"; };
+		33A1FD87232DF10700F38D0C /* LightManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightManager.swift; sourceTree = "<group>"; };
+		33A1FD89232DF14000F38D0C /* LightObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightObject.swift; sourceTree = "<group>"; };
 		33A9D2F423233CBB00D157D8 /* TimelineToolController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineToolController.swift; sourceTree = "<group>"; };
 		33A9D2F623233E4800D157D8 /* TimelinePointerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelinePointerController.swift; sourceTree = "<group>"; };
 		33A9D2FA2323478700D157D8 /* TimelineTrimController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineTrimController.swift; sourceTree = "<group>"; };
@@ -260,6 +264,7 @@
 			children = (
 				33A1FD54232D7D3700F38D0C /* CameraManager.swift */,
 				33A1FD57232DA1FA00F38D0C /* SceneManager.swift */,
+				33A1FD87232DF10700F38D0C /* LightManager.swift */,
 			);
 			path = managers;
 			sourceTree = "<group>";
@@ -324,6 +329,7 @@
 				33A1FD4F232C7B6000F38D0C /* SceneNode.swift */,
 				33A1FD51232D77D100F38D0C /* Camera.swift */,
 				33A1FD7D232DE45000F38D0C /* ObjectNode.swift */,
+				33A1FD89232DF14000F38D0C /* LightObject.swift */,
 				33A1FD7B232DE39E00F38D0C /* Floor.swift */,
 				33A1FD56232D893100F38D0C /* protocols */,
 			);
@@ -621,6 +627,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33A1FD88232DF10700F38D0C /* LightManager.swift in Sources */,
 				3358FBC8231D98FE006272CB /* TimelineViewController+TimelineViewChangeDelegate.swift in Sources */,
 				33A1FD7E232DE45000F38D0C /* ObjectNode.swift in Sources */,
 				33B6E1F723003CFB004ABC73 /* MathUtilities.swift in Sources */,
@@ -669,6 +676,7 @@
 				33B6E1C522FF60C5004ABC73 /* AppDelegate.swift in Sources */,
 				33A1FD82232DE51100F38D0C /* TextureLibrary.swift in Sources */,
 				33A1FD7C232DE39E00F38D0C /* Floor.swift in Sources */,
+				33A1FD8A232DF14000F38D0C /* LightObject.swift in Sources */,
 				33A1FD69232DB24200F38D0C /* RenderPipelineDescriptorLibrary.swift in Sources */,
 				33A9D3012323FF7400D157D8 /* TimelineViewChangeDelegate.swift in Sources */,
 				3368EE2123257C2F001B2AC7 /* CustomCursors.swift in Sources */,

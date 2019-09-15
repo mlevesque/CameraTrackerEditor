@@ -6,6 +6,8 @@
 //  Copyright © 2019 Michael Levesque. All rights reserved.
 //
 
+import MetalKit
+
 enum SceneType {
     case defaultScene
 }
@@ -31,5 +33,10 @@ class SceneManager {
     
     public static func getScene(_ type: SceneType) -> SceneNode? {
         return _scenes[type]
+    }
+    
+    public static func updateScane(renderCommandEncoder: MTLRenderCommandEncoder) {
+        _currentScene?.update(timeStamp: TrackingDataManager.timeStamp)
+        _currentScene?.render(renderCommandEncoder: renderCommandEncoder)
     }
 }

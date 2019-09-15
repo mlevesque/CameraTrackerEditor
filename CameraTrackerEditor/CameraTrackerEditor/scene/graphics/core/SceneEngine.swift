@@ -24,7 +24,7 @@ class SceneEngine {
         
         Graphics.initialize()
         
-        //Entities.Initialize()
+        Entities.Initialize()
         
         SceneManager.initialize(currentSceneType: GraphicsPreferences.startingSceneType)
         

@@ -12,6 +12,8 @@ class TrackingDataManager {
     private static var _originalData: TrackingData?
     private static var _currentData: TrackingData?
     
+    static var timeStamp: Double = 0
+    
     public static var originalData: TrackingData? { return _originalData }
     public static var currentData: TrackingData? { return _currentData }
     

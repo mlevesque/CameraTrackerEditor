@@ -14,7 +14,7 @@ class GraphicsPreferences {
     
     public static var mainPixelFormat: MTLPixelFormat = MTLPixelFormat.bgra8Unorm_srgb
     
-    public static var mainDepthPixelFormat: MTLPixelFormat = MTLPixelFormat.depth32Float
+    public static var mainDepthPixelFormat: MTLPixelFormat = MTLPixelFormat.invalid
     
     public static var startingSceneType: SceneType = SceneType.defaultScene
     

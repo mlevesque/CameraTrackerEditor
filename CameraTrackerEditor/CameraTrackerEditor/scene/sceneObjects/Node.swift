@@ -60,7 +60,7 @@ class Node {
      Updates the node, then its children.
      - Parameter timeStamp: The timestamp of where the scene should be for the tracking data.
     */
-    final func update(timeStamp: Double) {
+    func update(timeStamp: Double) {
         doUpdateBeforeChildren(timeStamp: timeStamp)
         for child in _children{
             child.parentModelMatrix = self.modelMatrix
@@ -73,7 +73,7 @@ class Node {
      Performs render operations for the node, if it implements the Renderable protocol, then renders its children.
      - Parameter renderCommandEncoder: The render encoder.
     */
-    final func render(renderCommandEncoder: MTLRenderCommandEncoder) {
+    func render(renderCommandEncoder: MTLRenderCommandEncoder) {
         renderCommandEncoder.pushDebugGroup("Rendering \(_name)")
         if let renderable = self as? Renderable {
             if renderable.shouldRender {
